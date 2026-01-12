@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -6,7 +7,6 @@ export async function POST(request: Request) {
   try {
     const { name, email, password } = await request.json();
 
-    // Validasi input
     if (!name || !email || !password) {
       return NextResponse.json(
         { error: "Semua field harus diisi" },
@@ -14,7 +14,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validasi format email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -23,7 +22,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validasi panjang password
     if (password.length < 6) {
       return NextResponse.json(
         { error: "Password minimal 6 karakter" },
@@ -31,7 +29,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Cek apakah email sudah terdaftar
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -43,10 +40,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Buat user baru
     const user = await prisma.user.create({
       data: {
         name,
@@ -55,7 +50,6 @@ export async function POST(request: Request) {
       },
     });
 
-    // Hapus password dari response
     const { password: _, ...userWithoutPassword } = user;
 
     return NextResponse.json(
