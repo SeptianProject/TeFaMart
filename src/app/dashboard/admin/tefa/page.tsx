@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import TefaModal, { TefaFormData } from "@/components/TefaModal";
+import { TefaCardSkeleton } from "@/components/Skeleton";
 
 interface Tefa {
      id: string;
@@ -166,9 +167,11 @@ export default function TefaPage() {
                {/* TEFA Grid */}
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {loading ? (
-                         <div className="col-span-full text-center py-12 text-gray-500">
-                              Memuat data...
-                         </div>
+                         <>
+                              <div className="col-span-full">
+                                   <TefaCardSkeleton count={6} />
+                              </div>
+                         </>
                     ) : filteredTefas.length === 0 ? (
                          <div className="col-span-full text-center py-12 text-gray-500">
                               {searchTerm

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Users, School, Activity } from "lucide-react";
+import { StatsSkeleton } from "@/components/Skeleton";
 
 interface Stats {
      totalUsers: number;
@@ -74,33 +75,37 @@ export default function SuperAdminOverviewPage() {
                </div>
 
                {/* Stats Grid */}
-               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {statCards.map((stat) => {
-                         const Icon = stat.icon;
-                         return (
-                              <div
-                                   key={stat.title}
-                                   className="bg-white rounded-lg shadow-sm p-6 border border-gray-200"
-                              >
-                                   <div className="flex items-center justify-between">
-                                        <div>
-                                             <p className="text-sm font-medium text-gray-600">
-                                                  {stat.title}
-                                             </p>
-                                             <p className="mt-2 text-3xl font-semibold text-gray-900">
-                                                  {loading ? "..." : stat.value}
-                                             </p>
-                                        </div>
-                                        <div
-                                             className={`p-3 rounded-lg bg-${stat.color}-100 text-${stat.color}-600`}
-                                        >
-                                             <Icon size={24} />
+               {loading ? (
+                    <StatsSkeleton count={4} />
+               ) : (
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                         {statCards.map((stat) => {
+                              const Icon = stat.icon;
+                              return (
+                                   <div
+                                        key={stat.title}
+                                        className="bg-white rounded-lg shadow-sm p-6 border border-gray-200"
+                                   >
+                                        <div className="flex items-center justify-between">
+                                             <div>
+                                                  <p className="text-sm font-medium text-gray-600">
+                                                       {stat.title}
+                                                  </p>
+                                                  <p className="mt-2 text-3xl font-semibold text-gray-900">
+                                                       {stat.value}
+                                                  </p>
+                                             </div>
+                                             <div
+                                                  className={`p-3 rounded-lg bg-${stat.color}-100 text-${stat.color}-600`}
+                                             >
+                                                  <Icon size={24} />
+                                             </div>
                                         </div>
                                    </div>
-                              </div>
-                         );
-                    })}
-               </div>
+                              );
+                         })}
+                    </div>
+               )}
 
                {/* Recent Activity */}
                <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">

@@ -242,7 +242,7 @@ export interface PrismaClient<
     * const products = await prisma.product.findMany()
     * ```
     */
-  get product(): Prisma.ProductDelegate<ExtArgs, { omit: OmitOpts }>;
+  get   product(): Prisma.ProductDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
    * `prisma.request`: Exposes CRUD operations for the **Request** model.

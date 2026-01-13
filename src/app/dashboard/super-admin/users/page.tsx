@@ -154,56 +154,60 @@ export default function UsersPage() {
                                         </th>
                                    </tr>
                               </thead>
-                              <tbody className="bg-white divide-y divide-gray-200">
-                                   {loading ? (
+                              {loading ? (
+                                   <tbody>
                                         <tr>
-                                             <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                                                  Memuat data...
+                                             <td colSpan={5} className="p-0">
+                                                  <TableSkeleton rows={5} columns={5} />
                                              </td>
                                         </tr>
-                                   ) : filteredUsers.length === 0 ? (
-                                        <tr>
-                                             <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                                                  Tidak ada user ditemukan
-                                             </td>
-                                        </tr>
-                                   ) : (
-                                        filteredUsers.map((user) => (
-                                             <tr key={user.id} className="hover:bg-gray-50">
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                       <div>
-                                                            <div className="text-sm font-medium text-gray-900">
-                                                                 {user.name || "Tidak ada nama"}
-                                                            </div>
-                                                            <div className="text-sm text-gray-500">{user.email}</div>
-                                                       </div>
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                       {getRoleBadge(user.role)}
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                       {user.campus?.name || "-"}
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                       {new Date(user.createdAt).toLocaleDateString("id-ID")}
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                       <div className="flex items-center justify-end gap-2">
-                                                            <button className="text-blue-600 hover:text-blue-900 p-1 hover:bg-blue-50 rounded">
-                                                                 <Pencil size={18} />
-                                                            </button>
-                                                            <button
-                                                                 onClick={() => handleDeleteUser(user.id)}
-                                                                 className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
-                                                            >
-                                                                 <Trash2 size={18} />
-                                                            </button>
-                                                       </div>
+                                   </tbody>
+                              ) : (
+                                   <tbody className="bg-white divide-y divide-gray-200">
+                                        {filteredUsers.length === 0 ? (
+                                             <tr>
+                                                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                                                       Tidak ada user ditemukan
                                                   </td>
                                              </tr>
-                                        ))
-                                   )}
-                              </tbody>
+                                        ) : (
+                                             filteredUsers.map((user) => (
+                                                  <tr key={user.id} className="hover:bg-gray-50">
+                                                       <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div>
+                                                                 <div className="text-sm font-medium text-gray-900">
+                                                                      {user.name || "Tidak ada nama"}
+                                                                 </div>
+                                                                 <div className="text-sm text-gray-500">{user.email}</div>
+                                                            </div>
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap">
+                                                            {getRoleBadge(user.role)}
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                            {user.campus?.name || "-"}
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                            {new Date(user.createdAt).toLocaleDateString("id-ID")}
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                            <div className="flex items-center justify-end gap-2">
+                                                                 <button className="text-blue-600 hover:text-blue-900 p-1 hover:bg-blue-50 rounded">
+                                                                      <Pencil size={18} />
+                                                                 </button>
+                                                                 <button
+                                                                      onClick={() => handleDeleteUser(user.id)}
+                                                                      className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
+                                                                 >
+                                                                      <Trash2 size={18} />
+                                                                 </button>
+                                                            </div>
+                                                       </td>
+                                                  </tr>
+                                             ))
+                                        )}
+                                   </tbody>
+                              )}
                          </table>
                     </div>
                </div>

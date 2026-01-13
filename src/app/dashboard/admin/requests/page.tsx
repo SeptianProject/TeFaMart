@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Search, CheckCircle, XCircle } from "lucide-react";
+import { TableSkeleton } from "@/components/Skeleton";
 
 interface Request {
      id: string;
@@ -26,7 +27,7 @@ interface Request {
 export default function RequestsPage() {
      const [requests, setRequests] = useState<Request[]>([]);
      const [loading, setLoading] = useState(true);
-     const [searchTerm, setSearchTerm] = useState("");
+     const [searchTerm, setSearchTerm] = useState<string>("");
      const [filterStatus, setFilterStatus] = useState<string>("ALL");
      const [filterType, setFilterType] = useState<string>("ALL");
 
@@ -86,11 +87,11 @@ export default function RequestsPage() {
           }
      };
 
-     const filteredRequests = requests.filter((request) => {
+     const filteredRequests = requests.filter((request: Request) => {
           const matchSearch =
-               request.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-               request.clientEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
-               request.product.name.toLowerCase().includes(searchTerm.toLowerCase());
+               request?.clientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+               request?.clientEmail?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+               request?.product?.name?.toLowerCase().includes(searchTerm.toLowerCase());
 
           const matchStatus =
                filterStatus === "ALL" || request.status === filterStatus;
@@ -234,95 +235,96 @@ export default function RequestsPage() {
                                         </th>
                                    </tr>
                               </thead>
-                              <tbody className="bg-white divide-y divide-gray-200">
-                                   {loading ? (
+                              {loading ? (
+                                   <tbody>
                                         <tr>
-                                             <td
-                                                  colSpan={7}
-                                                  className="px-6 py-4 text-center text-gray-500"
-                                             >
-                                                  Memuat data...
+                                             <td colSpan={7} className="p-0">
+                                                  <TableSkeleton rows={5} columns={7} />
                                              </td>
                                         </tr>
-                                   ) : filteredRequests.length === 0 ? (
-                                        <tr>
-                                             <td
-                                                  colSpan={7}
-                                                  className="px-6 py-4 text-center text-gray-500"
-                                             >
-                                                  {searchTerm
-                                                       ? "Tidak ada permintaan ditemukan"
-                                                       : "Belum ada permintaan"}
-                                             </td>
-                                        </tr>
-                                   ) : (
-                                        filteredRequests.map((request) => (
-                                             <tr key={request.id} className="hover:bg-gray-50">
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                       <div>
-                                                            <div className="text-sm font-medium text-gray-900">
-                                                                 {request.clientName}
-                                                            </div>
-                                                            <div className="text-sm text-gray-500">
-                                                                 {request.clientEmail}
-                                                            </div>
-                                                       </div>
-                                                  </td>
-                                                  <td className="px-6 py-4">
-                                                       <div className="text-sm text-gray-900">
-                                                            {request.product.name}
-                                                       </div>
-                                                       <div className="text-sm text-gray-500">
-                                                            {request.product.tefa.name} -{" "}
-                                                            {request.product.tefa.major}
-                                                       </div>
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                       {request.quantity} unit
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                       {formatCurrency(request.product.price * request.quantity)}
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                       {getTypeBadge(request.type)}
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                       {getStatusBadge(request.status)}
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                       {request.status === "PENDING" ? (
-                                                            <div className="flex items-center justify-end gap-2">
-                                                                 <button
-                                                                      onClick={() =>
-                                                                           handleUpdateStatus(request.id, "APPROVED")
-                                                                      }
-                                                                      className="text-green-600 hover:text-green-900 p-1 hover:bg-green-50 rounded"
-                                                                      title="Setujui"
-                                                                 >
-                                                                      <CheckCircle size={18} />
-                                                                 </button>
-                                                                 <button
-                                                                      onClick={() =>
-                                                                           handleUpdateStatus(request.id, "REJECTED")
-                                                                      }
-                                                                      className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
-                                                                      title="Tolak"
-                                                                 >
-                                                                      <XCircle size={18} />
-                                                                 </button>
-                                                            </div>
-                                                       ) : (
-                                                            <span className="text-gray-400 text-xs">
-                                                                 {request.status === "APPROVED"
-                                                                      ? "Disetujui"
-                                                                      : "Ditolak"}
-                                                            </span>
-                                                       )}
+                                   </tbody>
+                              ) : (
+                                   <tbody className="bg-white divide-y divide-gray-200">
+                                        {filteredRequests.length === 0 ? (
+                                             <tr>
+                                                  <td
+                                                       colSpan={7}
+                                                       className="px-6 py-4 text-center text-gray-500"
+                                                  >
+                                                       {searchTerm
+                                                            ? "Tidak ada permintaan ditemukan"
+                                                            : "Belum ada permintaan"}
                                                   </td>
                                              </tr>
-                                        ))
-                                   )}
-                              </tbody>
+                                        ) : (
+                                             filteredRequests.map((request) => (
+                                                  <tr key={request.id} className="hover:bg-gray-50">
+                                                       <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div>
+                                                                 <div className="text-sm font-medium text-gray-900">
+                                                                      {request.clientName}
+                                                                 </div>
+                                                                 <div className="text-sm text-gray-500">
+                                                                      {request.clientEmail}
+                                                                 </div>
+                                                            </div>
+                                                       </td>
+                                                       <td className="px-6 py-4">
+                                                            <div className="text-sm text-gray-900">
+                                                                 {request.product.name}
+                                                            </div>
+                                                            <div className="text-sm text-gray-500">
+                                                                 {request.product.tefa.name} -{" "}
+                                                                 {request.product.tefa.major}
+                                                            </div>
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            {request.quantity} unit
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            {formatCurrency(request.product.price * request.quantity)}
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap">
+                                                            {getTypeBadge(request.type)}
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap">
+                                                            {getStatusBadge(request.status)}
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                            {request.status === "PENDING" ? (
+                                                                 <div className="flex items-center justify-end gap-2">
+                                                                      <button
+                                                                           onClick={() =>
+                                                                                handleUpdateStatus(request.id, "APPROVED")
+                                                                           }
+                                                                           className="text-green-600 hover:text-green-900 p-1 hover:bg-green-50 rounded"
+                                                                           title="Setujui"
+                                                                      >
+                                                                           <CheckCircle size={18} />
+                                                                      </button>
+                                                                      <button
+                                                                           onClick={() =>
+                                                                                handleUpdateStatus(request.id, "REJECTED")
+                                                                           }
+                                                                           className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
+                                                                           title="Tolak"
+                                                                      >
+                                                                           <XCircle size={18} />
+                                                                      </button>
+                                                                 </div>
+                                                            ) : (
+                                                                 <span className="text-gray-400 text-xs">
+                                                                      {request.status === "APPROVED"
+                                                                           ? "Disetujui"
+                                                                           : "Ditolak"}
+                                                                 </span>
+                                                            )}
+                                                       </td>
+                                                  </tr>
+                                             ))
+                                        )}
+                                   </tbody>
+                              )}
                          </table>
                     </div>
                </div>

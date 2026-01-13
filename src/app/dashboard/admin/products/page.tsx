@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Search, Eye } from "lucide-react";
 import Image from "next/image";
+import ProductModal, { ProductFormData } from "@/components/ProductModal";
+import { useAlert } from "@/hooks/useAlert";
+import { ProductTableSkeleton } from "@/components/Skeleton";
 
 interface Product {
      id: string;
@@ -23,6 +26,11 @@ export default function ProductsPage() {
      const [products, setProducts] = useState<Product[]>([]);
      const [loading, setLoading] = useState(true);
      const [searchTerm, setSearchTerm] = useState("");
+     const [isModalOpen, setIsModalOpen] = useState(false);
+     const [modalMode, setModalMode] = useState<"create" | "edit">("create");
+     const [selectedTefa, setSelectedTefa] = useState<ProductFormData | null>(null);
+     const { showSuccess, showError, showConfirm, AlertComponent } = useAlert();
+
 
      useEffect(() => {
           fetchProducts();
@@ -42,8 +50,83 @@ export default function ProductsPage() {
           }
      };
 
+     const handleOpenAddModal = () => {
+          setModalMode("create");
+          setSelectedTefa(null);
+          setIsModalOpen(true);
+     }
+
+     const handleOpenEditModal = (product: Product) => {
+          setModalMode("edit");
+          setSelectedTefa({
+               id: product.id,
+               name: product.name,
+               price: product.price,
+               stock: product.stock,
+               description: product.description || "",
+               imageUrl: product.image || "",
+          });
+          setIsModalOpen(true);
+     };
+
+     const handleSubmitProduct = async (data: ProductFormData) => {
+          try {
+               if (modalMode === "create") {
+                    const response = await fetch("/api/admin/products", {
+                         method: "POST",
+                         headers: {
+                              "Content-Type": "application/json",
+                         },
+                         body: JSON.stringify(data),
+                    })
+
+                    if (response.ok) {
+                         const newProduct = await response.json();
+                         setProducts([...products, newProduct]);
+                         showSuccess("Product berhasil ditambahkan", "Berhasil", 3000);
+                         setIsModalOpen(false);
+                    } else {
+                         const error = await response.json();
+                         showError("Gagal menambahkan product: " + error.message, "Error");
+                    }
+               } else {
+                    const response = await fetch(`/api/admin/products/${data.id}`, {
+                         method: "PUT",
+                         headers: {
+                              "Content-Type": "application/json",
+                         },
+                         body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                         const updateProduct = await response.json();
+                         setProducts(
+                              products.map((product) =>
+                                   product.id === updateProduct.id ? updateProduct : product
+                              )
+                         );
+                         showSuccess("Product berhasil diperbarui", "Berhasil", 3000);
+                         setIsModalOpen(false);
+                    } else {
+                         const error = await response.json();
+                         showError("Gagal memperbarui product: " + error.message, "Error");
+                    }
+               }
+          } catch (error) {
+               console.error("Error submitting product:", error);
+               showError("Terjadi kesalahan saat menyimpan product", "Error");
+          }
+     }
+
      const handleDeleteProduct = async (productId: string) => {
-          if (!confirm("Apakah Anda yakin ingin menghapus product ini?")) return;
+          const confirmed = await showConfirm(
+               "Apakah Anda yakin ingin menghapus product ini? Tindakan ini tidak dapat dibatalkan.",
+               "Konfirmasi Hapus",
+               "Hapus",
+               "Batal"
+          );
+
+          if (!confirmed) return;
 
           try {
                const response = await fetch(`/api/admin/products/${productId}`, {
@@ -52,13 +135,13 @@ export default function ProductsPage() {
 
                if (response.ok) {
                     setProducts(products.filter((product) => product.id !== productId));
-                    alert("Product berhasil dihapus");
+                    showSuccess("Product berhasil dihapus", "Berhasil", 3000);
                } else {
-                    alert("Gagal menghapus product");
+                    showError("Gagal menghapus product", "Error");
                }
           } catch (error) {
                console.error("Error deleting product:", error);
-               alert("Terjadi kesalahan saat menghapus product");
+               showError("Terjadi kesalahan saat menghapus product", "Error");
           }
      };
 
@@ -85,7 +168,7 @@ export default function ProductsPage() {
                               Kelola product TEFA di kampus Anda
                          </p>
                     </div>
-                    <button className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                    <button onClick={handleOpenAddModal} className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
                          <Plus size={20} className="mr-2" />
                          Tambah Product
                     </button>
@@ -131,95 +214,111 @@ export default function ProductsPage() {
                                         </th>
                                    </tr>
                               </thead>
-                              <tbody className="bg-white divide-y divide-gray-200">
-                                   {loading ? (
+                              {loading ? (
+                                   <tbody>
                                         <tr>
-                                             <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                                                  Memuat data...
+                                             <td colSpan={5} className="p-0">
+                                                  <ProductTableSkeleton rows={5} />
                                              </td>
                                         </tr>
-                                   ) : filteredProducts.length === 0 ? (
-                                        <tr>
-                                             <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                                                  {searchTerm
-                                                       ? "Tidak ada product ditemukan"
-                                                       : "Belum ada product. Tambahkan product pertama Anda!"}
-                                             </td>
-                                        </tr>
-                                   ) : (
-                                        filteredProducts.map((product) => (
-                                             <tr key={product.id} className="hover:bg-gray-50">
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                       <div className="flex items-center">
-                                                            <div className="h-12 w-12 shrink-0 relative bg-gray-100 rounded-lg overflow-hidden">
-                                                                 {product.image ? (
-                                                                      <Image
-                                                                           src={product.image}
-                                                                           alt={product.name}
-                                                                           fill
-                                                                           className="object-cover"
-                                                                      />
-                                                                 ) : (
-                                                                      <div className="h-full w-full flex items-center justify-center text-gray-400">
-                                                                           <Eye size={20} />
-                                                                      </div>
-                                                                 )}
-                                                            </div>
-                                                            <div className="ml-4">
-                                                                 <div className="text-sm font-medium text-gray-900">
-                                                                      {product.name}
+                                   </tbody>
+                              ) : (
+                                   <tbody className="bg-white divide-y divide-gray-200">
+                                        {filteredProducts.length === 0 ? (
+                                             <tr>
+                                                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                                                       {searchTerm
+                                                            ? "Tidak ada product ditemukan"
+                                                            : "Belum ada product. Tambahkan product pertama Anda!"}
+                                                  </td>
+                                             </tr>
+                                        ) : (
+                                             filteredProducts.map((product) => (
+                                                  <tr key={product.id} className="hover:bg-gray-50">
+                                                       <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                 <div className="h-12 w-12 shrink-0 relative bg-gray-100 rounded-lg overflow-hidden">
+                                                                      {product.image ? (
+                                                                           <Image
+                                                                                src={product.image}
+                                                                                alt={product.name}
+                                                                                fill
+                                                                                className="object-cover"
+                                                                           />
+                                                                      ) : (
+                                                                           <div className="h-full w-full flex items-center justify-center text-gray-400">
+                                                                                <Eye size={20} />
+                                                                           </div>
+                                                                      )}
                                                                  </div>
-                                                                 {product.description && (
-                                                                      <div className="text-sm text-gray-500 line-clamp-1">
-                                                                           {product.description}
+                                                                 <div className="ml-4">
+                                                                      <div className="text-sm font-medium text-gray-900">
+                                                                           {product.name}
                                                                       </div>
-                                                                 )}
+                                                                      {product.description && (
+                                                                           <div className="text-sm text-gray-500 line-clamp-1">
+                                                                                {product.description}
+                                                                           </div>
+                                                                      )}
+                                                                 </div>
                                                             </div>
-                                                       </div>
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                       <div className="text-sm text-gray-900">
-                                                            {product.tefa.name}
-                                                       </div>
-                                                       <div className="text-sm text-gray-500">
-                                                            {product.tefa.major}
-                                                       </div>
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                       {formatCurrency(product.price)}
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap">
-                                                       <span
-                                                            className={`px-2 py-1 text-xs font-medium rounded-full ${product.stock > 10
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap">
+                                                            <div className="text-sm text-gray-900">
+                                                                 {product.tefa.name}
+                                                            </div>
+                                                            <div className="text-sm text-gray-500">
+                                                                 {product.tefa.major}
+                                                            </div>
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            {formatCurrency(product.price)}
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap">
+                                                            <span
+                                                                 className={`px-2 py-1 text-xs font-medium rounded-full ${product.stock > 10
                                                                       ? "bg-green-100 text-green-800"
                                                                       : product.stock > 0
                                                                            ? "bg-yellow-100 text-yellow-800"
                                                                            : "bg-red-100 text-red-800"
-                                                                 }`}
-                                                       >
-                                                            {product.stock} unit
-                                                       </span>
-                                                  </td>
-                                                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                       <div className="flex items-center justify-end gap-2">
-                                                            <button className="text-blue-600 hover:text-blue-900 p-1 hover:bg-blue-50 rounded">
-                                                                 <Pencil size={18} />
-                                                            </button>
-                                                            <button
-                                                                 onClick={() => handleDeleteProduct(product.id)}
-                                                                 className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
+                                                                      }`}
                                                             >
-                                                                 <Trash2 size={18} />
-                                                            </button>
-                                                       </div>
-                                                  </td>
-                                             </tr>
-                                        ))
-                                   )}
-                              </tbody>
+                                                                 {product.stock} unit
+                                                            </span>
+                                                       </td>
+                                                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                            <div className="flex items-center justify-end gap-2">
+                                                                 <button
+                                                                      onClick={() => handleOpenEditModal(product)}
+                                                                      className="text-blue-600 hover:text-blue-900 p-1 hover:bg-blue-50 rounded">
+                                                                      <Pencil size={18} />
+                                                                 </button>
+                                                                 <button
+                                                                      onClick={() => handleDeleteProduct(product.id)}
+                                                                      className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
+                                                                 >
+                                                                      <Trash2 size={18} />
+                                                                 </button>
+                                                            </div>
+                                                       </td>
+                                                  </tr>
+                                             ))
+                                        )}
+                                   </tbody>
+                              )}
                          </table>
                     </div>
                </div>
+
+               <ProductModal
+                    isOpen={isModalOpen}
+                    mode={modalMode}
+                    initialData={selectedTefa}
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={handleSubmitProduct}
+               />
+
+               {AlertComponent}
           </div>
      );
 }
