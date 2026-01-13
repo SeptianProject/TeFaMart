@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import prisma from "./prisma";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -80,6 +81,29 @@ export const authOptions: NextAuthOptions = {
         session.user.campusId = token.campusId as string | null;
       }
       return session;
+    },
+    async signIn({ user, account }) {
+      // Allow sign in
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      // Menghandle redirect setelah login/logout
+      // Jika callback URL adalah baseUrl atau root, redirect berdasarkan role
+      if (url === baseUrl || url === `${baseUrl}/`) {
+        return `${baseUrl}/auth/login`;
+      }
+
+      // Jika URL dimulai dengan baseUrl, gunakan URL tersebut
+      if (url.startsWith(baseUrl)) {
+        return url;
+      }
+
+      // Jika URL relatif, tambahkan baseUrl
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      }
+
+      return baseUrl;
     },
   },
 

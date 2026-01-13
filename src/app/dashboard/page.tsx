@@ -2,9 +2,8 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { Role } from "@/types";
-import loading from "./loading";
 
 export default function DashboardPage() {
      const { data: session, status } = useSession();
@@ -18,6 +17,7 @@ export default function DashboardPage() {
                return;
           }
 
+          // Redirect based on role
           switch (session.user?.role) {
                case Role.SUPER_ADMIN:
                     router.push("/dashboard/super-admin");
@@ -26,18 +26,47 @@ export default function DashboardPage() {
                     router.push("/dashboard/admin");
                     break;
                case Role.CLIENT:
-                    router.push("/");
+                    // CLIENT stays on /dashboard
                     break;
                default:
                     router.push("/auth/login");
           }
      }, [session, status, router]);
 
-     return (
-          <Suspense fallback={loading()}>
-               <div>
-
+     // Loading state
+     if (status === "loading") {
+          return (
+               <div className="flex items-center justify-center min-h-screen">
+                    <div className="text-center">
+                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                         <p className="mt-4 text-gray-600">Loading...</p>
+                    </div>
                </div>
-          </Suspense>
-     );
+          );
+     }
+
+     // If CLIENT role, show dashboard content
+     if (session?.user?.role === Role.CLIENT) {
+          return (
+               <div className="space-y-6">
+                    <div>
+                         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+                         <p className="mt-1 text-sm text-gray-500">
+                              Selamat datang, {session.user.name || session.user.email}
+                         </p>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                         <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                              Fitur Client
+                         </h2>
+                         <p className="text-gray-600">
+                              Dashboard untuk user client akan ditambahkan di sini.
+                         </p>
+                    </div>
+               </div>
+          );
+     }
+
+     return null;
 }

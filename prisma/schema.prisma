@@ -13,12 +13,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum Role {
-  SUPER_ADMIN
-  ADMIN
-  CLIENT
-}
-
 model User {
   id            String   @id @default(cuid())
   name          String?
@@ -26,75 +20,16 @@ model User {
   emailVerified DateTime?
   password      String?
   image         String?
-  role          Role     @default(CLIENT)
+  role          String   @default("CLIENT") // CLIENT, ADMIN, SUPER_ADMIN
   campusId      String?
-  campus        Campus?  @relation(fields: [campusId], references: [id])
+  campus        Campus?  @relation(fields: [campusId], references: [id], onDelete: SetNull)
   accounts      Account[]
   sessions      Session[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-}
 
-model Campus {
-  id          String   @id @default(cuid())
-  name        String
-  location    String?
-  description String?
-  users       User[]
-  tefas       Tefa[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Tefa {
-  id          String    @id @default(cuid())
-  name        String
-  major       String    // Jurusan
-  description String?
-  campusId    String
-  campus      Campus    @relation(fields: [campusId], references: [id], onDelete: Cascade)
-  products    Product[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-model Product {
-  id          String    @id @default(cuid())
-  name        String
-  description String?
-  price       Float
-  stock       Int       @default(0)
-  image       String?
-  tefaId      String
-  tefa        Tefa      @relation(fields: [tefaId], references: [id], onDelete: Cascade)
-  requests    Request[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-enum RequestStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
-enum RequestType {
-  PURCHASE_ORDER
-  INVESTMENT
-}
-
-model Request {
-  id          String        @id @default(cuid())
-  productId   String
-  product     Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
-  clientName  String
-  clientEmail String
-  quantity    Int
-  type        RequestType
-  status      RequestStatus @default(PENDING)
-  notes       String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  @@index([email])
+  @@index([campusId])
 }
 
 model Account {
@@ -130,4 +65,63 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Campus {
+  id        String   @id @default(cuid())
+  name      String
+  address   String?
+  city      String?
+  province  String?
+  users     User[]
+  tefas     Tefa[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tefa {
+  id          String    @id @default(cuid())
+  name        String
+  major       String
+  description String?
+  campusId    String
+  campus      Campus    @relation(fields: [campusId], references: [id], onDelete: Cascade)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([campusId])
+  @@index([major])
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  stock       Int      @default(0)
+  imageUrl    String?
+  tefaId      String
+  tefa        Tefa     @relation(fields: [tefaId], references: [id], onDelete: Cascade)
+  requests    Request[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([tefaId])
+  @@index([name])
+}
+
+model Request {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity   Int
+  status     String   @default("pending") // pending, approved, rejected, completed
+  notes      String?
+  requestedBy String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([productId])
+  @@index([status])
 }

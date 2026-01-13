@@ -1,17 +1,34 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React, { memo, useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import React, { memo, useState, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 const LoginPage = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { data: session, status } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Redirect jika sudah login
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      const role = session.user.role;
+
+      if (role === "SUPER_ADMIN") {
+        router.push("/dashboard/super-admin");
+      } else if (role === "ADMIN") {
+        router.push("/dashboard/admin");
+      } else {
+        router.push("/dashboard");
+      }
+    }
+  }, [status, session, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,13 +44,32 @@ const LoginPage = () => {
 
       if (result?.error) {
         setError(result.error);
-      } else {
-        router.push("/dashboard");
-        router.refresh();
+        setIsLoading(false);
+      } else if (result?.ok) {
+        // Fetch session untuk mendapatkan role
+        const response = await fetch("/api/auth/session");
+        const sessionData = await response.json();
+
+        if (sessionData?.user?.role) {
+          const role = sessionData.user.role;
+
+          // Redirect berdasarkan role
+          if (role === "SUPER_ADMIN") {
+            router.push("/dashboard/super-admin");
+          } else if (role === "ADMIN") {
+            router.push("/dashboard/admin");
+          } else {
+            router.push("/dashboard");
+          }
+
+          router.refresh();
+        } else {
+          router.push("/dashboard");
+          router.refresh();
+        }
       }
     } catch (error) {
       setError("Terjadi kesalahan. Silakan coba lagi.");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -47,6 +83,18 @@ const LoginPage = () => {
       setIsLoading(false);
     }
   };
+
+  // Show loading if checking authentication
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

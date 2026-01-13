@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
+import TefaModal, { TefaFormData } from "@/components/TefaModal";
 
 interface Tefa {
      id: string;
@@ -19,6 +20,9 @@ export default function TefaPage() {
      const [tefas, setTefas] = useState<Tefa[]>([]);
      const [loading, setLoading] = useState(true);
      const [searchTerm, setSearchTerm] = useState("");
+     const [isModalOpen, setIsModalOpen] = useState(false);
+     const [modalMode, setModalMode] = useState<"create" | "edit">("create");
+     const [selectedTefa, setSelectedTefa] = useState<TefaFormData | null>(null);
 
      useEffect(() => {
           fetchTefas();
@@ -38,6 +42,66 @@ export default function TefaPage() {
           }
      };
 
+     const handleOpenAddModal = () => {
+          setModalMode("create");
+          setSelectedTefa(null);
+          setIsModalOpen(true);
+     };
+
+     const handleOpenEditModal = (tefa: Tefa) => {
+          setModalMode("edit");
+          setSelectedTefa({
+               id: tefa.id,
+               name: tefa.name,
+               major: tefa.major,
+               description: tefa.description || "",
+          });
+          setIsModalOpen(true);
+     };
+
+     const handleSubmitTefa = async (data: TefaFormData) => {
+          try {
+               if (modalMode === "create") {
+                    const response = await fetch("/api/admin/tefa", {
+                         method: "POST",
+                         headers: { "Content-Type": "application/json" },
+                         body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                         const newTefa = await response.json();
+                         setTefas((prev) => [newTefa, ...prev]);
+                         alert("TEFA berhasil ditambahkan");
+                    } else {
+                         const error = await response.json();
+                         alert(error.error || "Gagal menambahkan TEFA");
+                    }
+               } else {
+                    const response = await fetch(`/api/admin/tefa/${data.id}`, {
+                         method: "PUT",
+                         headers: { "Content-Type": "application/json" },
+                         body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                         const updatedTefa = await response.json();
+                         setTefas((prev) =>
+                              prev.map((tefa) =>
+                                   tefa.id === updatedTefa.id ? updatedTefa : tefa
+                              )
+                         );
+                         alert("TEFA berhasil diperbarui");
+                    } else {
+                         const error = await response.json();
+                         alert(error.error || "Gagal memperbarui TEFA");
+                    }
+               }
+          } catch (error) {
+               console.error("Error submitting tefa:", error);
+               alert("Terjadi kesalahan saat menyimpan data");
+          }
+     };
+
      const handleDeleteTefa = async (tefaId: string) => {
           if (!confirm("Apakah Anda yakin ingin menghapus TEFA ini?")) return;
 
@@ -50,7 +114,8 @@ export default function TefaPage() {
                     setTefas(tefas.filter((tefa) => tefa.id !== tefaId));
                     alert("TEFA berhasil dihapus");
                } else {
-                    alert("Gagal menghapus TEFA");
+                    const error = await response.json();
+                    alert(error.error || "Gagal menghapus TEFA");
                }
           } catch (error) {
                console.error("Error deleting tefa:", error);
@@ -73,7 +138,9 @@ export default function TefaPage() {
                               Kelola TEFA untuk setiap jurusan di kampus Anda
                          </p>
                     </div>
-                    <button className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                    <button
+                         onClick={handleOpenAddModal}
+                         className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
                          <Plus size={20} className="mr-2" />
                          Tambah TEFA
                     </button>
@@ -136,7 +203,10 @@ export default function TefaPage() {
                                              {tefa._count?.products || 0} Product
                                         </div>
                                         <div className="flex items-center gap-2">
-                                             <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                             <button
+                                                  onClick={() => handleOpenEditModal(tefa)}
+                                                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                             >
                                                   <Pencil size={18} />
                                              </button>
                                              <button
@@ -151,6 +221,15 @@ export default function TefaPage() {
                          ))
                     )}
                </div>
+
+               {/* Modal */}
+               <TefaModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={handleSubmitTefa}
+                    initialData={selectedTefa}
+                    mode={modalMode}
+               />
           </div>
      );
 }

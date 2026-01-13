@@ -37,12 +37,10 @@ export type RequestSumAggregateOutputType = {
 export type RequestMinAggregateOutputType = {
   id: string | null
   productId: string | null
-  clientName: string | null
-  clientEmail: string | null
   quantity: number | null
-  type: $Enums.RequestType | null
-  status: $Enums.RequestStatus | null
+  status: string | null
   notes: string | null
+  requestedBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,12 +48,10 @@ export type RequestMinAggregateOutputType = {
 export type RequestMaxAggregateOutputType = {
   id: string | null
   productId: string | null
-  clientName: string | null
-  clientEmail: string | null
   quantity: number | null
-  type: $Enums.RequestType | null
-  status: $Enums.RequestStatus | null
+  status: string | null
   notes: string | null
+  requestedBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -63,12 +59,10 @@ export type RequestMaxAggregateOutputType = {
 export type RequestCountAggregateOutputType = {
   id: number
   productId: number
-  clientName: number
-  clientEmail: number
   quantity: number
-  type: number
   status: number
   notes: number
+  requestedBy: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -86,12 +80,10 @@ export type RequestSumAggregateInputType = {
 export type RequestMinAggregateInputType = {
   id?: true
   productId?: true
-  clientName?: true
-  clientEmail?: true
   quantity?: true
-  type?: true
   status?: true
   notes?: true
+  requestedBy?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -99,12 +91,10 @@ export type RequestMinAggregateInputType = {
 export type RequestMaxAggregateInputType = {
   id?: true
   productId?: true
-  clientName?: true
-  clientEmail?: true
   quantity?: true
-  type?: true
   status?: true
   notes?: true
+  requestedBy?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,12 +102,10 @@ export type RequestMaxAggregateInputType = {
 export type RequestCountAggregateInputType = {
   id?: true
   productId?: true
-  clientName?: true
-  clientEmail?: true
   quantity?: true
-  type?: true
   status?: true
   notes?: true
+  requestedBy?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -212,12 +200,10 @@ export type RequestGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type RequestGroupByOutputType = {
   id: string
   productId: string
-  clientName: string
-  clientEmail: string
   quantity: number
-  type: $Enums.RequestType
-  status: $Enums.RequestStatus
+  status: string
   notes: string | null
+  requestedBy: string | null
   createdAt: Date
   updatedAt: Date
   _count: RequestCountAggregateOutputType | null
@@ -248,12 +234,10 @@ export type RequestWhereInput = {
   NOT?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
   id?: Prisma.StringFilter<"Request"> | string
   productId?: Prisma.StringFilter<"Request"> | string
-  clientName?: Prisma.StringFilter<"Request"> | string
-  clientEmail?: Prisma.StringFilter<"Request"> | string
   quantity?: Prisma.IntFilter<"Request"> | number
-  type?: Prisma.EnumRequestTypeFilter<"Request"> | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
+  status?: Prisma.StringFilter<"Request"> | string
   notes?: Prisma.StringNullableFilter<"Request"> | string | null
+  requestedBy?: Prisma.StringNullableFilter<"Request"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
@@ -262,12 +246,10 @@ export type RequestWhereInput = {
 export type RequestOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
-  clientEmail?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  requestedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
@@ -279,12 +261,10 @@ export type RequestWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.RequestWhereInput[]
   NOT?: Prisma.RequestWhereInput | Prisma.RequestWhereInput[]
   productId?: Prisma.StringFilter<"Request"> | string
-  clientName?: Prisma.StringFilter<"Request"> | string
-  clientEmail?: Prisma.StringFilter<"Request"> | string
   quantity?: Prisma.IntFilter<"Request"> | number
-  type?: Prisma.EnumRequestTypeFilter<"Request"> | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
+  status?: Prisma.StringFilter<"Request"> | string
   notes?: Prisma.StringNullableFilter<"Request"> | string | null
+  requestedBy?: Prisma.StringNullableFilter<"Request"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
@@ -293,12 +273,10 @@ export type RequestWhereUniqueInput = Prisma.AtLeast<{
 export type RequestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
-  clientEmail?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  requestedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.RequestCountOrderByAggregateInput
@@ -314,24 +292,20 @@ export type RequestScalarWhereWithAggregatesInput = {
   NOT?: Prisma.RequestScalarWhereWithAggregatesInput | Prisma.RequestScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Request"> | string
   productId?: Prisma.StringWithAggregatesFilter<"Request"> | string
-  clientName?: Prisma.StringWithAggregatesFilter<"Request"> | string
-  clientEmail?: Prisma.StringWithAggregatesFilter<"Request"> | string
   quantity?: Prisma.IntWithAggregatesFilter<"Request"> | number
-  type?: Prisma.EnumRequestTypeWithAggregatesFilter<"Request"> | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusWithAggregatesFilter<"Request"> | $Enums.RequestStatus
+  status?: Prisma.StringWithAggregatesFilter<"Request"> | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"Request"> | string | null
+  requestedBy?: Prisma.StringNullableWithAggregatesFilter<"Request"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
 }
 
 export type RequestCreateInput = {
   id?: string
-  clientName: string
-  clientEmail: string
   quantity: number
-  type: $Enums.RequestType
-  status?: $Enums.RequestStatus
+  status?: string
   notes?: string | null
+  requestedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   product: Prisma.ProductCreateNestedOneWithoutRequestsInput
@@ -340,24 +314,20 @@ export type RequestCreateInput = {
 export type RequestUncheckedCreateInput = {
   id?: string
   productId: string
-  clientName: string
-  clientEmail: string
   quantity: number
-  type: $Enums.RequestType
-  status?: $Enums.RequestStatus
+  status?: string
   notes?: string | null
+  requestedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RequestUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
-  clientEmail?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneRequiredWithoutRequestsNestedInput
@@ -366,12 +336,10 @@ export type RequestUpdateInput = {
 export type RequestUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
-  clientEmail?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -379,24 +347,20 @@ export type RequestUncheckedUpdateInput = {
 export type RequestCreateManyInput = {
   id?: string
   productId: string
-  clientName: string
-  clientEmail: string
   quantity: number
-  type: $Enums.RequestType
-  status?: $Enums.RequestStatus
+  status?: string
   notes?: string | null
+  requestedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RequestUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
-  clientEmail?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -404,12 +368,10 @@ export type RequestUpdateManyMutationInput = {
 export type RequestUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
-  clientEmail?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -427,12 +389,10 @@ export type RequestOrderByRelationAggregateInput = {
 export type RequestCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
-  clientEmail?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -444,12 +404,10 @@ export type RequestAvgOrderByAggregateInput = {
 export type RequestMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
-  clientEmail?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -457,12 +415,10 @@ export type RequestMaxOrderByAggregateInput = {
 export type RequestMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
-  clientName?: Prisma.SortOrder
-  clientEmail?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -513,34 +469,22 @@ export type RequestUncheckedUpdateManyWithoutProductNestedInput = {
   deleteMany?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
 }
 
-export type EnumRequestTypeFieldUpdateOperationsInput = {
-  set?: $Enums.RequestType
-}
-
-export type EnumRequestStatusFieldUpdateOperationsInput = {
-  set?: $Enums.RequestStatus
-}
-
 export type RequestCreateWithoutProductInput = {
   id?: string
-  clientName: string
-  clientEmail: string
   quantity: number
-  type: $Enums.RequestType
-  status?: $Enums.RequestStatus
+  status?: string
   notes?: string | null
+  requestedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RequestUncheckedCreateWithoutProductInput = {
   id?: string
-  clientName: string
-  clientEmail: string
   quantity: number
-  type: $Enums.RequestType
-  status?: $Enums.RequestStatus
+  status?: string
   notes?: string | null
+  requestedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -577,60 +521,50 @@ export type RequestScalarWhereInput = {
   NOT?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
   id?: Prisma.StringFilter<"Request"> | string
   productId?: Prisma.StringFilter<"Request"> | string
-  clientName?: Prisma.StringFilter<"Request"> | string
-  clientEmail?: Prisma.StringFilter<"Request"> | string
   quantity?: Prisma.IntFilter<"Request"> | number
-  type?: Prisma.EnumRequestTypeFilter<"Request"> | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFilter<"Request"> | $Enums.RequestStatus
+  status?: Prisma.StringFilter<"Request"> | string
   notes?: Prisma.StringNullableFilter<"Request"> | string | null
+  requestedBy?: Prisma.StringNullableFilter<"Request"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
 }
 
 export type RequestCreateManyProductInput = {
   id?: string
-  clientName: string
-  clientEmail: string
   quantity: number
-  type: $Enums.RequestType
-  status?: $Enums.RequestStatus
+  status?: string
   notes?: string | null
+  requestedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type RequestUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
-  clientEmail?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RequestUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
-  clientEmail?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RequestUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientName?: Prisma.StringFieldUpdateOperationsInput | string
-  clientEmail?: Prisma.StringFieldUpdateOperationsInput | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
-  type?: Prisma.EnumRequestTypeFieldUpdateOperationsInput | $Enums.RequestType
-  status?: Prisma.EnumRequestStatusFieldUpdateOperationsInput | $Enums.RequestStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -640,12 +574,10 @@ export type RequestUncheckedUpdateManyWithoutProductInput = {
 export type RequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   productId?: boolean
-  clientName?: boolean
-  clientEmail?: boolean
   quantity?: boolean
-  type?: boolean
   status?: boolean
   notes?: boolean
+  requestedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -654,12 +586,10 @@ export type RequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type RequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   productId?: boolean
-  clientName?: boolean
-  clientEmail?: boolean
   quantity?: boolean
-  type?: boolean
   status?: boolean
   notes?: boolean
+  requestedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -668,12 +598,10 @@ export type RequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type RequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   productId?: boolean
-  clientName?: boolean
-  clientEmail?: boolean
   quantity?: boolean
-  type?: boolean
   status?: boolean
   notes?: boolean
+  requestedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -682,17 +610,15 @@ export type RequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type RequestSelectScalar = {
   id?: boolean
   productId?: boolean
-  clientName?: boolean
-  clientEmail?: boolean
   quantity?: boolean
-  type?: boolean
   status?: boolean
   notes?: boolean
+  requestedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "clientName" | "clientEmail" | "quantity" | "type" | "status" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["request"]>
+export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "quantity" | "status" | "notes" | "requestedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["request"]>
 export type RequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
@@ -711,12 +637,10 @@ export type $RequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     productId: string
-    clientName: string
-    clientEmail: string
     quantity: number
-    type: $Enums.RequestType
-    status: $Enums.RequestStatus
+    status: string
     notes: string | null
+    requestedBy: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["request"]>
@@ -1145,12 +1069,10 @@ export interface Prisma__RequestClient<T, Null = never, ExtArgs extends runtime.
 export interface RequestFieldRefs {
   readonly id: Prisma.FieldRef<"Request", 'String'>
   readonly productId: Prisma.FieldRef<"Request", 'String'>
-  readonly clientName: Prisma.FieldRef<"Request", 'String'>
-  readonly clientEmail: Prisma.FieldRef<"Request", 'String'>
   readonly quantity: Prisma.FieldRef<"Request", 'Int'>
-  readonly type: Prisma.FieldRef<"Request", 'RequestType'>
-  readonly status: Prisma.FieldRef<"Request", 'RequestStatus'>
+  readonly status: Prisma.FieldRef<"Request", 'String'>
   readonly notes: Prisma.FieldRef<"Request", 'String'>
+  readonly requestedBy: Prisma.FieldRef<"Request", 'String'>
   readonly createdAt: Prisma.FieldRef<"Request", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Request", 'DateTime'>
 }
