@@ -8,6 +8,8 @@ export function Skeleton({ className = "" }: SkeletonProps) {
      return (
           <div
                className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded ${className}`}
+               aria-label="Loading..."
+               role="status"
           />
      );
 }
@@ -16,8 +18,8 @@ export function Skeleton({ className = "" }: SkeletonProps) {
 export function TableSkeleton({ rows = 5, columns = 5 }: { rows?: number; columns?: number }) {
      return (
           <div className="overflow-x-auto">
-               <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead className="bg-gray-50 dark:bg-gray-800">
                          <tr>
                               {Array.from({ length: columns }).map((_, i) => (
                                    <th key={i} className="px-6 py-3">
@@ -26,7 +28,7 @@ export function TableSkeleton({ rows = 5, columns = 5 }: { rows?: number; column
                               ))}
                          </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                          {Array.from({ length: rows }).map((_, rowIndex) => (
                               <tr key={rowIndex}>
                                    {Array.from({ length: columns }).map((_, colIndex) => (
@@ -46,8 +48,8 @@ export function TableSkeleton({ rows = 5, columns = 5 }: { rows?: number; column
 export function ProductTableSkeleton({ rows = 5 }: { rows?: number }) {
      return (
           <div className="overflow-x-auto">
-               <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead className="bg-gray-50 dark:bg-gray-800">
                          <tr>
                               <th className="px-6 py-3 text-left">
                                    <Skeleton className="h-4 w-20" />
@@ -66,7 +68,7 @@ export function ProductTableSkeleton({ rows = 5 }: { rows?: number }) {
                               </th>
                          </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                          {Array.from({ length: rows }).map((_, index) => (
                               <tr key={index}>
                                    <td className="px-6 py-4">
@@ -109,7 +111,7 @@ export function CardSkeleton({ count = 4 }: { count?: number }) {
                {Array.from({ length: count }).map((_, index) => (
                     <div
                          key={index}
-                         className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+                         className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
                     >
                          <div className="flex items-center justify-between mb-4">
                               <Skeleton className="h-5 w-32" />
@@ -130,7 +132,7 @@ export function StatsSkeleton({ count = 4 }: { count?: number }) {
                {Array.from({ length: count }).map((_, index) => (
                     <div
                          key={index}
-                         className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+                         className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
                     >
                          <div className="flex items-center justify-between mb-4">
                               <Skeleton className="h-5 w-24" />
@@ -151,7 +153,7 @@ export function TefaCardSkeleton({ count = 6 }: { count?: number }) {
                {Array.from({ length: count }).map((_, index) => (
                     <div
                          key={index}
-                         className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+                         className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6"
                     >
                          <div className="flex items-start justify-between mb-4">
                               <div className="flex-1">
@@ -160,7 +162,7 @@ export function TefaCardSkeleton({ count = 6 }: { count?: number }) {
                               </div>
                          </div>
                          <Skeleton className="h-12 w-full mb-4" />
-                         <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                         <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
                               <Skeleton className="h-4 w-20" />
                               <div className="flex gap-2">
                                    <Skeleton className="h-9 w-9 rounded-lg" />

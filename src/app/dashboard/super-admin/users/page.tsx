@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
+import { TableSkeleton } from "@/components/Skeleton";
 
 interface User {
      id: string;
