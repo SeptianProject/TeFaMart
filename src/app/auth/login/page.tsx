@@ -20,20 +20,15 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Redirect jika sudah login
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       const role = session.user.role;
-
-      if (role === "SUPER_ADMIN") {
-        router.push("/dashboard/super-admin");
-      } else if (role === "ADMIN") {
-        router.push("/dashboard/admin");
-      } else {
-        router.push("/dashboard");
-      }
+      const redirectPath = role === "SUPER_ADMIN" ? "/dashboard/super-admin"
+        : role === "ADMIN" ? "/dashboard/admin"
+          : "/dashboard";
+      window.location.href = redirectPath;
     }
-  }, [status, session, router]);
+  }, [status, session]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,34 +39,12 @@ function LoginForm() {
       const result = await signIn("credentials", {
         email,
         password,
-        redirect: false,
+        callbackUrl: "/dashboard",
       });
 
       if (result?.error) {
         setError(result.error);
         setIsLoading(false);
-      } else if (result?.ok) {
-        // Fetch session untuk mendapatkan role
-        const response = await fetch("/api/auth/session");
-        const sessionData = await response.json();
-
-        if (sessionData?.user?.role) {
-          const role = sessionData.user.role;
-
-          // Redirect berdasarkan role
-          if (role === "SUPER_ADMIN") {
-            router.push("/dashboard/super-admin");
-          } else if (role === "ADMIN") {
-            router.push("/dashboard/admin");
-          } else {
-            router.push("/dashboard");
-          }
-
-          router.refresh();
-        } else {
-          router.push("/dashboard");
-          router.refresh();
-        }
       }
     } catch (error) {
       setError("Terjadi kesalahan. Silakan coba lagi.");
@@ -89,7 +62,6 @@ function LoginForm() {
     }
   };
 
-  // Show loading if checking authentication
   if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -139,6 +111,7 @@ function LoginForm() {
                   placeholder="nama@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
                 />
               </div>
               <div className="space-y-2">
@@ -152,6 +125,7 @@ function LoginForm() {
                   placeholder="Masukkan password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -159,6 +133,7 @@ function LoginForm() {
             <Button
               type="submit"
               disabled={isLoading}
+
               className="w-full"
             >
               {isLoading ? "Memproses..." : "Masuk"}

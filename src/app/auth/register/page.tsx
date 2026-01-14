@@ -133,6 +133,7 @@ const RegisterPage = () => {
                                              placeholder="Nama Lengkap"
                                              value={formData.name}
                                              onChange={handleChange}
+                                             disabled={isLoading}
                                         />
                                    </div>
                                    <div className="space-y-2">
@@ -146,6 +147,7 @@ const RegisterPage = () => {
                                              placeholder="nama@example.com"
                                              value={formData.email}
                                              onChange={handleChange}
+                                             disabled={isLoading}
                                         />
                                    </div>
                                    <div className="space-y-2">
@@ -159,6 +161,7 @@ const RegisterPage = () => {
                                              placeholder="Minimal 6 karakter"
                                              value={formData.password}
                                              onChange={handleChange}
+                                             disabled={isLoading}
                                         />
                                    </div>
                                    <div className="space-y-2">
@@ -172,6 +175,7 @@ const RegisterPage = () => {
                                              placeholder="Konfirmasi Password"
                                              value={formData.confirmPassword}
                                              onChange={handleChange}
+                                             disabled={isLoading}
                                         />
                                    </div>
                               </div>

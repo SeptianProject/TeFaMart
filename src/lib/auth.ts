@@ -57,14 +57,13 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
+      // Hanya fetch dari database saat user baru login atau update
       if (user) {
         token.id = user.id;
-      }
-      // Fetch user role from database
-      if (token.id) {
+        // Fetch user role only on first login
         const dbUser = await prisma.user.findUnique({
-          where: { id: token.id as string },
+          where: { id: user.id as string },
           select: { role: true, campusId: true },
         });
         if (dbUser) {
