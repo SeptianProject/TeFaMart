@@ -6,13 +6,12 @@ export default withAuth(
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
-    // Public routes yang bisa diakses tanpa login
     const isPublicRoute =
+      path === "/" ||
       path.startsWith("/auth/login") ||
       path.startsWith("/auth/register") ||
       path === "/api/auth";
 
-    // Jika sudah login dan mencoba akses halaman login/register
     if (token && isPublicRoute) {
       const role = token.role as string;
 
@@ -27,16 +26,13 @@ export default withAuth(
       }
     }
 
-    // Role-based access control
     if (token) {
       const role = token.role as string;
 
-      // Super Admin routes
       if (path.startsWith("/dashboard/super-admin") && role !== "SUPER_ADMIN") {
         return NextResponse.redirect(new URL("/dashboard", req.url));
       }
 
-      // Admin routes
       if (path.startsWith("/dashboard/admin") && role !== "ADMIN") {
         return NextResponse.redirect(new URL("/dashboard", req.url));
       }
@@ -49,8 +45,8 @@ export default withAuth(
       authorized: ({ token, req }) => {
         const path = req.nextUrl.pathname;
 
-        // Public routes
         if (
+          path === "/" ||
           path.startsWith("/auth/login") ||
           path.startsWith("/auth/register") ||
           path.startsWith("/api/auth")
@@ -58,7 +54,6 @@ export default withAuth(
           return true;
         }
 
-        // Protected routes require token
         return !!token;
       },
     },
