@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import { TableSkeleton } from "@/components/Skeleton";
+import FormModal from "@/components/ui/FormModal";
 
 interface User {
      id: string;
