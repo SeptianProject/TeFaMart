@@ -42,34 +42,64 @@ export default function AdminOverviewPage() {
           {
                title: "Total TEFA",
                value: stats.totalTefa,
-               icon: GraduationCap,
+               icon: "GraduationCap",
                color: "blue",
           },
           {
                title: "Total Product",
                value: stats.totalProducts,
-               icon: Package,
+               icon: "Package",
                color: "green",
           },
           {
                title: "Permintaan Pending",
                value: stats.pendingRequests,
-               icon: FileText,
+               icon: "FileText",
                color: "orange",
           },
           {
                title: "Permintaan Disetujui",
                value: stats.approvedRequests,
-               icon: CheckCircle,
+               icon: "CheckCircle",
                color: "purple",
           },
      ];
 
+     const getIcon = (iconName: string) => {
+          switch (iconName) {
+               case "GraduationCap":
+                    return GraduationCap;
+               case "Package":
+                    return Package;
+               case "FileText":
+                    return FileText;
+               case "CheckCircle":
+                    return CheckCircle;
+               default:
+                    return GraduationCap;
+          }
+     };
+
+     const getColorClasses = (color: string) => {
+          switch (color) {
+               case "blue":
+                    return "bg-primary/10 text-primary";
+               case "green":
+                    return "bg-accent/10 text-accent";
+               case "orange":
+                    return "bg-accent/20 text-accent";
+               case "purple":
+                    return "bg-secondary/10 text-secondary";
+               default:
+                    return "bg-muted text-muted-foreground";
+          }
+     };
+
      return (
-          <div className="space-y-6">
+          <div className="space-y-6 pb-20">
                <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <h1 className="text-2xl font-bold text-foreground">Dashboard Overview</h1>
+                    <p className="mt-1 text-sm text-muted-foreground">
                          Ringkasan statistik kampus Anda
                     </p>
                </div>
@@ -80,23 +110,23 @@ export default function AdminOverviewPage() {
                ) : (
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                          {statCards.map((stat) => {
-                              const Icon = stat.icon;
+                              const Icon = getIcon(stat.icon);
                               return (
                                    <div
                                         key={stat.title}
-                                        className="bg-white rounded-lg shadow-sm p-6 border border-gray-200"
+                                        className="bg-card rounded-lg shadow-sm p-6 border border-border"
                                    >
                                         <div className="flex items-center justify-between">
                                              <div>
-                                                  <p className="text-sm font-medium text-gray-600">
+                                                  <p className="text-sm font-medium text-muted-foreground">
                                                        {stat.title}
                                                   </p>
-                                                  <p className="mt-2 text-3xl font-semibold text-gray-900">
+                                                  <p className="mt-2 text-3xl font-semibold text-foreground">
                                                        {stat.value}
                                                   </p>
                                              </div>
                                              <div
-                                                  className={`p-3 rounded-lg bg-${stat.color}-100 text-${stat.color}-600`}
+                                                  className={`p-3 rounded-lg ${getColorClasses(stat.color)}`}
                                              >
                                                   <Icon size={24} />
                                              </div>
@@ -108,26 +138,26 @@ export default function AdminOverviewPage() {
                )}
 
                {/* Quick Actions */}
-               <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
+               <div className="bg-card rounded-lg shadow-sm p-6 border border-border">
+                    <h2 className="text-lg font-semibold text-foreground mb-4">
                          Aksi Cepat
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                          <a
                               href="/dashboard/admin/tefa"
-                              className="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors"
+                              className="p-4 border border-border rounded-lg hover:border-primary hover:bg-primary/5 transition-colors"
                          >
-                              <GraduationCap className="text-blue-600 mb-2" size={24} />
-                              <h3 className="font-medium text-gray-900">Kelola TEFA</h3>
-                              <p className="text-sm text-gray-500 mt-1">
+                              <GraduationCap className="text-primary mb-2" size={24} />
+                              <h3 className="font-medium text-foreground">Kelola TEFA</h3>
+                              <p className="text-sm text-muted-foreground mt-1">
                                    Tambah atau edit TEFA jurusan
                               </p>
                          </a>
                          <a
                               href="/dashboard/admin/products"
-                              className="p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors"
+                              className="p-4 border border-border rounded-lg hover:border-accent hover:bg-accent/5 transition-colors"
                          >
-                              <Package className="text-green-600 mb-2" size={24} />
+                              <Package className="text-accent mb-2" size={24} />
                               <h3 className="font-medium text-gray-900">Kelola Product</h3>
                               <p className="text-sm text-gray-500 mt-1">
                                    Tambah atau edit product TEFA
@@ -135,11 +165,11 @@ export default function AdminOverviewPage() {
                          </a>
                          <a
                               href="/dashboard/admin/requests"
-                              className="p-4 border border-gray-200 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-colors"
+                              className="p-4 border border-border rounded-lg hover:border-secondary hover:bg-secondary/5 transition-colors"
                          >
-                              <FileText className="text-orange-600 mb-2" size={24} />
-                              <h3 className="font-medium text-gray-900">Kelola Permintaan</h3>
-                              <p className="text-sm text-gray-500 mt-1">
+                              <FileText className="text-secondary mb-2" size={24} />
+                              <h3 className="font-medium text-foreground">Kelola Permintaan</h3>
+                              <p className="text-sm text-muted-foreground mt-1">
                                    Review permintaan dari client
                               </p>
                          </a>
@@ -147,12 +177,12 @@ export default function AdminOverviewPage() {
                </div>
 
                {/* Recent Activity */}
-               <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
+               <div className="bg-card rounded-lg shadow-sm p-6 border border-border">
+                    <h2 className="text-lg font-semibold text-foreground mb-4">
                          Aktivitas Terkini
                     </h2>
                     <div className="space-y-4">
-                         <p className="text-sm text-gray-500">Belum ada aktivitas terkini</p>
+                         <p className="text-sm text-muted-foreground">Belum ada aktivitas terkini</p>
                     </div>
                </div>
           </div>

@@ -96,7 +96,7 @@ export function useAlert() {
     [showAlert]
   );
 
-  const AlertComponent = alertConfig ? <Alert {...alertConfig} /> : null;
+  const AlertComponent = () => alertConfig ? <Alert {...alertConfig} /> : null;
 
   return {
     showAlert,

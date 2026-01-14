@@ -25,6 +25,16 @@ export default function TefaModal({
      initialData,
      mode,
 }: TefaModalProps) {
+     const nameValidation = (value: unknown) => {
+          if (!(value as string)?.trim()) return "Nama TEFA wajib diisi";
+          return undefined;
+     };
+
+     const majorValidation = (value: unknown) => {
+          if (!(value as string)?.trim()) return "Jurusan wajib diisi";
+          return undefined;
+     };
+
      const fields: FormField<TefaFormData>[] = [
           {
                name: "name",
@@ -32,9 +42,7 @@ export default function TefaModal({
                type: "text",
                placeholder: "Contoh: TEFA Otomotif",
                required: true,
-               validation: (value) => {
-                    if (!(value as string)?.trim()) return "Nama TEFA wajib diisi";
-               },
+               validation: nameValidation,
           },
           {
                name: "major",
@@ -42,9 +50,7 @@ export default function TefaModal({
                type: "text",
                placeholder: "Contoh: Teknik Kendaraan Ringan",
                required: true,
-               validation: (value) => {
-                    if (!(value as string)?.trim()) return "Jurusan wajib diisi";
-               },
+               validation: majorValidation,
           },
           {
                name: "description",
@@ -67,7 +73,6 @@ export default function TefaModal({
                     edit: "Edit TEFA",
                }}
                fields={fields}
-               size="md"
                submitButtonText={{
                     create: "Tambah TEFA",
                     edit: "Simpan Perubahan",

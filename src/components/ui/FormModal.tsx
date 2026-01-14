@@ -1,7 +1,25 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Modal, { ModalHeader, ModalBody, ModalFooter } from "./Modal";
+import {
+     Dialog,
+     DialogContent,
+     DialogDescription,
+     DialogFooter,
+     DialogHeader,
+     DialogTitle,
+} from "./dialog";
+import { Button } from "./button";
+import { Input } from "./input";
+import { Textarea } from "./textarea";
+import { Label } from "./label";
+import {
+     Select,
+     SelectContent,
+     SelectItem,
+     SelectTrigger,
+     SelectValue,
+} from "./select";
 
 export type FieldType = "text" | "number" | "textarea" | "email" | "url" | "select";
 
@@ -29,7 +47,6 @@ interface FormModalProps<T> {
           edit: string;
      };
      fields: FormField<T>[];
-     size?: "sm" | "md" | "lg" | "xl";
      submitButtonText?: {
           create: string;
           edit: string;
@@ -45,7 +62,6 @@ export default function FormModal<T extends Record<string, unknown> = Record<str
      mode,
      title,
      fields,
-     size = "md",
      submitButtonText = {
           create: "Tambah",
           edit: "Simpan Perubahan",
@@ -157,95 +173,104 @@ export default function FormModal<T extends Record<string, unknown> = Record<str
      const renderField = (field: FormField<T>) => {
           const value = formData[field.name];
           const error = errors[field.name as string];
-          const inputClassName = `w-full px-4 py-2.5 border rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${error
-                    ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                    : "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
-               } text-gray-900 dark:text-gray-100`;
 
           switch (field.type) {
                case "textarea":
                     return (
-                         <textarea
+                         <Textarea
                               id={field.name as string}
                               rows={field.rows || 4}
                               value={(value as string) || ""}
                               onChange={(e) => handleFieldChange(field.name, e.target.value)}
-                              className={`${inputClassName} resize-none`}
                               placeholder={field.placeholder}
+                              className={error ? "border-red-500" : ""}
                          />
                     );
 
                case "number":
                     return (
-                         <input
+                         <Input
                               type="number"
                               id={field.name as string}
                               value={(value as number) || 0}
                               onChange={(e) =>
                                    handleFieldChange(field.name, Number(e.target.value))
                               }
-                              className={inputClassName}
                               placeholder={field.placeholder}
                               min={field.min}
                               max={field.max}
+                              className={error ? "border-red-500" : ""}
                          />
                     );
 
                case "select":
                     return (
-                         <select
-                              id={field.name as string}
+                         <Select
                               value={(value as string) || ""}
-                              onChange={(e) => handleFieldChange(field.name, e.target.value)}
-                              className={inputClassName}
+                              onValueChange={(val) => handleFieldChange(field.name, val)}
                          >
-                              <option value="">Pilih {field.label}</option>
-                              {field.options?.map((option) => (
-                                   <option key={option.value} value={option.value}>
-                                        {option.label}
-                                   </option>
-                              ))}
-                         </select>
+                              <SelectTrigger
+                                   className={error ? "border-red-500" : ""}
+                              >
+                                   <SelectValue placeholder={`Pilih ${field.label}`} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                   {field.options?.map((option) => (
+                                        <SelectItem
+                                             key={option.value}
+                                             value={String(option.value)}
+                                        >
+                                             {option.label}
+                                        </SelectItem>
+                                   ))}
+                              </SelectContent>
+                         </Select>
                     );
 
                default:
                     return (
-                         <input
+                         <Input
                               type={field.type}
                               id={field.name as string}
                               value={(value as string) || ""}
                               onChange={(e) => handleFieldChange(field.name, e.target.value)}
-                              className={inputClassName}
                               placeholder={field.placeholder}
+                              className={error ? "border-red-500" : ""}
                          />
                     );
           }
      };
 
      return (
-          <Modal isOpen={isOpen} onClose={onClose} size={size}>
-               <ModalHeader
-                    title={mode === "create" ? title.create : title.edit}
-                    onClose={onClose}
-               />
+          <Dialog open={isOpen} onOpenChange={onClose}>
+               <DialogContent className="sm:max-w-150">
+                    <DialogHeader>
+                         <DialogTitle>
+                              {mode === "create" ? title.create : title.edit}
+                         </DialogTitle>
+                         <DialogDescription>
+                              {mode === "create"
+                                   ? "Isi formulir di bawah untuk menambahkan data baru"
+                                   : "Perbarui informasi di formulir di bawah"}
+                         </DialogDescription>
+                    </DialogHeader>
 
-               <form onSubmit={handleSubmit}>
-                    <ModalBody>
-                         <div className="space-y-5">
+                    <form onSubmit={handleSubmit}>
+                         <div className="space-y-4 py-4">
                               {fields.map((field) => (
-                                   <div key={field.name as string}>
-                                        <label
+                                   <div key={field.name as string} className="space-y-2">
+                                        <Label
                                              htmlFor={field.name as string}
-                                             className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                                             className="text-sm font-medium"
                                         >
                                              {field.label}
                                              {field.required && (
                                                   <span className="text-red-500 ml-1">*</span>
                                              )}
-                                        </label>
+                                        </Label>
                                         {renderField(field)}
                                         {errors[field.name as string] && (
-                                             <p className="text-red-500 text-sm mt-1.5 flex items-center gap-1">
+                                             <p className="text-red-500 text-sm flex items-center gap-1">
                                                   <span className="inline-block w-1 h-1 bg-red-500 rounded-full" />
                                                   {errors[field.name as string]}
                                              </p>
@@ -253,30 +278,26 @@ export default function FormModal<T extends Record<string, unknown> = Record<str
                                    </div>
                               ))}
                          </div>
-                    </ModalBody>
 
-                    <ModalFooter>
-                         <button
-                              type="button"
-                              onClick={onClose}
-                              className="px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                              disabled={loading}
-                         >
-                              Batal
-                         </button>
-                         <button
-                              type="submit"
-                              className="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
-                              disabled={loading}
-                         >
-                              {loading
-                                   ? "Menyimpan..."
-                                   : mode === "create"
-                                        ? submitButtonText.create
-                                        : submitButtonText.edit}
-                         </button>
-                    </ModalFooter>
-               </form>
-          </Modal>
+                         <DialogFooter>
+                              <Button
+                                   type="button"
+                                   variant="outline"
+                                   onClick={onClose}
+                                   disabled={loading}
+                              >
+                                   Batal
+                              </Button>
+                              <Button type="submit" disabled={loading}>
+                                   {loading
+                                        ? "Menyimpan..."
+                                        : mode === "create"
+                                             ? submitButtonText.create
+                                             : submitButtonText.edit}
+                              </Button>
+                         </DialogFooter>
+                    </form>
+               </DialogContent>
+          </Dialog>
      );
 }

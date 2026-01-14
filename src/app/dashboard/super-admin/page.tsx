@@ -42,34 +42,62 @@ export default function SuperAdminOverviewPage() {
           {
                title: "Total User",
                value: stats.totalUsers,
-               icon: Users,
-               color: "blue",
+               icon: "Users",
+               color: "primary",
           },
           {
                title: "Total Kampus",
                value: stats.totalCampus,
-               icon: School,
-               color: "green",
+               icon: "School",
+               color: "accent",
           },
           {
                title: "Admin Kampus",
                value: stats.totalAdmins,
-               icon: Activity,
-               color: "purple",
+               icon: "Activity",
+               color: "primary",
           },
           {
                title: "Client",
                value: stats.totalClients,
-               icon: Users,
-               color: "orange",
+               icon: "Users2",
+               color: "secondary",
           },
      ];
+
+     const getIcon = (iconName: string) => {
+          switch (iconName) {
+               case "Users":
+                    return Users;
+               case "School":
+                    return School;
+               case "Activity":
+                    return Activity;
+               case "Users2":
+                    return Users;
+               default:
+                    return Users;
+          }
+     };
+
+     const getColorClasses = (color: string) => {
+          switch (color) {
+               case "primary":
+                    return "bg-primary/10 text-primary";
+               case "secondary":
+                    return "bg-secondary/10 text-secondary";
+               case "accent":
+                    return "bg-accent/10 text-accent";
+               default:
+                    return "bg-muted text-muted-foreground";
+          }
+     };
 
      return (
           <div className="space-y-6">
                <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <h1 className="text-2xl font-bold text-foreground">Dashboard Overview</h1>
+                    <p className="mt-1 text-sm text-muted-foreground">
                          Ringkasan statistik platform TefaMart
                     </p>
                </div>
@@ -80,23 +108,23 @@ export default function SuperAdminOverviewPage() {
                ) : (
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                          {statCards.map((stat) => {
-                              const Icon = stat.icon;
+                              const Icon = getIcon(stat.icon);
                               return (
                                    <div
                                         key={stat.title}
-                                        className="bg-white rounded-lg shadow-sm p-6 border border-gray-200"
+                                        className="bg-card rounded-lg shadow-sm p-6 border border-border"
                                    >
                                         <div className="flex items-center justify-between">
                                              <div>
-                                                  <p className="text-sm font-medium text-gray-600">
+                                                  <p className="text-sm font-medium text-muted-foreground">
                                                        {stat.title}
                                                   </p>
-                                                  <p className="mt-2 text-3xl font-semibold text-gray-900">
+                                                  <p className="mt-2 text-3xl font-semibold text-foreground">
                                                        {stat.value}
                                                   </p>
                                              </div>
                                              <div
-                                                  className={`p-3 rounded-lg bg-${stat.color}-100 text-${stat.color}-600`}
+                                                  className={`p-3 rounded-lg ${getColorClasses(stat.color)}`}
                                              >
                                                   <Icon size={24} />
                                              </div>
@@ -108,12 +136,12 @@ export default function SuperAdminOverviewPage() {
                )}
 
                {/* Recent Activity */}
-               <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-4">
+               <div className="bg-card rounded-lg shadow-sm p-6 border border-border">
+                    <h2 className="text-lg font-semibold text-foreground mb-4">
                          Aktivitas Terkini
                     </h2>
                     <div className="space-y-4">
-                         <p className="text-sm text-gray-500">Belum ada aktivitas terkini</p>
+                         <p className="text-sm text-muted-foreground">Belum ada aktivitas terkini</p>
                     </div>
                </div>
           </div>

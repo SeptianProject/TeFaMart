@@ -26,6 +26,11 @@ const ProductModal: FC<ProductModalProps> = ({
      initialData,
      mode,
 }) => {
+     const nameValidation = (value: unknown) => {
+          if (!(value as string)?.trim()) return "Nama product wajib diisi";
+          return undefined;
+     };
+
      const fields: FormField<ProductFormData>[] = [
           {
                name: "name",
@@ -33,9 +38,7 @@ const ProductModal: FC<ProductModalProps> = ({
                type: "text",
                placeholder: "Contoh: Kursi Sekolah",
                required: true,
-               validation: (value) => {
-                    if (!(value as string)?.trim()) return "Nama product wajib diisi";
-               },
+               validation: nameValidation,
           },
           {
                name: "price",
@@ -80,7 +83,6 @@ const ProductModal: FC<ProductModalProps> = ({
                     edit: "Edit Product",
                }}
                fields={fields}
-               size="md"
                submitButtonText={{
                     create: "Tambah Product",
                     edit: "Simpan Perubahan",

@@ -4,6 +4,11 @@ import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const RegisterPage = () => {
      const router = useRouter();
@@ -92,12 +97,12 @@ const RegisterPage = () => {
 
      return (
           <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-               <div className="max-w-md w-full space-y-8">
-                    <div>
-                         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+               <Card className="w-full max-w-md">
+                    <CardHeader className="space-y-1">
+                         <CardTitle className="text-2xl font-bold text-center">
                               Daftar Akun Baru
-                         </h2>
-                         <p className="mt-2 text-center text-sm text-gray-600">
+                         </CardTitle>
+                         <CardDescription className="text-center">
                               Sudah punya akun?{" "}
                               <Link
                                    href="/auth/login"
@@ -105,110 +110,97 @@ const RegisterPage = () => {
                               >
                                    Masuk di sini
                               </Link>
-                         </p>
-                    </div>
+                         </CardDescription>
+                    </CardHeader>
 
-                    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                         {error && (
-                              <div className="rounded-md bg-red-50 p-4">
-                                   <div className="text-sm text-red-800">{error}</div>
-                              </div>
-                         )}
+                    <CardContent>
+                         <form className="space-y-4" onSubmit={handleSubmit}>
+                              {error && (
+                                   <div className="rounded-md bg-red-50 p-4">
+                                        <div className="text-sm text-red-800">{error}</div>
+                                   </div>
+                              )}
 
-                         <div className="rounded-md shadow-sm space-y-4">
-                              <div>
-                                   <label htmlFor="name" className="sr-only">
-                                        Nama Lengkap
-                                   </label>
-                                   <input
-                                        id="name"
-                                        name="name"
-                                        type="text"
-                                        autoComplete="name"
-                                        required
-                                        className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                                        placeholder="Nama Lengkap"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                   />
+                              <div className="space-y-4">
+                                   <div className="space-y-2">
+                                        <Label htmlFor="name">Nama Lengkap</Label>
+                                        <Input
+                                             id="name"
+                                             name="name"
+                                             type="text"
+                                             autoComplete="name"
+                                             required
+                                             placeholder="Nama Lengkap"
+                                             value={formData.name}
+                                             onChange={handleChange}
+                                        />
+                                   </div>
+                                   <div className="space-y-2">
+                                        <Label htmlFor="email">Email</Label>
+                                        <Input
+                                             id="email"
+                                             name="email"
+                                             type="email"
+                                             autoComplete="email"
+                                             required
+                                             placeholder="nama@example.com"
+                                             value={formData.email}
+                                             onChange={handleChange}
+                                        />
+                                   </div>
+                                   <div className="space-y-2">
+                                        <Label htmlFor="password">Password</Label>
+                                        <Input
+                                             id="password"
+                                             name="password"
+                                             type="password"
+                                             autoComplete="new-password"
+                                             required
+                                             placeholder="Minimal 6 karakter"
+                                             value={formData.password}
+                                             onChange={handleChange}
+                                        />
+                                   </div>
+                                   <div className="space-y-2">
+                                        <Label htmlFor="confirmPassword">Konfirmasi Password</Label>
+                                        <Input
+                                             id="confirmPassword"
+                                             name="confirmPassword"
+                                             type="password"
+                                             autoComplete="new-password"
+                                             required
+                                             placeholder="Konfirmasi Password"
+                                             value={formData.confirmPassword}
+                                             onChange={handleChange}
+                                        />
+                                   </div>
                               </div>
-                              <div>
-                                   <label htmlFor="email" className="sr-only">
-                                        Email
-                                   </label>
-                                   <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        required
-                                        className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                                        placeholder="Email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                   />
-                              </div>
-                              <div>
-                                   <label htmlFor="password" className="sr-only">
-                                        Password
-                                   </label>
-                                   <input
-                                        id="password"
-                                        name="password"
-                                        type="password"
-                                        autoComplete="new-password"
-                                        required
-                                        className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                                        placeholder="Password (min. 6 karakter)"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                   />
-                              </div>
-                              <div>
-                                   <label htmlFor="confirmPassword" className="sr-only">
-                                        Konfirmasi Password
-                                   </label>
-                                   <input
-                                        id="confirmPassword"
-                                        name="confirmPassword"
-                                        type="password"
-                                        autoComplete="new-password"
-                                        required
-                                        className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                                        placeholder="Konfirmasi Password"
-                                        value={formData.confirmPassword}
-                                        onChange={handleChange}
-                                   />
-                              </div>
-                         </div>
 
-                         <div>
-                              <button
+                              <Button
                                    type="submit"
                                    disabled={isLoading}
-                                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                   className="w-full"
                               >
                                    {isLoading ? "Memproses..." : "Daftar"}
-                              </button>
-                         </div>
+                              </Button>
 
-                         <div className="relative">
-                              <div className="absolute inset-0 flex items-center">
-                                   <div className="w-full border-t border-gray-300" />
+                              <div className="relative">
+                                   <div className="absolute inset-0 flex items-center">
+                                        <Separator />
+                                   </div>
+                                   <div className="relative flex justify-center text-xs uppercase">
+                                        <span className="bg-white px-2 text-muted-foreground">
+                                             Atau daftar dengan
+                                        </span>
+                                   </div>
                               </div>
-                              <div className="relative flex justify-center text-sm">
-                                   <span className="px-2 bg-gray-50 text-gray-500">
-                                        Atau daftar dengan
-                                   </span>
-                              </div>
-                         </div>
 
-                         <div>
-                              <button
+                              <Button
                                    type="button"
+                                   variant="outline"
                                    onClick={handleGoogleSignIn}
                                    disabled={isLoading}
-                                   className="group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                   className="w-full"
                               >
                                    <svg
                                         className="w-5 h-5 mr-2"
@@ -233,10 +225,10 @@ const RegisterPage = () => {
                                         />
                                    </svg>
                                    Daftar dengan Google
-                              </button>
-                         </div>
-                    </form>
-               </div>
+                              </Button>
+                         </form>
+                    </CardContent>
+               </Card>
           </div>
      );
 };
