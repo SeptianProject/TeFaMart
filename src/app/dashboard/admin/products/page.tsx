@@ -6,6 +6,7 @@ import Image from "next/image";
 import ProductModal, { ProductFormData } from "@/components/ProductModal";
 import { useAlert } from "@/hooks/useAlert";
 import { ProductTableSkeleton } from "@/components/Skeleton";
+import { Button } from "@/components/ui/button";
 
 interface Product {
      id: string;
@@ -168,10 +169,11 @@ export default function ProductsPage() {
                               Kelola product TEFA di kampus Anda
                          </p>
                     </div>
-                    <button onClick={handleOpenAddModal} className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                    <Button
+                         onClick={handleOpenAddModal}>
                          <Plus size={20} className="mr-2" />
                          Tambah Product
-                    </button>
+                    </Button>
                </div>
 
                {/* Search */}
@@ -290,12 +292,12 @@ export default function ProductsPage() {
                                                             <div className="flex items-center justify-end gap-2">
                                                                  <button
                                                                       onClick={() => handleOpenEditModal(product)}
-                                                                      className="text-blue-600 hover:text-blue-900 p-1 hover:bg-blue-50 rounded">
+                                                                      className="text-primary hover:text-primary/80 p-1 hover:bg-primary/10 rounded cursor-pointer">
                                                                       <Pencil size={18} />
                                                                  </button>
                                                                  <button
                                                                       onClick={() => handleDeleteProduct(product.id)}
-                                                                      className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
+                                                                      className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded cursor-pointer"
                                                                  >
                                                                       <Trash2 size={18} />
                                                                  </button>

@@ -72,7 +72,7 @@ export default function UsersPage() {
      const getRoleBadge = (role: string) => {
           const roleColors: Record<string, string> = {
                SUPER_ADMIN: "bg-red-100 text-red-800",
-               ADMIN: "bg-blue-100 text-blue-800",
+               ADMIN: "bg-primary/10 text-primary",
                CLIENT: "bg-green-100 text-green-800",
           };
 
@@ -95,7 +95,7 @@ export default function UsersPage() {
                               Kelola semua user di platform TefaMart
                          </p>
                     </div>
-                    <button className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                    <button className="inline-flex items-center px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors cursor-pointer">
                          <Plus size={20} className="mr-2" />
                          Tambah User
                     </button>
@@ -114,14 +114,14 @@ export default function UsersPage() {
                                    placeholder="Cari nama atau email..."
                                    value={searchTerm}
                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               />
                          </div>
                          <div>
                               <select
                                    value={filterRole}
                                    onChange={(e) => setFilterRole(e.target.value)}
-                                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                               >
                                    <option value="ALL">Semua Role</option>
                                    <option value="SUPER_ADMIN">Super Admin</option>
@@ -193,12 +193,12 @@ export default function UsersPage() {
                                                        </td>
                                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                             <div className="flex items-center justify-end gap-2">
-                                                                 <button className="text-blue-600 hover:text-blue-900 p-1 hover:bg-blue-50 rounded">
+                                                                 <button className="text-primary hover:text-primary/80 p-1 hover:bg-primary/10 rounded cursor-pointer">
                                                                       <Pencil size={18} />
                                                                  </button>
                                                                  <button
                                                                       onClick={() => handleDeleteUser(user.id)}
-                                                                      className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
+                                                                      className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded cursor-pointer"
                                                                  >
                                                                       <Trash2 size={18} />
                                                                  </button>

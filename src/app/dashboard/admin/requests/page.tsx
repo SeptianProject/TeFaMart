@@ -125,7 +125,7 @@ export default function RequestsPage() {
 
      const getTypeBadge = (type: string) => {
           const typeStyles: Record<string, string> = {
-               PURCHASE_ORDER: "bg-blue-100 text-blue-800",
+               PURCHASE_ORDER: "bg-primary/10 text-primary",
                INVESTMENT: "bg-purple-100 text-purple-800",
           };
 
@@ -297,7 +297,7 @@ export default function RequestsPage() {
                                                                            onClick={() =>
                                                                                 handleUpdateStatus(request.id, "APPROVED")
                                                                            }
-                                                                           className="text-green-600 hover:text-green-900 p-1 hover:bg-green-50 rounded"
+                                                                           className="text-green-600 hover:text-green-900 p-1 hover:bg-green-50 rounded cursor-pointer"
                                                                            title="Setujui"
                                                                       >
                                                                            <CheckCircle size={18} />
@@ -306,7 +306,7 @@ export default function RequestsPage() {
                                                                            onClick={() =>
                                                                                 handleUpdateStatus(request.id, "REJECTED")
                                                                            }
-                                                                           className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
+                                                                           className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded cursor-pointer"
                                                                            title="Tolak"
                                                                       >
                                                                            <XCircle size={18} />

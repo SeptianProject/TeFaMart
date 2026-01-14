@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, Search } from "lucide-react";
+import { Pencil, Trash2, Search, Plus } from "lucide-react";
 import TefaModal, { TefaFormData } from "@/components/TefaModal";
 import { TefaCardSkeleton } from "@/components/Skeleton";
+import { Button } from "@/components/ui/button";
 
 interface Tefa {
      id: string;
@@ -139,12 +140,11 @@ export default function TefaPage() {
                               Kelola TEFA untuk setiap jurusan di kampus Anda
                          </p>
                     </div>
-                    <button
-                         onClick={handleOpenAddModal}
-                         className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                    <Button
+                         onClick={handleOpenAddModal}>
                          <Plus size={20} className="mr-2" />
-                         Tambah TEFA
-                    </button>
+                         Tambah Tefa
+                    </Button>
                </div>
 
                {/* Search */}
@@ -189,7 +189,7 @@ export default function TefaPage() {
                                              <h3 className="text-lg font-semibold text-gray-900 mb-1">
                                                   {tefa.name}
                                              </h3>
-                                             <p className="text-sm text-blue-600 font-medium">
+                                             <p className="text-sm text-primary font-medium">
                                                   {tefa.major}
                                              </p>
                                         </div>
@@ -208,13 +208,13 @@ export default function TefaPage() {
                                         <div className="flex items-center gap-2">
                                              <button
                                                   onClick={() => handleOpenEditModal(tefa)}
-                                                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                  className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors cursor-pointer"
                                              >
                                                   <Pencil size={18} />
                                              </button>
                                              <button
                                                   onClick={() => handleDeleteTefa(tefa.id)}
-                                                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                                              >
                                                   <Trash2 size={18} />
                                              </button>
