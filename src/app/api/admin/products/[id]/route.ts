@@ -3,6 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Role } from "@/types";
 import prisma from "@/lib/prisma";
+import { fileToBase64 } from "@/helper/image-converter";
+import cloudinary from "@/lib/cloudinary";
+import { getPublicIdFromUrl } from "@/helper/cloudinary-helper";
 
 export async function DELETE(
   req: NextRequest,
@@ -32,6 +35,19 @@ export async function DELETE(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
+    if (product.imageUrl) {
+      const publicId = getPublicIdFromUrl(product.imageUrl);
+
+      if (publicId) {
+        try {
+          await cloudinary.uploader.destroy(publicId);
+          console.log(`Success deleted image from Cloudinary: ${publicId}`);
+        } catch (error) {
+          console.log(`Failed deleted image from Cloudinary: ${error}`);
+        }
+      }
+    }
+
     await prisma.product.delete({
       where: { id },
     });
@@ -58,27 +74,72 @@ export async function PUT(
     }
 
     const { id } = await params;
-    const body = await req.json();
-    const { name, description, price, stock, image } = body;
 
-    if (!name || !price || !stock) {
+    const product = await prisma.product.findUnique({
+      where: { id },
+      include: {
+        tefa: { select: { campusId: true } },
+      }
+    });
+
+    if (!product) {
+      return NextResponse.json({
+        error: "Product not found"
+      }, { status: 404 });
+    }
+
+    if (product.tefa.campusId !== session.user.campusId) {
+      console.error(`Forbidden Update: User Campus ${session.user.campusId} tries to edit Product Campus ${product.tefa.campusId}`);
+      return NextResponse.json(
+        { error: "Forbidden" },
+        { status: 403 }
+      );
+    }
+
+    const body = await req.formData();
+    const name = body.get("name") as string;
+    const description = body.get("description") as string;
+    const price = parseFloat(body.get("price") as string);
+    const stock = parseFloat(body.get("stock") as string);
+    if (!name || isNaN(price) || isNaN(stock)) {
       return NextResponse.json(
         { error: "Name, price, and stock are required" },
         { status: 400 }
       );
     }
+    const image = body.get("imageUrl") as File | null;
+    let imageUrl = product?.imageUrl;
 
-    const product = await prisma.product.findUnique({
-      where: { id },
-      select: { tefaId: true },
-    });
+    if (image && image.size > 0) {
+      if (product.imageUrl) {
+        const publicId = getPublicIdFromUrl(product.imageUrl);
 
-    const tefa = await prisma.tefa.findFirst({
-      where: { campusId: session.user.campusId! },
-    });
+        if (publicId) {
+          try {
+            await cloudinary.uploader.destroy(publicId);
+            console.log(`Success deleted image from Cloudinary: ${publicId}`);
+          } catch (error) {
+            console.log(`Failed deleted image from Cloudinary: ${error}`);
+          }
+        }
+      }
+      try {
+        const base64Image = await fileToBase64(image);
 
-    if (!product || product.tefaId !== tefa?.id) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        const uploadImage = await cloudinary.uploader.upload(`data:${image.type};base64,${base64Image}`, {
+          folder: "tefamart_products",
+          resource_type: "image",
+          quality: "auto"
+        });
+
+        imageUrl = uploadImage.secure_url;
+      } catch (error) {
+        console.error("Error upload image: ", error);
+        return NextResponse.json(
+          { error: "Failed to upload image" },
+          { status: 500 }
+        );
+      }
     }
 
     const updateProduct = await prisma.product.update({
@@ -88,7 +149,7 @@ export async function PUT(
         description: description || null,
         price,
         stock,
-        imageUrl: image || null,
+        imageUrl: imageUrl || null,
       },
       include: {
         tefa: {

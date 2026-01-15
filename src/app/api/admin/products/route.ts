@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Role } from "@/types";
 import prisma from "@/lib/prisma";
+import { fileToBase64 } from "@/helper/image-converter";
+import cloudinary from "@/lib/cloudinary";
 
 export async function GET() {
   try {
@@ -62,8 +64,33 @@ export async function POST(req: Request) {
       );
     }
 
-    const body = await req.json();
-    const { name, description, price, stock, image } = body;
+    const body = await req.formData();
+    const name = body.get("name") as string;
+    const description = body.get("description") as string;
+    const price = Number(body.get("price"));
+    const stock = Number(body.get("stock"));
+    const image = body.get("imageUrl") as File;
+    let imageUrl = "";
+
+    if (image && image.size > 0) {
+      try {
+        const base64Image = await fileToBase64(image);
+
+        const uploadImage = await cloudinary.uploader.upload(`data:${image.type};base64,${base64Image}`, {
+          folder: "tefamart_products",
+          resource_type: "image",
+          quality: "auto"
+        });
+
+        imageUrl = uploadImage.secure_url;
+      } catch (error) {
+        console.error("Error upload image: ", error);
+        return NextResponse.json(
+          { error: "Failed to upload image" },
+          { status: 500 }
+        );
+      }
+    }
 
     if (!name || !price || !stock) {
       return NextResponse.json(
@@ -89,7 +116,7 @@ export async function POST(req: Request) {
         description: description || null,
         price,
         stock,
-        imageUrl: image || null,
+        imageUrl: imageUrl || null,
         tefaId: tefa.id,
       },
       include: {

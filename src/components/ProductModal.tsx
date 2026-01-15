@@ -15,8 +15,8 @@ export interface ProductFormData {
      description: string;
      price: number;
      stock: number;
-     imageUrl: string;
-     [key: string]: string | number | undefined;
+     imageUrl?: File | string | null;
+     [key: string]: string | number | File | null | undefined;
 }
 
 const ProductModal: FC<ProductModalProps> = ({
@@ -66,7 +66,8 @@ const ProductModal: FC<ProductModalProps> = ({
           {
                name: "imageUrl",
                label: "URL Gambar",
-               type: "url",
+               type: "file",
+               accept: "image/*",
                placeholder: "https://example.com/image.jpg",
           },
      ];

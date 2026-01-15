@@ -21,7 +21,7 @@ import {
      SelectValue,
 } from "./select";
 
-export type FieldType = "text" | "number" | "textarea" | "email" | "url" | "select";
+export type FieldType = "text" | "number" | "textarea" | "email" | "url" | "select" | "file";
 
 export interface FormField<T = Record<string, unknown>> {
      name: keyof T;
@@ -32,6 +32,7 @@ export interface FormField<T = Record<string, unknown>> {
      min?: number;
      max?: number;
      rows?: number;
+     accept?: string;
      options?: { value: string | number; label: string }[];
      validation?: (value: unknown) => string | undefined;
 }
@@ -155,7 +156,7 @@ export default function FormModal<T extends Record<string, unknown> = Record<str
           }
      };
 
-     const handleFieldChange = (name: keyof T, value: string | number) => {
+     const handleFieldChange = (name: keyof T, value: string | number | File) => {
           setFormData((prev) => ({
                ...prev,
                [name]: value,
@@ -200,6 +201,23 @@ export default function FormModal<T extends Record<string, unknown> = Record<str
                               min={field.min}
                               max={field.max}
                               className={error ? "border-red-500" : ""}
+                         />
+                    );
+                    
+               case "file":
+                    return (
+                         <Input 
+                          type="file" 
+                          id={field.name as string} 
+                          accept={field.accept} 
+                          onChange={
+                              (e) => {
+                                   const file = e.target.files?.[0];
+                                   if(file) {
+                                        handleFieldChange(field.name, file);
+                                   }
+                              }
+                          }
                          />
                     );
 
