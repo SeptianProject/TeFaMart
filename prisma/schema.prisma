@@ -25,6 +25,8 @@ model User {
   campus        Campus?  @relation(fields: [campusId], references: [id], onDelete: SetNull)
   accounts      Account[]
   sessions      Session[]
+  comments      Comment[]
+  requests      Request[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -104,6 +106,7 @@ model Product {
   tefaId      String
   tefa        Tefa     @relation(fields: [tefaId], references: [id], onDelete: Cascade)
   requests    Request[]
+  comment     Comment[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -119,9 +122,30 @@ model Request {
   status     String   @default("pending") // pending, approved, rejected, completed
   notes      String?
   requestedBy String?
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   @@index([productId])
+  @@index([userId])
   @@index([status])
+}
+
+model Comment {
+  id String @id @default(cuid())
+  content String 
+  rating Int?
+  images String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productId String
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([userId])
 }

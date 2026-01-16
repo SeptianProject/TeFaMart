@@ -58,7 +58,8 @@ export const ModelName = {
   Campus: 'Campus',
   Tefa: 'Tefa',
   Product: 'Product',
-  Request: 'Request'
+  Request: 'Request',
+  Comment: 'Comment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -178,11 +179,26 @@ export const RequestScalarFieldEnum = {
   status: 'status',
   notes: 'notes',
   requestedBy: 'requestedBy',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type RequestScalarFieldEnum = (typeof RequestScalarFieldEnum)[keyof typeof RequestScalarFieldEnum]
+
+
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  rating: 'rating',
+  images: 'images',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  productId: 'productId',
+  userId: 'userId'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
 export const SortOrder = {

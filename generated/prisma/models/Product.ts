@@ -254,6 +254,7 @@ export type ProductWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Product"> | Date | string
   tefa?: Prisma.XOR<Prisma.TefaScalarRelationFilter, Prisma.TefaWhereInput>
   requests?: Prisma.RequestListRelationFilter
+  comment?: Prisma.CommentListRelationFilter
 }
 
 export type ProductOrderByWithRelationInput = {
@@ -268,6 +269,7 @@ export type ProductOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   tefa?: Prisma.TefaOrderByWithRelationInput
   requests?: Prisma.RequestOrderByRelationAggregateInput
+  comment?: Prisma.CommentOrderByRelationAggregateInput
 }
 
 export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -285,6 +287,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Product"> | Date | string
   tefa?: Prisma.XOR<Prisma.TefaScalarRelationFilter, Prisma.TefaWhereInput>
   requests?: Prisma.RequestListRelationFilter
+  comment?: Prisma.CommentListRelationFilter
 }, "id">
 
 export type ProductOrderByWithAggregationInput = {
@@ -330,6 +333,7 @@ export type ProductCreateInput = {
   updatedAt?: Date | string
   tefa: Prisma.TefaCreateNestedOneWithoutProductsInput
   requests?: Prisma.RequestCreateNestedManyWithoutProductInput
+  comment?: Prisma.CommentCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateInput = {
@@ -343,6 +347,7 @@ export type ProductUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   requests?: Prisma.RequestUncheckedCreateNestedManyWithoutProductInput
+  comment?: Prisma.CommentUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductUpdateInput = {
@@ -356,6 +361,7 @@ export type ProductUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tefa?: Prisma.TefaUpdateOneRequiredWithoutProductsNestedInput
   requests?: Prisma.RequestUpdateManyWithoutProductNestedInput
+  comment?: Prisma.CommentUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateInput = {
@@ -369,6 +375,7 @@ export type ProductUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requests?: Prisma.RequestUncheckedUpdateManyWithoutProductNestedInput
+  comment?: Prisma.CommentUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateManyInput = {
@@ -539,6 +546,20 @@ export type ProductUpdateOneRequiredWithoutRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProductUpdateToOneWithWhereWithoutRequestsInput, Prisma.ProductUpdateWithoutRequestsInput>, Prisma.ProductUncheckedUpdateWithoutRequestsInput>
 }
 
+export type ProductCreateNestedOneWithoutCommentInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutCommentInput, Prisma.ProductUncheckedCreateWithoutCommentInput>
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutCommentInput
+  connect?: Prisma.ProductWhereUniqueInput
+}
+
+export type ProductUpdateOneRequiredWithoutCommentNestedInput = {
+  create?: Prisma.XOR<Prisma.ProductCreateWithoutCommentInput, Prisma.ProductUncheckedCreateWithoutCommentInput>
+  connectOrCreate?: Prisma.ProductCreateOrConnectWithoutCommentInput
+  upsert?: Prisma.ProductUpsertWithoutCommentInput
+  connect?: Prisma.ProductWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProductUpdateToOneWithWhereWithoutCommentInput, Prisma.ProductUpdateWithoutCommentInput>, Prisma.ProductUncheckedUpdateWithoutCommentInput>
+}
+
 export type ProductCreateWithoutTefaInput = {
   id?: string
   name: string
@@ -549,6 +570,7 @@ export type ProductCreateWithoutTefaInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   requests?: Prisma.RequestCreateNestedManyWithoutProductInput
+  comment?: Prisma.CommentCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutTefaInput = {
@@ -561,6 +583,7 @@ export type ProductUncheckedCreateWithoutTefaInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   requests?: Prisma.RequestUncheckedCreateNestedManyWithoutProductInput
+  comment?: Prisma.CommentUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutTefaInput = {
@@ -614,6 +637,7 @@ export type ProductCreateWithoutRequestsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tefa: Prisma.TefaCreateNestedOneWithoutProductsInput
+  comment?: Prisma.CommentCreateNestedManyWithoutProductInput
 }
 
 export type ProductUncheckedCreateWithoutRequestsInput = {
@@ -626,6 +650,7 @@ export type ProductUncheckedCreateWithoutRequestsInput = {
   tefaId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  comment?: Prisma.CommentUncheckedCreateNestedManyWithoutProductInput
 }
 
 export type ProductCreateOrConnectWithoutRequestsInput = {
@@ -654,6 +679,7 @@ export type ProductUpdateWithoutRequestsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tefa?: Prisma.TefaUpdateOneRequiredWithoutProductsNestedInput
+  comment?: Prisma.CommentUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutRequestsInput = {
@@ -666,6 +692,75 @@ export type ProductUncheckedUpdateWithoutRequestsInput = {
   tefaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comment?: Prisma.CommentUncheckedUpdateManyWithoutProductNestedInput
+}
+
+export type ProductCreateWithoutCommentInput = {
+  id?: string
+  name: string
+  description?: string | null
+  price: number
+  stock?: number
+  imageUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tefa: Prisma.TefaCreateNestedOneWithoutProductsInput
+  requests?: Prisma.RequestCreateNestedManyWithoutProductInput
+}
+
+export type ProductUncheckedCreateWithoutCommentInput = {
+  id?: string
+  name: string
+  description?: string | null
+  price: number
+  stock?: number
+  imageUrl?: string | null
+  tefaId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  requests?: Prisma.RequestUncheckedCreateNestedManyWithoutProductInput
+}
+
+export type ProductCreateOrConnectWithoutCommentInput = {
+  where: Prisma.ProductWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProductCreateWithoutCommentInput, Prisma.ProductUncheckedCreateWithoutCommentInput>
+}
+
+export type ProductUpsertWithoutCommentInput = {
+  update: Prisma.XOR<Prisma.ProductUpdateWithoutCommentInput, Prisma.ProductUncheckedUpdateWithoutCommentInput>
+  create: Prisma.XOR<Prisma.ProductCreateWithoutCommentInput, Prisma.ProductUncheckedCreateWithoutCommentInput>
+  where?: Prisma.ProductWhereInput
+}
+
+export type ProductUpdateToOneWithWhereWithoutCommentInput = {
+  where?: Prisma.ProductWhereInput
+  data: Prisma.XOR<Prisma.ProductUpdateWithoutCommentInput, Prisma.ProductUncheckedUpdateWithoutCommentInput>
+}
+
+export type ProductUpdateWithoutCommentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tefa?: Prisma.TefaUpdateOneRequiredWithoutProductsNestedInput
+  requests?: Prisma.RequestUpdateManyWithoutProductNestedInput
+}
+
+export type ProductUncheckedUpdateWithoutCommentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  stock?: Prisma.IntFieldUpdateOperationsInput | number
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tefaId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requests?: Prisma.RequestUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductCreateManyTefaInput = {
@@ -689,6 +784,7 @@ export type ProductUpdateWithoutTefaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requests?: Prisma.RequestUpdateManyWithoutProductNestedInput
+  comment?: Prisma.CommentUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateWithoutTefaInput = {
@@ -701,6 +797,7 @@ export type ProductUncheckedUpdateWithoutTefaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requests?: Prisma.RequestUncheckedUpdateManyWithoutProductNestedInput
+  comment?: Prisma.CommentUncheckedUpdateManyWithoutProductNestedInput
 }
 
 export type ProductUncheckedUpdateManyWithoutTefaInput = {
@@ -721,10 +818,12 @@ export type ProductUncheckedUpdateManyWithoutTefaInput = {
 
 export type ProductCountOutputType = {
   requests: number
+  comment: number
 }
 
 export type ProductCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requests?: boolean | ProductCountOutputTypeCountRequestsArgs
+  comment?: boolean | ProductCountOutputTypeCountCommentArgs
 }
 
 /**
@@ -744,6 +843,13 @@ export type ProductCountOutputTypeCountRequestsArgs<ExtArgs extends runtime.Type
   where?: Prisma.RequestWhereInput
 }
 
+/**
+ * ProductCountOutputType without action
+ */
+export type ProductCountOutputTypeCountCommentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommentWhereInput
+}
+
 
 export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -757,6 +863,7 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   updatedAt?: boolean
   tefa?: boolean | Prisma.TefaDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.Product$requestsArgs<ExtArgs>
+  comment?: boolean | Prisma.Product$commentArgs<ExtArgs>
   _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["product"]>
 
@@ -802,6 +909,7 @@ export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tefa?: boolean | Prisma.TefaDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.Product$requestsArgs<ExtArgs>
+  comment?: boolean | Prisma.Product$commentArgs<ExtArgs>
   _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProductIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -816,6 +924,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     tefa: Prisma.$TefaPayload<ExtArgs>
     requests: Prisma.$RequestPayload<ExtArgs>[]
+    comment: Prisma.$CommentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1223,6 +1332,7 @@ export interface Prisma__ProductClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tefa<T extends Prisma.TefaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TefaDefaultArgs<ExtArgs>>): Prisma.Prisma__TefaClient<runtime.Types.Result.GetResult<Prisma.$TefaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   requests<T extends Prisma.Product$requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  comment<T extends Prisma.Product$commentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$commentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1678,6 +1788,30 @@ export type Product$requestsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.RequestScalarFieldEnum | Prisma.RequestScalarFieldEnum[]
+}
+
+/**
+ * Product.comment
+ */
+export type Product$commentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Comment
+   */
+  select?: Prisma.CommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Comment
+   */
+  omit?: Prisma.CommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommentInclude<ExtArgs> | null
+  where?: Prisma.CommentWhereInput
+  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
+  cursor?: Prisma.CommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
 }
 
 /**

@@ -41,6 +41,7 @@ export type RequestMinAggregateOutputType = {
   status: string | null
   notes: string | null
   requestedBy: string | null
+  userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +53,7 @@ export type RequestMaxAggregateOutputType = {
   status: string | null
   notes: string | null
   requestedBy: string | null
+  userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -63,6 +65,7 @@ export type RequestCountAggregateOutputType = {
   status: number
   notes: number
   requestedBy: number
+  userId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -84,6 +87,7 @@ export type RequestMinAggregateInputType = {
   status?: true
   notes?: true
   requestedBy?: true
+  userId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -95,6 +99,7 @@ export type RequestMaxAggregateInputType = {
   status?: true
   notes?: true
   requestedBy?: true
+  userId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +111,7 @@ export type RequestCountAggregateInputType = {
   status?: true
   notes?: true
   requestedBy?: true
+  userId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -204,6 +210,7 @@ export type RequestGroupByOutputType = {
   status: string
   notes: string | null
   requestedBy: string | null
+  userId: string
   createdAt: Date
   updatedAt: Date
   _count: RequestCountAggregateOutputType | null
@@ -238,9 +245,11 @@ export type RequestWhereInput = {
   status?: Prisma.StringFilter<"Request"> | string
   notes?: Prisma.StringNullableFilter<"Request"> | string | null
   requestedBy?: Prisma.StringNullableFilter<"Request"> | string | null
+  userId?: Prisma.StringFilter<"Request"> | string
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type RequestOrderByWithRelationInput = {
@@ -250,9 +259,11 @@ export type RequestOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   requestedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type RequestWhereUniqueInput = Prisma.AtLeast<{
@@ -265,9 +276,11 @@ export type RequestWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringFilter<"Request"> | string
   notes?: Prisma.StringNullableFilter<"Request"> | string | null
   requestedBy?: Prisma.StringNullableFilter<"Request"> | string | null
+  userId?: Prisma.StringFilter<"Request"> | string
   createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type RequestOrderByWithAggregationInput = {
@@ -277,6 +290,7 @@ export type RequestOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   requestedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.RequestCountOrderByAggregateInput
@@ -296,6 +310,7 @@ export type RequestScalarWhereWithAggregatesInput = {
   status?: Prisma.StringWithAggregatesFilter<"Request"> | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"Request"> | string | null
   requestedBy?: Prisma.StringNullableWithAggregatesFilter<"Request"> | string | null
+  userId?: Prisma.StringWithAggregatesFilter<"Request"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Request"> | Date | string
 }
@@ -309,6 +324,7 @@ export type RequestCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   product: Prisma.ProductCreateNestedOneWithoutRequestsInput
+  user: Prisma.UserCreateNestedOneWithoutRequestsInput
 }
 
 export type RequestUncheckedCreateInput = {
@@ -318,6 +334,7 @@ export type RequestUncheckedCreateInput = {
   status?: string
   notes?: string | null
   requestedBy?: string | null
+  userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -331,6 +348,7 @@ export type RequestUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneRequiredWithoutRequestsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 export type RequestUncheckedUpdateInput = {
@@ -340,6 +358,7 @@ export type RequestUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -351,6 +370,7 @@ export type RequestCreateManyInput = {
   status?: string
   notes?: string | null
   requestedBy?: string | null
+  userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -372,6 +392,7 @@ export type RequestUncheckedUpdateManyInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -393,6 +414,7 @@ export type RequestCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   requestedBy?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -408,6 +430,7 @@ export type RequestMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   requestedBy?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -419,12 +442,55 @@ export type RequestMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   requestedBy?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type RequestSumOrderByAggregateInput = {
   quantity?: Prisma.SortOrder
+}
+
+export type RequestCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.RequestCreateWithoutUserInput, Prisma.RequestUncheckedCreateWithoutUserInput> | Prisma.RequestCreateWithoutUserInput[] | Prisma.RequestUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.RequestCreateOrConnectWithoutUserInput | Prisma.RequestCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.RequestCreateManyUserInputEnvelope
+  connect?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+}
+
+export type RequestUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.RequestCreateWithoutUserInput, Prisma.RequestUncheckedCreateWithoutUserInput> | Prisma.RequestCreateWithoutUserInput[] | Prisma.RequestUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.RequestCreateOrConnectWithoutUserInput | Prisma.RequestCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.RequestCreateManyUserInputEnvelope
+  connect?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+}
+
+export type RequestUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.RequestCreateWithoutUserInput, Prisma.RequestUncheckedCreateWithoutUserInput> | Prisma.RequestCreateWithoutUserInput[] | Prisma.RequestUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.RequestCreateOrConnectWithoutUserInput | Prisma.RequestCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.RequestUpsertWithWhereUniqueWithoutUserInput | Prisma.RequestUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.RequestCreateManyUserInputEnvelope
+  set?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+  disconnect?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+  delete?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+  connect?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+  update?: Prisma.RequestUpdateWithWhereUniqueWithoutUserInput | Prisma.RequestUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.RequestUpdateManyWithWhereWithoutUserInput | Prisma.RequestUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
+}
+
+export type RequestUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.RequestCreateWithoutUserInput, Prisma.RequestUncheckedCreateWithoutUserInput> | Prisma.RequestCreateWithoutUserInput[] | Prisma.RequestUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.RequestCreateOrConnectWithoutUserInput | Prisma.RequestCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.RequestUpsertWithWhereUniqueWithoutUserInput | Prisma.RequestUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.RequestCreateManyUserInputEnvelope
+  set?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+  disconnect?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+  delete?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+  connect?: Prisma.RequestWhereUniqueInput | Prisma.RequestWhereUniqueInput[]
+  update?: Prisma.RequestUpdateWithWhereUniqueWithoutUserInput | Prisma.RequestUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.RequestUpdateManyWithWhereWithoutUserInput | Prisma.RequestUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
 }
 
 export type RequestCreateNestedManyWithoutProductInput = {
@@ -469,8 +535,20 @@ export type RequestUncheckedUpdateManyWithoutProductNestedInput = {
   deleteMany?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
 }
 
-export type RequestCreateWithoutProductInput = {
+export type RequestCreateWithoutUserInput = {
   id?: string
+  quantity: number
+  status?: string
+  notes?: string | null
+  requestedBy?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  product: Prisma.ProductCreateNestedOneWithoutRequestsInput
+}
+
+export type RequestUncheckedCreateWithoutUserInput = {
+  id?: string
+  productId: string
   quantity: number
   status?: string
   notes?: string | null
@@ -479,12 +557,65 @@ export type RequestCreateWithoutProductInput = {
   updatedAt?: Date | string
 }
 
+export type RequestCreateOrConnectWithoutUserInput = {
+  where: Prisma.RequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.RequestCreateWithoutUserInput, Prisma.RequestUncheckedCreateWithoutUserInput>
+}
+
+export type RequestCreateManyUserInputEnvelope = {
+  data: Prisma.RequestCreateManyUserInput | Prisma.RequestCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type RequestUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.RequestWhereUniqueInput
+  update: Prisma.XOR<Prisma.RequestUpdateWithoutUserInput, Prisma.RequestUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.RequestCreateWithoutUserInput, Prisma.RequestUncheckedCreateWithoutUserInput>
+}
+
+export type RequestUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.RequestWhereUniqueInput
+  data: Prisma.XOR<Prisma.RequestUpdateWithoutUserInput, Prisma.RequestUncheckedUpdateWithoutUserInput>
+}
+
+export type RequestUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.RequestScalarWhereInput
+  data: Prisma.XOR<Prisma.RequestUpdateManyMutationInput, Prisma.RequestUncheckedUpdateManyWithoutUserInput>
+}
+
+export type RequestScalarWhereInput = {
+  AND?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
+  OR?: Prisma.RequestScalarWhereInput[]
+  NOT?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
+  id?: Prisma.StringFilter<"Request"> | string
+  productId?: Prisma.StringFilter<"Request"> | string
+  quantity?: Prisma.IntFilter<"Request"> | number
+  status?: Prisma.StringFilter<"Request"> | string
+  notes?: Prisma.StringNullableFilter<"Request"> | string | null
+  requestedBy?: Prisma.StringNullableFilter<"Request"> | string | null
+  userId?: Prisma.StringFilter<"Request"> | string
+  createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
+}
+
+export type RequestCreateWithoutProductInput = {
+  id?: string
+  quantity: number
+  status?: string
+  notes?: string | null
+  requestedBy?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutRequestsInput
+}
+
 export type RequestUncheckedCreateWithoutProductInput = {
   id?: string
   quantity: number
   status?: string
   notes?: string | null
   requestedBy?: string | null
+  userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -515,18 +646,48 @@ export type RequestUpdateManyWithWhereWithoutProductInput = {
   data: Prisma.XOR<Prisma.RequestUpdateManyMutationInput, Prisma.RequestUncheckedUpdateManyWithoutProductInput>
 }
 
-export type RequestScalarWhereInput = {
-  AND?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
-  OR?: Prisma.RequestScalarWhereInput[]
-  NOT?: Prisma.RequestScalarWhereInput | Prisma.RequestScalarWhereInput[]
-  id?: Prisma.StringFilter<"Request"> | string
-  productId?: Prisma.StringFilter<"Request"> | string
-  quantity?: Prisma.IntFilter<"Request"> | number
-  status?: Prisma.StringFilter<"Request"> | string
-  notes?: Prisma.StringNullableFilter<"Request"> | string | null
-  requestedBy?: Prisma.StringNullableFilter<"Request"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Request"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Request"> | Date | string
+export type RequestCreateManyUserInput = {
+  id?: string
+  productId: string
+  quantity: number
+  status?: string
+  notes?: string | null
+  requestedBy?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type RequestUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  product?: Prisma.ProductUpdateOneRequiredWithoutRequestsNestedInput
+}
+
+export type RequestUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type RequestUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  productId?: Prisma.StringFieldUpdateOperationsInput | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RequestCreateManyProductInput = {
@@ -535,6 +696,7 @@ export type RequestCreateManyProductInput = {
   status?: string
   notes?: string | null
   requestedBy?: string | null
+  userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -547,6 +709,7 @@ export type RequestUpdateWithoutProductInput = {
   requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 export type RequestUncheckedUpdateWithoutProductInput = {
@@ -555,6 +718,7 @@ export type RequestUncheckedUpdateWithoutProductInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -565,6 +729,7 @@ export type RequestUncheckedUpdateManyWithoutProductInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   requestedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -578,9 +743,11 @@ export type RequestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   status?: boolean
   notes?: boolean
   requestedBy?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["request"]>
 
 export type RequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -590,9 +757,11 @@ export type RequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   notes?: boolean
   requestedBy?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["request"]>
 
 export type RequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -602,9 +771,11 @@ export type RequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   notes?: boolean
   requestedBy?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["request"]>
 
 export type RequestSelectScalar = {
@@ -614,25 +785,30 @@ export type RequestSelectScalar = {
   status?: boolean
   notes?: boolean
   requestedBy?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "quantity" | "status" | "notes" | "requestedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["request"]>
+export type RequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "quantity" | "status" | "notes" | "requestedBy" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["request"]>
 export type RequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type RequestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type RequestIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $RequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Request"
   objects: {
     product: Prisma.$ProductPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -641,6 +817,7 @@ export type $RequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     status: string
     notes: string | null
     requestedBy: string | null
+    userId: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["request"]>
@@ -1038,6 +1215,7 @@ readonly fields: RequestFieldRefs;
 export interface Prisma__RequestClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1073,6 +1251,7 @@ export interface RequestFieldRefs {
   readonly status: Prisma.FieldRef<"Request", 'String'>
   readonly notes: Prisma.FieldRef<"Request", 'String'>
   readonly requestedBy: Prisma.FieldRef<"Request", 'String'>
+  readonly userId: Prisma.FieldRef<"Request", 'String'>
   readonly createdAt: Prisma.FieldRef<"Request", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Request", 'DateTime'>
 }

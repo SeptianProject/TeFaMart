@@ -57,3 +57,8 @@ export type Product = Prisma.ProductModel
  * 
  */
 export type Request = Prisma.RequestModel
+/**
+ * Model Comment
+ * 
+ */
+export type Comment = Prisma.CommentModel
