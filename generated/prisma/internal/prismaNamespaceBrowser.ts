@@ -62,7 +62,8 @@ export const ModelName = {
   Auction: 'Auction',
   Bid: 'Bid',
   Request: 'Request',
-  Comment: 'Comment'
+  Comment: 'Comment',
+  Wishlist: 'Wishlist'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -89,6 +90,7 @@ export const UserScalarFieldEnum = {
   password: 'password',
   image: 'image',
   role: 'role',
+  phoneNumber: 'phoneNumber',
   address: 'address',
   city: 'city',
   province: 'province',
@@ -222,7 +224,6 @@ export type BidScalarFieldEnum = (typeof BidScalarFieldEnum)[keyof typeof BidSca
 export const RequestScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
-  auctionId: 'auctionId',
   quantity: 'quantity',
   status: 'status',
   notes: 'notes',
@@ -247,6 +248,16 @@ export const CommentScalarFieldEnum = {
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+export const WishlistScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  productId: 'productId',
+  createdAt: 'createdAt'
+} as const
+
+export type WishlistScalarFieldEnum = (typeof WishlistScalarFieldEnum)[keyof typeof WishlistScalarFieldEnum]
 
 
 export const SortOrder = {

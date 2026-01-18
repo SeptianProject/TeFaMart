@@ -77,3 +77,8 @@ export type Request = Prisma.RequestModel
  * 
  */
 export type Comment = Prisma.CommentModel
+/**
+ * Model Wishlist
+ * 
+ */
+export type Wishlist = Prisma.WishlistModel

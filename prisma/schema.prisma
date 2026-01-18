@@ -14,28 +14,29 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   password      String?
   image         String?
-  role          String    @default("CLIENT") // CLIENT, ADMIN, SUPER_ADMIN, INDUSTRI
+  role          String     @default("CLIENT") // CLIENT, ADMIN, SUPER_ADMIN, INDUSTRI
   phoneNumber   String?
   address       String?
   city          String?
   province      String?
   campusId      String?
-  campus        Campus?   @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  campus        Campus?    @relation(fields: [campusId], references: [id], onDelete: SetNull)
   industryId    String?
-  industry      Industry? @relation(fields: [industryId], references: [id], onDelete: SetNull)
+  industry      Industry?  @relation(fields: [industryId], references: [id], onDelete: SetNull)
   accounts      Account[]
   sessions      Session[]
   comments      Comment[]
   requests      Request[]
+  wishlists     Wishlist[]
   bids          Bid[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 
   @@index([email])
   @@index([campusId])
@@ -114,38 +115,39 @@ model Industry {
 }
 
 model Product {
-  id          String    @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   description String?
   price       Float
-  stock       Int       @default(0)
+  stock       Int        @default(0)
   imageUrl    String?
   category    String?
   saleType    String? // auction, direct
   tefaId      String
-  tefa        Tefa      @relation(fields: [tefaId], references: [id], onDelete: Cascade)
+  tefa        Tefa       @relation(fields: [tefaId], references: [id], onDelete: Cascade)
   requests    Request[]
   comment     Comment[]
   auctions    Auction[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  wishlists   Wishlist[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   @@index([tefaId])
   @@index([name])
 }
 
 model Auction {
-  id         String    @id @default(cuid())
+  id         String   @id @default(cuid())
   productId  String
-  product    Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   startPrice Float
-  currentBid Float     @default(0)
+  currentBid Float    @default(0)
   startTime  DateTime
   endTime    DateTime
-  status     String    @default("coming_soon") // coming soon, active, end, cancelled
+  status     String   @default("coming_soon") // coming soon, active, end, cancelled
   bids       Bid[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([productId])
   @@index([status])
@@ -199,4 +201,17 @@ model Comment {
 
   @@index([productId])
   @@index([userId])
+}
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
 }
