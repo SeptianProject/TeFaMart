@@ -1,0 +1,105 @@
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+
+type SidebarFilterProps = {
+  isMobile?: boolean;
+  onClose?: () => void;
+};
+
+function FilterSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <div className="mb-4">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between text-[14px] font-medium"
+      >
+        {title}
+        <svg
+          className={`h-4 w-4 transition-transform ${
+            open ? "rotate-180" : ""
+          }`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+
+      {open && <div className="mt-2 space-y-2 text-[12px]">{children}</div>}
+    </div>
+  );
+}
+
+function FilterItem({ label }: { label: string }) {
+  return (
+    <label className="flex cursor-pointer items-center gap-2">
+      <Checkbox />
+      {label}
+    </label>
+  );
+}
+
+export default function SidebarFilter({
+  isMobile = false,
+  onClose,
+}: SidebarFilterProps) {
+  return (
+    <div
+      className={`${
+        isMobile
+          ? "rounded-t-2xl bg-white p-5"
+          : "rounded-xl border p-5"
+      }`}
+    >
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-semibold">Filter Produk</h2>
+        {isMobile && (
+          <button
+            onClick={onClose}
+            className="rounded-md p-1 hover:bg-gray-100"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
+      <FilterSection title="Kategori">
+        <FilterItem label="Digital & IT" />
+        <FilterItem label="Manufaktur" />
+        <FilterItem label="Fashion & Tekstil" />
+        <FilterItem label="Kreatif & Media" />
+        <FilterItem label="Tata Boga & Agribisnis" />
+      </FilterSection>
+
+      <FilterSection title="Jenis">
+        <FilterItem label="Pre Order" />
+        <FilterItem label="Lelang" />
+      </FilterSection>
+
+      {isMobile && (
+        <div className="mt-4 flex gap-2">
+          <Button size="sm" className="flex-1">
+            Reset
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
