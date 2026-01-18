@@ -70,6 +70,7 @@ export async function POST(req: Request) {
     const price = Number(body.get("price"));
     const stock = Number(body.get("stock"));
     const image = body.get("imageUrl") as File;
+    const saleType = body.get("saleType") as string;
     let imageUrl = "";
 
     if (image && image.size > 0) {
@@ -110,24 +111,78 @@ export async function POST(req: Request) {
       );
     }
 
-    const newProduct = await prisma.product.create({
-      data: {
-        name,
-        description: description || null,
-        price,
-        stock,
-        imageUrl: imageUrl || null,
-        tefaId: tefa.id,
-      },
-      include: {
-        tefa: {
-          select: {
-            name: true,
-            major: true,
+    let newProduct;
+    if (saleType == "direct") {
+      newProduct = await prisma.product.create({
+        data: {
+          name,
+          description: description || null,
+          price,
+          stock,
+          saleType,
+          imageUrl: imageUrl || null,
+          tefaId: tefa.id,
+        },
+        include: {
+          tefa: {
+            select: {
+              name: true,
+              major: true,
+            },
           },
         },
-      },
-    });
+      });
+
+    } else if (saleType === "auction") {
+      const startTime = body.get("startTime") as string;
+      const endTime = body.get("endTime") as string;
+      if(!startTime || !endTime) {
+        return NextResponse.json({
+          error: "All input is required!"
+        }, { status: 400 });
+      }
+      const startTimeDate = new Date(startTime);
+      const endTimeDate = new Date(endTime);
+      if(startTimeDate >= endTimeDate) {
+        return NextResponse.json({
+          error: "Finish time must be greater than start time!"
+        }, { status: 400 })
+      }
+      newProduct = await prisma.product.create({
+        data: {
+          name,
+          description: description || null,
+          price,
+          stock,
+          saleType,
+          imageUrl: imageUrl || null,
+          tefaId: tefa.id,
+          auctions: {
+            create: {
+              startPrice: price,
+              currentBid: 0,
+              startTime: startTimeDate,
+              endTime: endTimeDate,
+              status: "coming_soon",
+            }
+          },
+        },
+        include: {
+          tefa: {
+            select: {
+              name: true,
+              major: true,
+            },
+          },
+          auctions: true
+        },
+      });
+
+    } else {
+      return NextResponse.json({
+        error: "Sale type is not valid!"
+      }, { status: 400 });
+    }
 
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {

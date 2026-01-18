@@ -317,7 +317,7 @@ export type RequestScalarWhereWithAggregatesInput = {
 
 export type RequestCreateInput = {
   id?: string
-  quantity: number
+  quantity?: number
   status?: string
   notes?: string | null
   requestedBy?: string | null
@@ -330,7 +330,7 @@ export type RequestCreateInput = {
 export type RequestUncheckedCreateInput = {
   id?: string
   productId: string
-  quantity: number
+  quantity?: number
   status?: string
   notes?: string | null
   requestedBy?: string | null
@@ -366,7 +366,7 @@ export type RequestUncheckedUpdateInput = {
 export type RequestCreateManyInput = {
   id?: string
   productId: string
-  quantity: number
+  quantity?: number
   status?: string
   notes?: string | null
   requestedBy?: string | null
@@ -537,7 +537,7 @@ export type RequestUncheckedUpdateManyWithoutProductNestedInput = {
 
 export type RequestCreateWithoutUserInput = {
   id?: string
-  quantity: number
+  quantity?: number
   status?: string
   notes?: string | null
   requestedBy?: string | null
@@ -549,7 +549,7 @@ export type RequestCreateWithoutUserInput = {
 export type RequestUncheckedCreateWithoutUserInput = {
   id?: string
   productId: string
-  quantity: number
+  quantity?: number
   status?: string
   notes?: string | null
   requestedBy?: string | null
@@ -600,7 +600,7 @@ export type RequestScalarWhereInput = {
 
 export type RequestCreateWithoutProductInput = {
   id?: string
-  quantity: number
+  quantity?: number
   status?: string
   notes?: string | null
   requestedBy?: string | null
@@ -611,7 +611,7 @@ export type RequestCreateWithoutProductInput = {
 
 export type RequestUncheckedCreateWithoutProductInput = {
   id?: string
-  quantity: number
+  quantity?: number
   status?: string
   notes?: string | null
   requestedBy?: string | null
@@ -649,7 +649,7 @@ export type RequestUpdateManyWithWhereWithoutProductInput = {
 export type RequestCreateManyUserInput = {
   id?: string
   productId: string
-  quantity: number
+  quantity?: number
   status?: string
   notes?: string | null
   requestedBy?: string | null
@@ -692,7 +692,7 @@ export type RequestUncheckedUpdateManyWithoutUserInput = {
 
 export type RequestCreateManyProductInput = {
   id?: string
-  quantity: number
+  quantity?: number
   status?: string
   notes?: string | null
   requestedBy?: string | null

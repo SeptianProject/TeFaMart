@@ -11,9 +11,6 @@ async function main() {
     create: {
       id: "campus-1",
       name: "Politeknik Negeri Jakarta",
-      address: "Jl. Prof. DR. G.A. Siwabessy, Kampus Baru UI Depok",
-      city: "Depok",
-      province: "Jawa Barat",
     },
   });
 
@@ -23,9 +20,6 @@ async function main() {
     create: {
       id: "campus-2",
       name: "Politeknik Negeri Bandung",
-      address: "Jl. Gegerkalong Hilir, Ds. Ciwaruga",
-      city: "Bandung",
-      province: "Jawa Barat",
     },
   });
 
@@ -61,6 +55,9 @@ async function main() {
       password: hashedPassword,
       role: "ADMIN",
       campusId: campus1.id,
+      address: "Jl. Prof. DR. G.A. Siwabessy, Kampus Baru UI Depok",
+      city: "Depok",
+      province: "Jawa Barat",
     },
   });
 
@@ -77,6 +74,9 @@ async function main() {
       password: hashedPassword,
       role: "ADMIN",
       campusId: campus2.id,
+      address: "Jl. Gegerkalong Hilir, Ds. Ciwaruga",
+      city: "Bandung",
+      province: "Jawa Barat",
     },
   });
 

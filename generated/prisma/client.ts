@@ -70,10 +70,25 @@ export type Campus = Prisma.CampusModel
  */
 export type Tefa = Prisma.TefaModel
 /**
+ * Model Industry
+ * 
+ */
+export type Industry = Prisma.IndustryModel
+/**
  * Model Product
  * 
  */
 export type Product = Prisma.ProductModel
+/**
+ * Model Auction
+ * 
+ */
+export type Auction = Prisma.AuctionModel
+/**
+ * Model Bid
+ * 
+ */
+export type Bid = Prisma.BidModel
 /**
  * Model Request
  * 
@@ -84,3 +99,8 @@ export type Request = Prisma.RequestModel
  * 
  */
 export type Comment = Prisma.CommentModel
+/**
+ * Model Wishlist
+ * 
+ */
+export type Wishlist = Prisma.WishlistModel
