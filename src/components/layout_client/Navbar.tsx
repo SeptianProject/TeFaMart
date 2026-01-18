@@ -9,7 +9,12 @@ export default function Navbar() {
     <nav className="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         <Link href={"/"} className="flex items-center gap-2">
-          <Image src={"/logo-nav-client.png"} width={50} height={50} alt="" />
+          <Image
+            src={"/assets/logo-nav-client.png"}
+            width={50}
+            height={50}
+            alt=""
+          />
           <span className="text-2xl font-bold text-gray-800">T-Mart</span>
         </Link>
         <div className="hidden md:flex flex-1 mx-12 max-w-2xl relative">
