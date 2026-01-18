@@ -214,6 +214,7 @@ async function main() {
     await prisma.request.createMany({
       data: [
         {
+          userId: client.id,
           productId: products[0].id,
           quantity: 1,
           status: "pending",
@@ -221,6 +222,7 @@ async function main() {
           requestedBy: "PT. Tech Indonesia",
         },
         {
+          userId: client.id,
           productId: products[1].id,
           quantity: 2,
           status: "approved",
@@ -228,6 +230,7 @@ async function main() {
           requestedBy: "CV. Digital Solutions",
         },
         {
+          userId: client.id,
           productId: products[2].id,
           quantity: 1,
           status: "pending",
