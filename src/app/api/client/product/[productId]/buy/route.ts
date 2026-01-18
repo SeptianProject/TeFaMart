@@ -13,48 +13,69 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pro
         }
 
         const { productId } = await params;
-        if (!productId) {
-            return NextResponse.json({
-                error: "Product is not found"
-            }, { status: 400 });
-        }
-        const product = await prisma.product.findUnique({
-            where: { id: productId },
-        });
 
         const body = await req.json();
-        const quantity = Number(body.quantity);
-        const { notes, requestedBy } = body;
 
-        if (!quantity || quantity < 1) {
-            return NextResponse.json({
-                error: "Quantity is required"
-            }, { status: 400 });
-        }
+        const quantity = Number(body.quantity) || 1;
+        const notes = body.notes || "-";
 
-        if(!product) {
-            return NextResponse.json({
-                error: "Product is not found"
-            }, { status: 404 });
-        }
-
-        if(product.stock < 1 || product.saleType != "direct" || product.stock < quantity) {
-            return NextResponse.json({
-                error: "Product is not valid"
-            }, { status: 400 });
-        }
-
-        const newRequest = await prisma.request.create({
-            data: {
-                productId,
-                quantity,
-                notes: notes || "",
-                requestedBy: requestedBy || session.user.name,
-                userId: session.user.id
+        const product = await prisma.product.findUnique({
+            where: { id: productId },
+            include: {
+                tefa: {
+                    include: {
+                        campus: true
+                    }
+                }
             }
         });
 
-        return NextResponse.json(newRequest, { status: 201 });
+        if (!product) {
+            return NextResponse.json({
+                error: "Product not found"
+            }, { status: 404 });
+        }
+
+        const admin = await prisma.user.findFirst({
+            where: {
+                campusId: product.tefa.campusId,
+                role: "admin",
+                phoneNumber: {
+                    not: null
+                }
+            }
+        });
+
+        if (admin?.phoneNumber == null) {
+            return NextResponse.json({
+                error: "Admin TEFA not available"
+            }, { status: 400 });
+        }
+
+        let adminPhoneNumber = admin.phoneNumber;
+        if (adminPhoneNumber.startsWith("0")) {
+            adminPhoneNumber = "62" + adminPhoneNumber.slice(1);
+        }
+
+        const totalPrice = product.price * quantity;
+        const formattedPrice = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(totalPrice);
+        const message = [
+            `Halo Admin TEFA *${product.tefa.name}*.`,
+            `Saya *${session.user.name}* ingin memesan produk:`,
+            ``,
+            `📦 *${product.name}*`,
+            `🔢 Qty: ${quantity}`,
+            `💰 Total: ${formattedPrice}`,
+            `📝 Catatan: ${notes}`,
+            ``,
+            `Mohon info ketersediannya. Terimakasih!`
+        ].join('\n');
+        const encodedMessage = encodeURIComponent(message);
+        const waUrl = `https://wa.me/${adminPhoneNumber}?text=${encodedMessage}`;
+
+        return NextResponse.json({
+            url: waUrl,
+        }, { status: 200 });
     } catch (error) {
         console.error("Error creating request: ", error);
         return NextResponse.json({
