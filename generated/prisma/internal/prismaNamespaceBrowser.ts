@@ -57,7 +57,10 @@ export const ModelName = {
   VerificationToken: 'VerificationToken',
   Campus: 'Campus',
   Tefa: 'Tefa',
+  Industry: 'Industry',
   Product: 'Product',
+  Auction: 'Auction',
+  Bid: 'Bid',
   Request: 'Request',
   Comment: 'Comment'
 } as const
@@ -86,7 +89,11 @@ export const UserScalarFieldEnum = {
   password: 'password',
   image: 'image',
   role: 'role',
+  address: 'address',
+  city: 'city',
+  province: 'province',
   campusId: 'campusId',
+  industryId: 'industryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -134,9 +141,6 @@ export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFi
 export const CampusScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  address: 'address',
-  city: 'city',
-  province: 'province',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -157,6 +161,20 @@ export const TefaScalarFieldEnum = {
 export type TefaScalarFieldEnum = (typeof TefaScalarFieldEnum)[keyof typeof TefaScalarFieldEnum]
 
 
+export const IndustryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  sector: 'sector',
+  status: 'status',
+  verifiedAt: 'verifiedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IndustryScalarFieldEnum = (typeof IndustryScalarFieldEnum)[keyof typeof IndustryScalarFieldEnum]
+
+
 export const ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -164,6 +182,8 @@ export const ProductScalarFieldEnum = {
   price: 'price',
   stock: 'stock',
   imageUrl: 'imageUrl',
+  category: 'category',
+  saleType: 'saleType',
   tefaId: 'tefaId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -172,9 +192,37 @@ export const ProductScalarFieldEnum = {
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
 
 
+export const AuctionScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  startPrice: 'startPrice',
+  currentBid: 'currentBid',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AuctionScalarFieldEnum = (typeof AuctionScalarFieldEnum)[keyof typeof AuctionScalarFieldEnum]
+
+
+export const BidScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  userId: 'userId',
+  auctionId: 'auctionId',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type BidScalarFieldEnum = (typeof BidScalarFieldEnum)[keyof typeof BidScalarFieldEnum]
+
+
 export const RequestScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
+  auctionId: 'auctionId',
   quantity: 'quantity',
   status: 'status',
   notes: 'notes',
