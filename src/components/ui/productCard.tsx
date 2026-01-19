@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 import { Wishlist } from "@/components/ui/wishlist";
 
+{/* data dummy*/}
 export type Product = {
   id: number;
   title: string;
@@ -17,19 +19,20 @@ type ProductCardProps = {
   onToggleWishlist: (id: number) => void;
 };
 
+{/* product */}
 export function ProductCard({
   product,
   isWishlisted,
   onToggleWishlist,
 }: ProductCardProps) {
   return (
-    <div className="group overflow-hidden rounded-lg border bg-white hover:shadow-md transition">
-      {/* img */}
+    <div className="group overflow-hidden rounded-lg border bg-white transition hover:shadow-md">
+      {/* IMAGE */}
       <div className="relative h-[160px] lg:h-[200px] overflow-hidden">
         {/* wishlist */}
         <button
           onClick={() => onToggleWishlist(product.id)}
-          className="absolute top-2 right-2 z-10 bg-white/90 rounded-full p-1.5 shadow"
+          className="absolute right-2 top-2 z-10 rounded-full bg-white/90 p-1.5 shadow"
         >
           <Wishlist active={isWishlisted} />
         </button>
@@ -41,39 +44,79 @@ export function ProductCard({
           className="object-cover"
         />
 
-        {/* hover price (desktop) */}
+        {/* harga hover (dekstoop) */}
         <div
           className="
-            hidden lg:flex
             absolute bottom-0 left-0 right-0
-            bg-blue-700/60 text-white
-            text-sm font-semibold
-            px-3 py-2
-            translate-y-full opacity-0
-            group-hover:translate-y-0
-            group-hover:opacity-100
+            hidden translate-y-full bg-blue-700/70
+            px-3 py-2 text-sm font-semibold text-white opacity-0
             transition-all duration-300
+            group-hover:translate-y-0 group-hover:opacity-100
+            lg:flex
           "
         >
           {product.price}
         </div>
       </div>
 
-      {/* content */}
-      <div className="p-2 space-y-1">
-        <h3 className="text-[13px] font-medium line-clamp-2">
+      {/* CONTENT */}
+      <div className="space-y-1 p-2">
+        <h3 className="line-clamp-2 text-[13px] font-medium">
           {product.title}
         </h3>
 
-        {/* mobile price */}
-        <p className="text-[13px] font-semibold lg:hidden">
-          {product.price}
-        </p>
+        {/* HARGA MOBILE */}
+        <p className="text-[13px] font-semibold lg:hidden">{product.price}</p>
 
-        <p className="text-[11px] text-gray-500">
-          {product.category}
-        </p>
+        <p className="text-[11px] text-gray-500">{product.category}</p>
       </div>
+    </div>
+  );
+}
+
+{/* pagination */ }
+export function ProductPagination() {
+  return (
+    <div className="flex justify-center items-center gap-1 pt-6">
+      <Button variant="ghost" size="icon" className="h-9 w-9 p-0">
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </Button>
+
+      {[1, 2, 3, 4, 5].map((p) => (
+        <Button
+          key={p}
+          size="sm"
+          variant={p === 1 ? "default" : "outline"}
+          className="h-9 w-9 p-0"
+        >
+          {p}
+        </Button>
+      ))}
+
+      {/* next */}
+      <Button variant="ghost" size="icon" className="h-9 w-9 p-0">
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </Button>
     </div>
   );
 }
