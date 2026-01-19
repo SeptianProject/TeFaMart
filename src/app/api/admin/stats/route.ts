@@ -15,29 +15,20 @@ export async function GET() {
     if (!session.user.campusId) {
       return NextResponse.json(
         { error: "No campus associated with this admin" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    const [totalTefa, totalProducts, pendingRequests, approvedRequests] =
-      await Promise.all([
-        prisma.tefa.count({ where: { campusId: session.user.campusId } }),
-        prisma.product.count({
-          where: { tefa: { campusId: session.user.campusId } },
-        }),
-        prisma.request.count({
-          where: {
-            product: { tefa: { campusId: session.user.campusId } },
-            status: "PENDING",
-          },
-        }),
-        prisma.request.count({
-          where: {
-            product: { tefa: { campusId: session.user.campusId } },
-            status: "APPROVED",
-          },
-        }),
-      ]);
+    const [totalTefa, totalProducts] = await Promise.all([
+      prisma.tefa.count({ where: { campusId: session.user.campusId } }),
+      prisma.product.count({
+        where: { tefa: { campusId: session.user.campusId } },
+      }),
+    ]);
+
+    // TODO: Implement Request model in Prisma schema
+    const pendingRequests = 0;
+    const approvedRequests = 0;
 
     return NextResponse.json({
       totalTefa,
@@ -49,7 +40,7 @@ export async function GET() {
     console.error("Error fetching stats:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
