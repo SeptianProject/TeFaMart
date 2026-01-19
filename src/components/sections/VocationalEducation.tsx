@@ -31,6 +31,7 @@ const VocationalEducation = () => {
 
   return (
     <section className="mb-40">
+      <h2 >Pendidikan Vokasi Terdaftar</h2>
       <div className="flex gap-10 w-full translate-x-20">
         {data.map((item, index) => (
           <div

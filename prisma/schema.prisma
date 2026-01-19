@@ -36,6 +36,7 @@ model User {
   bids          Bid[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+  requests      Request[]
 
   @@index([email])
   @@index([campusId])
@@ -129,9 +130,24 @@ model Product {
   wishlists   Wishlist[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  requests    Request[]
 
   @@index([tefaId])
   @@index([name])
+}
+
+model Request {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    String   @default("pending") // pending, success, cancelled
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([productId])
 }
 
 model Auction {
