@@ -1,14 +1,12 @@
 "use client";
 
-<<<<<<< HEAD
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-=======
 import Image, { StaticImageData } from "next/image";
->>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140
+import { Button } from "@/components/ui/button";
 import { Wishlist } from "@/components/ui/wishlist";
 
-{/* data dummy*/}
+{
+  /* data dummy*/
+}
 export type Product = {
   id: number;
   title: string;
@@ -24,7 +22,9 @@ type ProductCardProps = {
   onToggleWishlist: (id: number) => void;
 };
 
-{/* product */}
+{
+  /* product */
+}
 export function ProductCard({
   product,
   isSidebar,
@@ -32,25 +32,14 @@ export function ProductCard({
   onToggleWishlist,
 }: ProductCardProps) {
   return (
-<<<<<<< HEAD
     <div className="group overflow-hidden rounded-lg border bg-white transition hover:shadow-md">
       {/* IMAGE */}
-      <div className="relative h-[160px] lg:h-[200px] overflow-hidden">
-        {/* wishlist */}
-        <button
-          onClick={() => onToggleWishlist(product.id)}
-          className="absolute right-2 top-2 z-10 rounded-full bg-white/90 p-1.5 shadow"
-        >
-=======
-    <div className="group overflow-hidden rounded-lg border bg-white hover:shadow-md transition">
-      {/* img */}
       <div
         className={`relative h-40 lg:h-50 ${isSidebar ? "h-50 lg:h-70" : ""} overflow-hidden`}>
         {/* wishlist */}
         <button
           onClick={() => onToggleWishlist(product.id)}
-          className="absolute top-2 right-2 z-10 bg-white/90 rounded-full p-1.5 shadow">
->>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140
+          className="absolute right-2 top-2 z-10 rounded-full bg-white/90 p-1.5 shadow">
           <Wishlist active={isWishlisted} />
         </button>
 
@@ -68,14 +57,9 @@ export function ProductCard({
             hidden translate-y-full bg-blue-700/70
             px-3 py-2 text-sm font-semibold text-white opacity-0
             transition-all duration-300
-<<<<<<< HEAD
             group-hover:translate-y-0 group-hover:opacity-100
             lg:flex
-          "
-        >
-=======
           ">
->>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140
           {product.price}
         </div>
       </div>
@@ -86,11 +70,7 @@ export function ProductCard({
           {product.title}
         </h3>
 
-<<<<<<< HEAD
         {/* HARGA MOBILE */}
-=======
-        {/* mobile price */}
->>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140
         <p className="text-[13px] font-semibold lg:hidden">{product.price}</p>
 
         <p className="text-[11px] text-gray-500">{product.category}</p>
@@ -98,9 +78,10 @@ export function ProductCard({
     </div>
   );
 }
-<<<<<<< HEAD
 
-{/* pagination */ }
+{
+  /* pagination */
+}
 export function ProductPagination() {
   return (
     <div className="flex justify-center items-center gap-1 pt-6">
@@ -110,8 +91,7 @@ export function ProductPagination() {
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
+          viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -125,8 +105,7 @@ export function ProductPagination() {
           key={p}
           size="sm"
           variant={p === 1 ? "default" : "outline"}
-          className="h-9 w-9 p-0"
-        >
+          className="h-9 w-9 p-0">
           {p}
         </Button>
       ))}
@@ -138,13 +117,10 @@ export function ProductPagination() {
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
+          viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </Button>
     </div>
   );
 }
-=======
->>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140
