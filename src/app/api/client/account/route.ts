@@ -106,12 +106,12 @@ export async function PUT(req: NextRequest) {
         const updateUser = await prisma.user.update({
             where: { id: session.user.id },
             data: {
-                name,
-                image: imageUrl,
-                phoneNumber,
-                address,
-                city,
-                province
+                name: name ?? getUser?.name,
+                image: imageUrl ?? getUser?.image,
+                phoneNumber: phoneNumber ?? getUser?.phoneNumber,
+                address: address ?? getUser?.address,
+                city: city ?? getUser?.city,
+                province: province ?? getUser?.province
             }, 
             select: {
                 name: true,
