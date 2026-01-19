@@ -72,7 +72,8 @@ function LoginForm() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      await signIn("google", { callbackUrl: "/" });
+      // Biarkan auth callback yang menentukan redirect berdasarkan role
+      await signIn("google");
     } catch (error) {
       setError("Terjadi kesalahan saat login dengan Google");
       setIsLoading(false);

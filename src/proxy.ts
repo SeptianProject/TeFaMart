@@ -12,29 +12,57 @@ export default withAuth(
       path.startsWith("/auth/register") ||
       path === "/api/auth";
 
-    if (token && isPublicRoute) {
+    // Redirect admin/super-admin dari public routes ke dashboard mereka
+    if (token && isPublicRoute && path !== "/") {
       const role = token.role as string;
 
       if (role === "SUPER_ADMIN") {
         return NextResponse.redirect(
-          new URL("/dashboard/super-admin", req.url)
+          new URL("/dashboard/super-admin", req.url),
         );
       } else if (role === "ADMIN") {
         return NextResponse.redirect(new URL("/dashboard/admin", req.url));
-      } else {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
       }
+      // USER biasa biarkan akses auth pages, akan di-redirect otomatis oleh NextAuth
+    }
+
+    // Redirect admin/super-admin dari homepage ke dashboard mereka
+    if (token && path === "/") {
+      const role = token.role as string;
+
+      if (role === "SUPER_ADMIN") {
+        return NextResponse.redirect(
+          new URL("/dashboard/super-admin", req.url),
+        );
+      } else if (role === "ADMIN") {
+        return NextResponse.redirect(new URL("/dashboard/admin", req.url));
+      }
+      // USER biasa biarkan akses homepage
     }
 
     if (token) {
       const role = token.role as string;
 
+      // Redirect non-super-admin dari halaman super-admin ke homepage atau dashboard mereka
       if (path.startsWith("/dashboard/super-admin") && role !== "SUPER_ADMIN") {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        return NextResponse.redirect(
+          new URL(role === "ADMIN" ? "/dashboard/admin" : "/", req.url),
+        );
       }
 
+      // Redirect non-admin dari halaman admin ke homepage atau dashboard mereka
       if (path.startsWith("/dashboard/admin") && role !== "ADMIN") {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        return NextResponse.redirect(
+          new URL(
+            role === "SUPER_ADMIN" ? "/dashboard/super-admin" : "/",
+            req.url,
+          ),
+        );
+      }
+
+      // Redirect USER dari /dashboard ke homepage
+      if (path === "/dashboard" && role === "USER") {
+        return NextResponse.redirect(new URL("/", req.url));
       }
     }
 
@@ -57,7 +85,7 @@ export default withAuth(
         return !!token;
       },
     },
-  }
+  },
 );
 
 export const config = {

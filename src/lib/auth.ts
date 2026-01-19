@@ -86,14 +86,8 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async redirect({ url, baseUrl }) {
-      // Menghandle redirect setelah login/logout
-      // Jika callback URL adalah baseUrl atau root, redirect berdasarkan role
-      if (url === baseUrl || url === `${baseUrl}/`) {
-        return `${baseUrl}/auth/login`;
-      }
-
-      // Jika URL dimulai dengan baseUrl, gunakan URL tersebut
-      if (url.startsWith(baseUrl)) {
+      // Jika URL sudah spesifik (bukan baseUrl atau root), gunakan URL tersebut
+      if (url.startsWith(baseUrl) && url !== baseUrl && url !== `${baseUrl}/`) {
         return url;
       }
 
@@ -102,6 +96,7 @@ export const authOptions: NextAuthOptions = {
         return `${baseUrl}${url}`;
       }
 
+      // Default ke homepage
       return baseUrl;
     },
   },

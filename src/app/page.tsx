@@ -7,8 +7,20 @@ import PopularProduct from "@/components/sections/PopularProduct";
 import ProductCategory from "@/components/sections/ProductCategory";
 import ProductAuction from "@/components/sections/ProductAuction";
 import VocationalEducation from "@/components/sections/VocationalEducation";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProducts } from "@/lib/api/products";
+import { useEffect } from "react";
 
 const HomePage = () => {
+  const { data: products, isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => fetchProducts(),
+  });
+
+  useEffect(() => {
+    console.log("Fetched products:", products);
+  }, [products]);
+
   return (
     <>
       <Navbar />
@@ -17,7 +29,7 @@ const HomePage = () => {
         <HeroSection />
 
         {/* Popular Product */}
-        <PopularProduct />
+        <PopularProduct products={products} />
 
         {/* Product Category */}
         <ProductCategory />

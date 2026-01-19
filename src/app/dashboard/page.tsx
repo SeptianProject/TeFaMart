@@ -46,10 +46,5 @@ export default function DashboardPage() {
     );
   }
 
-  // If CLIENT role, show dashboard content
-  if (session?.user?.role === Role.CLIENT) {
-    return <HomePage />;
-  }
-
   return null;
 }

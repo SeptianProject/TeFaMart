@@ -82,7 +82,20 @@ const RegisterPage = () => {
         setError("Registrasi berhasil, silakan login");
         router.push("/auth/login");
       } else {
-        router.push("/dashboard");
+        // Fetch session untuk mendapatkan role
+        const response = await fetch("/api/auth/session");
+        const session = await response.json();
+
+        // Redirect berdasarkan role
+        const role = session?.user?.role;
+        const redirectPath =
+          role === "SUPER_ADMIN"
+            ? "/dashboard/super-admin"
+            : role === "ADMIN"
+              ? "/dashboard/admin"
+              : "/"; // Homepage untuk user biasa
+
+        router.push(redirectPath);
         router.refresh();
       }
     } catch (error: any) {
@@ -95,7 +108,8 @@ const RegisterPage = () => {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      await signIn("google", { callbackUrl: "/dashboard" });
+      // Biarkan auth callback yang menentukan redirect berdasarkan role
+      await signIn("google");
     } catch (error) {
       setError("Terjadi kesalahan saat login dengan Google");
       setIsLoading(false);
@@ -190,7 +204,7 @@ const RegisterPage = () => {
                 </div>
               </div>
 
-               <div className="text-muted-foreground text-sm">
+              <div className="text-muted-foreground text-sm">
                 <p>
                   Sudah punya akun?
                   <a href="/auth/login" className="text-accent">
@@ -219,13 +233,11 @@ const RegisterPage = () => {
                 variant="outline"
                 onClick={handleGoogleSignIn}
                 disabled={isLoading}
-                className="w-full rounded-full"
-              >
+                className="w-full rounded-full">
                 <svg
                   className="w-5 h-5 mr-2 rounded-full"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                  xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                     fill="#4285F4"
