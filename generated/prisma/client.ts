@@ -90,11 +90,6 @@ export type Auction = Prisma.AuctionModel
  */
 export type Bid = Prisma.BidModel
 /**
- * Model Request
- * 
- */
-export type Request = Prisma.RequestModel
-/**
  * Model Comment
  * 
  */

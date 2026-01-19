@@ -100,8 +100,9 @@ export async function PUT(
     const name = body.get("name") as string;
     const description = body.get("description") as string;
     const price = parseFloat(body.get("price") as string);
-    const stock = parseFloat(body.get("stock") as string);
-    if (!name || isNaN(price) || isNaN(stock)) {
+    const isAvailable = body.get("isAvailable") as string;
+    const saleType = body.get("saleType") as string;
+    if (!name || isNaN(price)) {
       return NextResponse.json(
         { error: "Name, price, and stock are required" },
         { status: 400 }
@@ -145,10 +146,11 @@ export async function PUT(
     const updateProduct = await prisma.product.update({
       where: { id },
       data: {
-        name,
-        description: description || null,
-        price,
-        stock,
+        name: name ?? product.name,
+        description: description ?? product.description ?? null,
+        price: price ?? product.price ?? 0,
+        isAvailable: isAvailable ?? product.isAvailable,
+        saleType: saleType ?? product.saleType,
         imageUrl: imageUrl || null,
       },
       include: {

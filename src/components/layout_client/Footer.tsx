@@ -2,6 +2,8 @@ import Link from "next/link";
 import { CardFooter } from "../ui/card";
 
 export default function Footer() {
+  const date = new Date().getFullYear();
+
   return (
     <CardFooter className="bg-gray-50 pt-16 pb-8 mt-20 border-t border-gray-100">
       <div className="container mx-auto px-6">
@@ -32,8 +34,7 @@ export default function Footer() {
                 <li key={item}>
                   <Link
                     href={"#"}
-                    className="text-gray-500 hover:text-blue-600 transition-colors"
-                  >
+                    className="text-gray-500 hover:text-blue-600 transition-colors">
                     {item}
                   </Link>
                 </li>
@@ -47,8 +48,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="#"
-                  className="text-gray-500 hover:text-blue-600 transition-colors"
-                >
+                  className="text-gray-500 hover:text-blue-600 transition-colors">
                   Hubungi Kami
                 </Link>
               </li>
@@ -57,7 +57,7 @@ export default function Footer() {
         </div>
         <div className="border-t border-gray-400 pt-8 text-center md:text-left">
           <p className="text-gray-400 text-sm">
-            © 2026 TeFaMart. All Rights Reserved.
+            © {date} TeFaMart. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -61,7 +61,6 @@ export const ModelName = {
   Product: 'Product',
   Auction: 'Auction',
   Bid: 'Bid',
-  Request: 'Request',
   Comment: 'Comment',
   Wishlist: 'Wishlist'
 } as const
@@ -182,7 +181,7 @@ export const ProductScalarFieldEnum = {
   name: 'name',
   description: 'description',
   price: 'price',
-  stock: 'stock',
+  isAvailable: 'isAvailable',
   imageUrl: 'imageUrl',
   category: 'category',
   saleType: 'saleType',
@@ -219,21 +218,6 @@ export const BidScalarFieldEnum = {
 } as const
 
 export type BidScalarFieldEnum = (typeof BidScalarFieldEnum)[keyof typeof BidScalarFieldEnum]
-
-
-export const RequestScalarFieldEnum = {
-  id: 'id',
-  productId: 'productId',
-  quantity: 'quantity',
-  status: 'status',
-  notes: 'notes',
-  requestedBy: 'requestedBy',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type RequestScalarFieldEnum = (typeof RequestScalarFieldEnum)[keyof typeof RequestScalarFieldEnum]
 
 
 export const CommentScalarFieldEnum = {

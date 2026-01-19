@@ -13,7 +13,8 @@ interface Product {
   name: string;
   description: string | null;
   price: number;
-  stock: number;
+  isAvailable: string;
+  saleType: string;
   imageUrl: string | null;
   tefaId: string;
   tefa: {
@@ -30,7 +31,7 @@ export default function ProductsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "edit">("create");
   const [selectedTefa, setSelectedTefa] = useState<ProductFormData | null>(
-    null
+    null,
   );
   const { showSuccess, showError, showConfirm, AlertComponent } = useAlert();
 
@@ -64,7 +65,8 @@ export default function ProductsPage() {
       id: product.id,
       name: product.name,
       price: product.price,
-      stock: product.stock,
+      isAvailable: product.isAvailable,
+      saleType: product.saleType,
       description: product.description || "",
       imageUrl: product.imageUrl,
     });
@@ -77,7 +79,8 @@ export default function ProductsPage() {
         const formData = new FormData();
         formData.append("name", data.name);
         formData.append("description", data.description);
-        formData.append("stock", data.stock.toString());
+        formData.append("isAvailable", data.isAvailable);
+        formData.append("saleType", data.saleType);
         formData.append("price", data.price.toString());
         if (data.imageUrl && typeof data.imageUrl === "object") {
           formData.append("imageUrl", data.imageUrl);
@@ -101,7 +104,8 @@ export default function ProductsPage() {
         const formData = new FormData();
         formData.append("name", data.name);
         formData.append("description", data.description);
-        formData.append("stock", data.stock.toString());
+        formData.append("isAvailable", data.isAvailable);
+        formData.append("saleType", data.saleType);
         formData.append("price", data.price.toString());
         if (data.imageUrl && typeof data.imageUrl === "object") {
           formData.append("imageUrl", data.imageUrl);
@@ -116,8 +120,8 @@ export default function ProductsPage() {
           const updateProduct = await response.json();
           setProducts(
             products.map((product) =>
-              product.id === updateProduct.id ? updateProduct : product
-            )
+              product.id === updateProduct.id ? updateProduct : product,
+            ),
           );
           showSuccess("Product berhasil diperbarui", "Berhasil", 3000);
           setIsModalOpen(false);
@@ -137,7 +141,7 @@ export default function ProductsPage() {
       "Apakah Anda yakin ingin menghapus product ini? Tindakan ini tidak dapat dibatalkan.",
       "Konfirmasi Hapus",
       "Hapus",
-      "Batal"
+      "Batal",
     );
 
     if (!confirmed) return;
@@ -167,7 +171,7 @@ export default function ProductsPage() {
     (product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.tefa.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.tefa.major.toLowerCase().includes(searchTerm.toLowerCase())
+      product.tefa.major.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const formatCurrency = (value: number) => {
@@ -226,6 +230,9 @@ export default function ProductsPage() {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Stok
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Jenis
                 </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Aksi
@@ -298,14 +305,27 @@ export default function ProductsPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
                           className={`px-2 py-1 text-xs font-medium rounded-full ${
-                            product.stock > 10
+                            product.isAvailable == "Tersedia"
                               ? "bg-green-100 text-green-800"
-                              : product.stock > 0
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
+                              : product.isAvailable == "Tidak Tersedia"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-red-100 text-red-800"
                           }`}
                         >
-                          {product.stock} unit
+                          {product.isAvailable}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            product.saleType == "direct"
+                              ? "bg-green-100 text-green-800"
+                              : product.saleType == "auction"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {product.saleType == "direct" ? "Massal" : product.saleType == "auction" ? "Lelang" : "Tidak Diketahui"}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

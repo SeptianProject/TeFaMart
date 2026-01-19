@@ -1,7 +1,11 @@
 "use client";
 
+<<<<<<< HEAD
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+=======
+import Image, { StaticImageData } from "next/image";
+>>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140
 import { Wishlist } from "@/components/ui/wishlist";
 
 {/* data dummy*/}
@@ -10,22 +14,25 @@ export type Product = {
   title: string;
   category: string;
   price: string;
-  image: string;
+  image: string | StaticImageData;
 };
 
 type ProductCardProps = {
   product: Product;
   isWishlisted: boolean;
+  isSidebar?: boolean;
   onToggleWishlist: (id: number) => void;
 };
 
 {/* product */}
 export function ProductCard({
   product,
+  isSidebar,
   isWishlisted,
   onToggleWishlist,
 }: ProductCardProps) {
   return (
+<<<<<<< HEAD
     <div className="group overflow-hidden rounded-lg border bg-white transition hover:shadow-md">
       {/* IMAGE */}
       <div className="relative h-[160px] lg:h-[200px] overflow-hidden">
@@ -34,6 +41,16 @@ export function ProductCard({
           onClick={() => onToggleWishlist(product.id)}
           className="absolute right-2 top-2 z-10 rounded-full bg-white/90 p-1.5 shadow"
         >
+=======
+    <div className="group overflow-hidden rounded-lg border bg-white hover:shadow-md transition">
+      {/* img */}
+      <div
+        className={`relative h-40 lg:h-50 ${isSidebar ? "h-50 lg:h-70" : ""} overflow-hidden`}>
+        {/* wishlist */}
+        <button
+          onClick={() => onToggleWishlist(product.id)}
+          className="absolute top-2 right-2 z-10 bg-white/90 rounded-full p-1.5 shadow">
+>>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140
           <Wishlist active={isWishlisted} />
         </button>
 
@@ -51,10 +68,14 @@ export function ProductCard({
             hidden translate-y-full bg-blue-700/70
             px-3 py-2 text-sm font-semibold text-white opacity-0
             transition-all duration-300
+<<<<<<< HEAD
             group-hover:translate-y-0 group-hover:opacity-100
             lg:flex
           "
         >
+=======
+          ">
+>>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140
           {product.price}
         </div>
       </div>
@@ -65,7 +86,11 @@ export function ProductCard({
           {product.title}
         </h3>
 
+<<<<<<< HEAD
         {/* HARGA MOBILE */}
+=======
+        {/* mobile price */}
+>>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140
         <p className="text-[13px] font-semibold lg:hidden">{product.price}</p>
 
         <p className="text-[11px] text-gray-500">{product.category}</p>
@@ -73,6 +98,7 @@ export function ProductCard({
     </div>
   );
 }
+<<<<<<< HEAD
 
 {/* pagination */ }
 export function ProductPagination() {
@@ -120,3 +146,5 @@ export function ProductPagination() {
     </div>
   );
 }
+=======
+>>>>>>> 4929c04bc7b46d943ad589cb6cbb4f6800ada140

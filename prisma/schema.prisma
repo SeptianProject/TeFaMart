@@ -32,7 +32,6 @@ model User {
   accounts      Account[]
   sessions      Session[]
   comments      Comment[]
-  requests      Request[]
   wishlists     Wishlist[]
   bids          Bid[]
   createdAt     DateTime   @default(now())
@@ -119,13 +118,12 @@ model Product {
   name        String
   description String?
   price       Float
-  stock       Int        @default(0)
+  isAvailable String     @default("Tersedia") // Tersedia, Tidak Tersedia
   imageUrl    String?
   category    String?
   saleType    String? // auction, direct
   tefaId      String
   tefa        Tefa       @relation(fields: [tefaId], references: [id], onDelete: Cascade)
-  requests    Request[]
   comment     Comment[]
   auctions    Auction[]
   wishlists   Wishlist[]
@@ -165,24 +163,6 @@ model Bid {
 
   @@index([userId])
   @@index([auctionId])
-}
-
-model Request {
-  id          String   @id @default(cuid())
-  productId   String
-  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  quantity    Int      @default(1)
-  status      String   @default("pending") // pending, approved, rejected, completed
-  notes       String?
-  requestedBy String?
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([productId])
-  @@index([userId])
-  @@index([status])
 }
 
 model Comment {
