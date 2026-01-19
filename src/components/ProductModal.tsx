@@ -14,9 +14,10 @@ export interface ProductFormData {
      name: string;
      description: string;
      price: number;
-     stock: number;
+     isAvailable: string;
      imageUrl?: File | string | null;
-     [key: string]: string | number | File | null | undefined;
+     saleType: string;
+     [key: string]: string | number | File | null | boolean | undefined;
 }
 
 const ProductModal: FC<ProductModalProps> = ({
@@ -49,12 +50,36 @@ const ProductModal: FC<ProductModalProps> = ({
                min: 1,
           },
           {
-               name: "stock",
-               label: "Stok",
-               type: "number",
-               placeholder: "Contoh: 100",
+               name: "isAvailable",
+               label: "Ketersediaan",
+               type: "select",
                required: true,
-               min: 0,
+               options: [
+                    {
+                         label: "Tersedia",
+                         value: "Tersedia"
+                    }, 
+                    {
+                         label: "Tidak Tersedia",
+                         value: "Tidak Tersedia"
+                    }
+               ]
+          },
+          {
+               name: "saleType",
+               label: "Jenis Penjualan",
+               type: "select",
+               required: true,
+               options: [
+                    {
+                         label: "Massal",
+                         value: "direct"
+                    },
+                    {
+                         label: "Lelang",
+                         value: "auction"
+                    }
+               ]
           },
           {
                name: "description",

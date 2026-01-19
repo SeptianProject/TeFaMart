@@ -146,49 +146,49 @@ async function main() {
       name: "Website Company Profile",
       description: "Pembuatan website company profile profesional",
       price: 5000000,
-      stock: 10,
+      isAvailable: "Tersedia",
       tefaId: tefa1.id,
     },
     {
       name: "Aplikasi Mobile Android",
       description: "Pengembangan aplikasi mobile berbasis Android",
       price: 15000000,
-      stock: 5,
+      isAvailable: "Tersedia",
       tefaId: tefa1.id,
     },
     {
       name: "Sistem Informasi Manajemen",
       description: "Pembuatan sistem informasi manajemen terintegrasi",
       price: 25000000,
-      stock: 3,
+      isAvailable: "Tersedia",
       tefaId: tefa1.id,
     },
     {
       name: "Mesin CNC Custom",
       description: "Pembuatan mesin CNC sesuai kebutuhan",
       price: 50000000,
-      stock: 2,
+      isAvailable: "Tersedia",
       tefaId: tefa2.id,
     },
     {
       name: "Komponen Mesin Presisi",
       description: "Produksi komponen mesin dengan presisi tinggi",
       price: 2000000,
-      stock: 20,
+      isAvailable: "Tersedia",
       tefaId: tefa2.id,
     },
     {
       name: "Panel Listrik Industri",
       description: "Pembuatan panel listrik untuk industri",
       price: 8000000,
-      stock: 8,
+      isAvailable: "Tersedia",
       tefaId: tefa3.id,
     },
     {
       name: "Sistem Kontrol Otomatis",
       description: "Instalasi sistem kontrol otomatis berbasis PLC",
       price: 12000000,
-      stock: 4,
+      isAvailable: "Tersedia",
       tefaId: tefa3.id,
     },
   ];
@@ -203,45 +203,6 @@ async function main() {
     console.log("✅ Products created");
   } else {
     console.log("✅ Products already exist, skipping...");
-  }
-
-  const products = await prisma.product.findMany({ take: 3 });
-
-  // Check if requests already exist
-  const existingRequests = await prisma.request.count();
-
-  if (existingRequests === 0 && products.length >= 3) {
-    await prisma.request.createMany({
-      data: [
-        {
-          userId: client.id,
-          productId: products[0].id,
-          quantity: 1,
-          status: "pending",
-          notes: "Mohon segera diproses",
-          requestedBy: "PT. Tech Indonesia",
-        },
-        {
-          userId: client.id,
-          productId: products[1].id,
-          quantity: 2,
-          status: "approved",
-          notes: "Approved by admin",
-          requestedBy: "CV. Digital Solutions",
-        },
-        {
-          userId: client.id,
-          productId: products[2].id,
-          quantity: 1,
-          status: "pending",
-          notes: "Ingin melakukan pemesanan",
-          requestedBy: "PT. Innovation Labs",
-        },
-      ],
-    });
-    console.log("✅ Requests created");
-  } else {
-    console.log("✅ Requests already exist, skipping...");
   }
 
   console.log("\n🎉 Seeding completed!");

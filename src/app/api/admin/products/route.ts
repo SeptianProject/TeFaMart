@@ -68,7 +68,7 @@ export async function POST(req: Request) {
     const name = body.get("name") as string;
     const description = body.get("description") as string;
     const price = Number(body.get("price"));
-    const stock = Number(body.get("stock"));
+    const isAvailable = body.get("isAvailable") as string;
     const image = body.get("imageUrl") as File;
     const saleType = body.get("saleType") as string;
     let imageUrl = "";
@@ -93,7 +93,7 @@ export async function POST(req: Request) {
       }
     }
 
-    if (!name || !price || !stock) {
+    if (!name || !price) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -118,7 +118,7 @@ export async function POST(req: Request) {
           name,
           description: description || null,
           price,
-          stock,
+          isAvailable,
           saleType,
           imageUrl: imageUrl || null,
           tefaId: tefa.id,
@@ -153,7 +153,7 @@ export async function POST(req: Request) {
           name,
           description: description || null,
           price,
-          stock,
+          isAvailable,
           saleType,
           imageUrl: imageUrl || null,
           tefaId: tefa.id,
@@ -181,7 +181,7 @@ export async function POST(req: Request) {
     } else {
       return NextResponse.json({
         error: "Sale type is not valid!"
-      }, { status: 400 });
+      }, { status: 401 });
     }
 
     return NextResponse.json(newProduct, { status: 201 });

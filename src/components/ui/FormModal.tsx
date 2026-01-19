@@ -33,7 +33,7 @@ export interface FormField<T = Record<string, unknown>> {
      max?: number;
      rows?: number;
      accept?: string;
-     options?: { value: string | number; label: string }[];
+     options?: { value: string | number | boolean; label: string }[];
      validation?: (value: unknown) => string | undefined;
 }
 
@@ -235,7 +235,7 @@ export default function FormModal<T extends Record<string, unknown> = Record<str
                               <SelectContent>
                                    {field.options?.map((option) => (
                                         <SelectItem
-                                             key={option.value}
+                                             key={option.label}
                                              value={String(option.value)}
                                         >
                                              {option.label}
