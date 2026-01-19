@@ -4,7 +4,6 @@
 import React, { memo, useState, useEffect, Suspense } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,12 +29,17 @@ function LoginForm() {
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       const role = session.user.role;
+      console.log("User authenticated with role:", role);
+      console.log("Full session:", session);
       const redirectPath =
-        role === "SUPER_ADMIN"
-          ? "/dashboard/super-admin"
-          : role === "ADMIN"
-          ? "/dashboard/admin"
-          : "/dashboard";
+        role === "USER"
+          ? "/"
+          : role === "SUPER_ADMIN"
+            ? "/dashboard/super-admin"
+            : role === "ADMIN"
+              ? "/dashboard/admin"
+              : "/";
+      console.log("Redirecting to:", redirectPath);
       window.location.href = redirectPath;
     }
   }, [status, session]);
@@ -49,12 +53,15 @@ function LoginForm() {
       const result = await signIn("credentials", {
         email,
         password,
-        callbackUrl: "/dashboard",
+        redirect: false,
       });
 
       if (result?.error) {
         setError(result.error);
         setIsLoading(false);
+      } else if (result?.ok) {
+        // Login berhasil, session akan ter-update dan useEffect akan handle redirect
+        // Tidak perlu set isLoading false karena akan redirect
       }
     } catch (error) {
       setError("Terjadi kesalahan. Silakan coba lagi.");
@@ -65,7 +72,7 @@ function LoginForm() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      await signIn("google", { callbackUrl: "/dashboard" });
+      await signIn("google", { callbackUrl: "/" });
     } catch (error) {
       setError("Terjadi kesalahan saat login dengan Google");
       setIsLoading(false);
@@ -155,7 +162,10 @@ function LoginForm() {
                 </p>
               </div>
 
-              <Button type="submit" disabled={isLoading} className="w-full rounded-full">
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full rounded-full">
                 {isLoading ? "Memproses..." : "Masuk"}
               </Button>
 
@@ -175,13 +185,11 @@ function LoginForm() {
                 variant="outline"
                 onClick={handleGoogleSignIn}
                 disabled={isLoading}
-                className="w-full rounded-full"
-              >
+                className="w-full rounded-full">
                 <svg
                   className="w-5 h-5 mr-2"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                  xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                     fill="#4285F4"
@@ -216,8 +224,7 @@ export default function LoginPage() {
         <div className="min-h-screen flex items-center justify-center">
           Loading...
         </div>
-      }
-    >
+      }>
       <LoginForm />
     </Suspense>
   );

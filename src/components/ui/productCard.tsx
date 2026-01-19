@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { Wishlist } from "@/components/ui/wishlist";
 
 export type Product = {
@@ -8,29 +8,31 @@ export type Product = {
   title: string;
   category: string;
   price: string;
-  image: string;
+  image: string | StaticImageData;
 };
 
 type ProductCardProps = {
   product: Product;
   isWishlisted: boolean;
+  isSidebar?: boolean;
   onToggleWishlist: (id: number) => void;
 };
 
 export function ProductCard({
   product,
+  isSidebar,
   isWishlisted,
   onToggleWishlist,
 }: ProductCardProps) {
   return (
     <div className="group overflow-hidden rounded-lg border bg-white hover:shadow-md transition">
       {/* img */}
-      <div className="relative h-[160px] lg:h-[200px] overflow-hidden">
+      <div
+        className={`relative h-40 lg:h-50 ${isSidebar ? "h-50 lg:h-70" : ""} overflow-hidden`}>
         {/* wishlist */}
         <button
           onClick={() => onToggleWishlist(product.id)}
-          className="absolute top-2 right-2 z-10 bg-white/90 rounded-full p-1.5 shadow"
-        >
+          className="absolute top-2 right-2 z-10 bg-white/90 rounded-full p-1.5 shadow">
           <Wishlist active={isWishlisted} />
         </button>
 
@@ -53,8 +55,7 @@ export function ProductCard({
             group-hover:translate-y-0
             group-hover:opacity-100
             transition-all duration-300
-          "
-        >
+          ">
           {product.price}
         </div>
       </div>
@@ -66,13 +67,9 @@ export function ProductCard({
         </h3>
 
         {/* mobile price */}
-        <p className="text-[13px] font-semibold lg:hidden">
-          {product.price}
-        </p>
+        <p className="text-[13px] font-semibold lg:hidden">{product.price}</p>
 
-        <p className="text-[11px] text-gray-500">
-          {product.category}
-        </p>
+        <p className="text-[11px] text-gray-500">{product.category}</p>
       </div>
     </div>
   );

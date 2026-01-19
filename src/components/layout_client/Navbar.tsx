@@ -6,8 +6,8 @@ import { Button } from "../ui/button";
 
 export default function Navbar() {
   return (
-    <nav className="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
-      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+    <nav className="w-full bg-background border-b border-gray-200 sticky top-0 z-50">
+      <div className="container mx-auto px-5 h-24 flex items-center justify-between w-full">
         <Link href={"/"} className="flex items-center gap-2">
           <Image
             src={"/assets/logo-nav-client.png"}
