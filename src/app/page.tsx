@@ -12,7 +12,7 @@ import { fetchProducts } from "@/lib/api/products";
 import { useEffect } from "react";
 
 const HomePage = () => {
-  const { data: products, isLoading } = useQuery({
+  const { data: products } = useQuery({
     queryKey: ["products"],
     queryFn: () => fetchProducts(),
   });
@@ -29,7 +29,7 @@ const HomePage = () => {
         <HeroSection />
 
         {/* Popular Product */}
-        <PopularProduct products={products} />
+        <PopularProduct />
 
         {/* Product Category */}
         <ProductCategory />
