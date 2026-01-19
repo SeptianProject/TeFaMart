@@ -1,56 +1,79 @@
 "use client";
 
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Wishlist } from "@/components/ui/wishlist";
-
-{
-  /* data dummy*/
-}
-export type Product = {
-  id: number;
-  title: string;
-  category: string;
-  price: string;
-  image: string | StaticImageData;
-};
+import { Product } from "@/types";
+import Link from "next/link";
 
 type ProductCardProps = {
   product: Product;
-  isWishlisted: boolean;
+  isWishlisted?: boolean;
   isSidebar?: boolean;
-  onToggleWishlist: (id: number) => void;
+  showWishlist?: boolean;
+  onToggleWishlist?: (productId: string) => void;
 };
 
-{
-  /* product */
-}
+/**
+ * ProductCard Component - Reusable product card untuk display product
+ *
+ * @param product - Product data dari database
+ * @param isWishlisted - Status wishlist untuk icon
+ * @param isSidebar - Variant untuk sidebar (lebih tinggi image)
+ * @param showWishlist - Toggle untuk show/hide wishlist button
+ * @param onToggleWishlist - Callback untuk toggle wishlist
+ */
 export function ProductCard({
   product,
-  isSidebar,
-  isWishlisted,
+  isSidebar = false,
+  isWishlisted = false,
+  showWishlist = true,
   onToggleWishlist,
 }: ProductCardProps) {
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
+  const handleWishlistClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onToggleWishlist) {
+      onToggleWishlist(product.id);
+    }
+  };
+
   return (
-    <div className="group overflow-hidden rounded-lg border bg-white transition hover:shadow-md">
+    <Link
+      href={`/products/${product.id}`}
+      className="group overflow-hidden rounded-lg border bg-white transition hover:shadow-md block">
       {/* IMAGE */}
       <div
-        className={`relative h-40 lg:h-50 ${isSidebar ? "h-50 lg:h-70" : ""} overflow-hidden`}>
-        {/* wishlist */}
-        <button
-          onClick={() => onToggleWishlist(product.id)}
-          className="absolute right-2 top-2 z-10 rounded-full bg-white/90 p-1.5 shadow">
-          <Wishlist active={isWishlisted} />
-        </button>
+        className={`relative overflow-hidden ${
+          isSidebar ? "h-50 lg:h-70" : "h-40 lg:h-50"
+        }`}>
+        {/* Wishlist Button */}
+        {showWishlist && (
+          <button
+            onClick={handleWishlistClick}
+            className="absolute right-2 top-2 z-10 rounded-full bg-white/90 p-1.5 shadow hover:bg-white transition">
+            <Wishlist active={isWishlisted} />
+          </button>
+        )}
 
+        {/* Product Image */}
         <Image
-          src={product.image}
-          alt={product.title}
+          src={product.imageUrl || "/assets/placeholder-product.png"}
+          alt={product.name}
           fill
-          className="object-cover"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
 
-        {/* harga hover (dekstoop) */}
+        {/* Price Overlay (Desktop) */}
         <div
           className="
             absolute bottom-0 left-0 right-0
@@ -60,22 +83,42 @@ export function ProductCard({
             group-hover:translate-y-0 group-hover:opacity-100
             lg:flex
           ">
-          {product.price}
+          {formatPrice(product.price)}
         </div>
+
+        {/* Availability Badge */}
+        {product.isAvailable === "Tidak Tersedia" && (
+          <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">
+            Tidak Tersedia
+          </div>
+        )}
       </div>
 
       {/* CONTENT */}
       <div className="space-y-1 p-2">
-        <h3 className="line-clamp-2 text-[13px] font-medium">
-          {product.title}
+        {/* Product Name */}
+        <h3 className="line-clamp-2 text-[13px] font-medium min-h-[2.6em]">
+          {product.name}
         </h3>
 
-        {/* HARGA MOBILE */}
-        <p className="text-[13px] font-semibold lg:hidden">{product.price}</p>
+        {/* Price Mobile */}
+        <p className="text-[13px] font-semibold lg:hidden">
+          {formatPrice(product.price)}
+        </p>
 
-        <p className="text-[11px] text-gray-500">{product.category}</p>
+        {/* Category & Campus Info */}
+        <div className="flex flex-col gap-0.5">
+          {product.category && (
+            <p className="text-[11px] text-gray-500">{product.category.name}</p>
+          )}
+          {product.tefa?.campus && (
+            <p className="text-[10px] text-gray-400 line-clamp-1">
+              {product.tefa.campus.name}
+            </p>
+          )}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

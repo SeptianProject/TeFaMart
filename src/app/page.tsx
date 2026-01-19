@@ -9,17 +9,35 @@ import ProductAuction from "@/components/sections/ProductAuction";
 import VocationalEducation from "@/components/sections/VocationalEducation";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "@/lib/api/products";
-import { useEffect } from "react";
+import { fetchCategories } from "@/lib/api/categories";
+import { useState, useMemo, useEffect } from "react";
+import { Product } from "@/types";
 
 const HomePage = () => {
-  const { data: products } = useQuery({
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+  const { data: products = [] } = useQuery<Product[]>({
     queryKey: ["products"],
     queryFn: () => fetchProducts(),
   });
 
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => fetchCategories(),
+  });
+
+  // Filter products based on selected category
+  const filteredProducts = useMemo(() => {
+    if (!selectedCategory) return products;
+    return products.filter(
+      (product) => product.categoryId === selectedCategory,
+    );
+  }, [products, selectedCategory]);
+
   useEffect(() => {
-    console.log("Fetched products:", products);
-  }, [products]);
+    console.log("categories:", categories);
+    console.log("products:", products);
+  },[products, categories]);
 
   return (
     <>
@@ -29,7 +47,12 @@ const HomePage = () => {
         <HeroSection />
 
         {/* Popular Product */}
-        <PopularProduct />
+        <PopularProduct
+          products={filteredProducts}
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+        />
 
         {/* Product Category */}
         <ProductCategory />

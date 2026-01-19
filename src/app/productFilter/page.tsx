@@ -5,25 +5,52 @@ import Navbar from "@/components/layout_client/Navbar";
 import Footer from "@/components/layout_client/Footer";
 import { Button } from "@/components/ui/button";
 import SidebarFilter from "@/components/ui/sidebarFilter";
-import { ProductCard, ProductPagination, Product } from "@/components/ui/productCard";
+import { ProductCard, ProductPagination } from "@/components/ui/productCard";
+import { Product } from "@/types";
 
-{
-  /* data dummy*/
-}
+/* DATA DUMMY - This should be replaced with actual API call */
 const products: Product[] = Array.from({ length: 9 }, (_, i) => ({
-  id: i + 1,
-  title: "Website Profil Perusahaan",
-  category: "Politeknik Negeri Banyuwangi",
-  price: "Rp 1.500.000",
-  image: "/img-card1.png",
+  id: `dummy-${i + 1}`,
+  name: "Website Profil Perusahaan",
+  description: "Pembuatan website profil perusahaan profesional",
+  price: 1500000,
+  imageUrl: "/img-card1.png",
+  isAvailable: "Tersedia",
+  tefaId: "dummy-tefa",
+  categoryId: "cat-1",
+  saleType: "direct",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  category: {
+    id: "cat-1",
+    name: "Digital",
+    slug: "digital",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  tefa: {
+    id: "dummy-tefa",
+    name: "TEFA Teknik Informatika",
+    major: "Teknik Informatika",
+    description: "Teaching Factory untuk jurusan Teknik Informatika",
+    campusId: "campus-1",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    campus: {
+      id: "campus-1",
+      name: "Politeknik Negeri Banyuwangi",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  },
 }));
 
 export default function ProductFilter() {
   const [openFilter, setOpenFilter] = useState(false);
-  const [wishlist, setWishlist] = useState<number[]>([]);
+  const [wishlist, setWishlist] = useState<string[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const toggleWishlist = (id: number) => {
+  const toggleWishlist = (id: string) => {
     setWishlist((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
@@ -73,15 +100,13 @@ export default function ProductFilter() {
                   variant="outline"
                   size="icon"
                   className="rounded-full lg:hidden"
-                  onClick={() => setOpenFilter(true)}
-                >
+                  onClick={() => setOpenFilter(true)}>
                   <svg
                     className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
+                    viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"

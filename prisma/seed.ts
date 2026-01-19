@@ -140,6 +140,50 @@ async function main() {
 
   console.log("✅ TEFA created");
 
+  // Create Categories
+  const categories = [
+    {
+      id: "cat-1",
+      name: "Digital",
+      slug: "digital",
+    },
+    {
+      id: "cat-2",
+      name: "Manufaktur",
+      slug: "manufaktur",
+    },
+    {
+      id: "cat-3",
+      name: "Elektronik",
+      slug: "elektronik",
+    },
+    {
+      id: "cat-4",
+      name: "Fashion",
+      slug: "fashion",
+    },
+    {
+      id: "cat-5",
+      name: "Kuliner",
+      slug: "kuliner",
+    },
+    {
+      id: "cat-6",
+      name: "Kerajinan",
+      slug: "kerajinan",
+    },
+  ];
+
+  for (const categoryData of categories) {
+    await prisma.category.upsert({
+      where: { id: categoryData.id },
+      update: {},
+      create: categoryData,
+    });
+  }
+
+  console.log("✅ Categories created");
+
   // Create Products
   const productData = [
     {
@@ -148,6 +192,7 @@ async function main() {
       price: 5000000,
       isAvailable: "Tersedia",
       tefaId: tefa1.id,
+      categoryId: "cat-1",
     },
     {
       name: "Aplikasi Mobile Android",
@@ -155,6 +200,7 @@ async function main() {
       price: 15000000,
       isAvailable: "Tersedia",
       tefaId: tefa1.id,
+      categoryId: "cat-1",
     },
     {
       name: "Sistem Informasi Manajemen",
@@ -162,6 +208,7 @@ async function main() {
       price: 25000000,
       isAvailable: "Tersedia",
       tefaId: tefa1.id,
+      categoryId: "cat-1",
     },
     {
       name: "Mesin CNC Custom",
@@ -169,6 +216,7 @@ async function main() {
       price: 50000000,
       isAvailable: "Tersedia",
       tefaId: tefa2.id,
+      categoryId: "cat-2",
     },
     {
       name: "Komponen Mesin Presisi",
@@ -176,6 +224,7 @@ async function main() {
       price: 2000000,
       isAvailable: "Tersedia",
       tefaId: tefa2.id,
+      categoryId: "cat-2",
     },
     {
       name: "Panel Listrik Industri",
@@ -183,6 +232,7 @@ async function main() {
       price: 8000000,
       isAvailable: "Tersedia",
       tefaId: tefa3.id,
+      categoryId: "cat-3",
     },
     {
       name: "Sistem Kontrol Otomatis",
@@ -190,12 +240,13 @@ async function main() {
       price: 12000000,
       isAvailable: "Tersedia",
       tefaId: tefa3.id,
+      categoryId: "cat-3",
     },
   ];
 
   // Check if products already exist
   const existingProducts = await prisma.product.count();
-  
+
   if (existingProducts === 0) {
     await prisma.product.createMany({
       data: productData,

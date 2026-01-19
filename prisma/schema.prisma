@@ -87,6 +87,17 @@ model Campus {
   updatedAt DateTime @updatedAt
 }
 
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([slug])
+}
+
 model Tefa {
   id          String    @id @default(cuid())
   name        String
@@ -121,7 +132,8 @@ model Product {
   price       Float
   isAvailable String     @default("Tersedia") // Tersedia, Tidak Tersedia
   imageUrl    String?
-  category    String?
+  categoryId  String?
+  category    Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   saleType    String? // auction, direct
   tefaId      String
   tefa        Tefa       @relation(fields: [tefaId], references: [id], onDelete: Cascade)
@@ -134,6 +146,7 @@ model Product {
 
   @@index([tefaId])
   @@index([name])
+  @@index([categoryId])
 }
 
 model Request {

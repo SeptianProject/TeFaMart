@@ -269,6 +269,7 @@ export type UserWhereInput = {
   comments?: Prisma.CommentListRelationFilter
   wishlists?: Prisma.WishlistListRelationFilter
   bids?: Prisma.BidListRelationFilter
+  requests?: Prisma.RequestListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -294,6 +295,7 @@ export type UserOrderByWithRelationInput = {
   comments?: Prisma.CommentOrderByRelationAggregateInput
   wishlists?: Prisma.WishlistOrderByRelationAggregateInput
   bids?: Prisma.BidOrderByRelationAggregateInput
+  requests?: Prisma.RequestOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -322,6 +324,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   comments?: Prisma.CommentListRelationFilter
   wishlists?: Prisma.WishlistListRelationFilter
   bids?: Prisma.BidListRelationFilter
+  requests?: Prisma.RequestListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -387,6 +390,7 @@ export type UserCreateInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -410,6 +414,7 @@ export type UserUncheckedCreateInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -433,6 +438,7 @@ export type UserUpdateInput = {
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -456,6 +462,7 @@ export type UserUncheckedUpdateInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -707,6 +714,20 @@ export type UserUncheckedUpdateManyWithoutIndustryNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
+export type UserCreateNestedOneWithoutRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRequestsInput, Prisma.UserUncheckedCreateWithoutRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRequestsInput, Prisma.UserUncheckedCreateWithoutRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRequestsInput
+  upsert?: Prisma.UserUpsertWithoutRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRequestsInput, Prisma.UserUpdateWithoutRequestsInput>, Prisma.UserUncheckedUpdateWithoutRequestsInput>
+}
+
 export type UserCreateNestedOneWithoutBidsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutBidsInput, Prisma.UserUncheckedCreateWithoutBidsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutBidsInput
@@ -769,6 +790,7 @@ export type UserCreateWithoutAccountsInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -791,6 +813,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -829,6 +852,7 @@ export type UserUpdateWithoutAccountsInput = {
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -851,6 +875,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -873,6 +898,7 @@ export type UserCreateWithoutSessionsInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -895,6 +921,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -933,6 +960,7 @@ export type UserUpdateWithoutSessionsInput = {
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -955,6 +983,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCampusInput = {
@@ -977,6 +1006,7 @@ export type UserCreateWithoutCampusInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCampusInput = {
@@ -999,6 +1029,7 @@ export type UserUncheckedCreateWithoutCampusInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCampusInput = {
@@ -1068,6 +1099,7 @@ export type UserCreateWithoutIndustryInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutIndustryInput = {
@@ -1090,6 +1122,7 @@ export type UserUncheckedCreateWithoutIndustryInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutIndustryInput = {
@@ -1118,6 +1151,114 @@ export type UserUpdateManyWithWhereWithoutIndustryInput = {
   data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutIndustryInput>
 }
 
+export type UserCreateWithoutRequestsInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  password?: string | null
+  image?: string | null
+  role?: string
+  phoneNumber?: string | null
+  address?: string | null
+  city?: string | null
+  province?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  campus?: Prisma.CampusCreateNestedOneWithoutUsersInput
+  industry?: Prisma.IndustryCreateNestedOneWithoutUsersInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  bids?: Prisma.BidCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRequestsInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  password?: string | null
+  image?: string | null
+  role?: string
+  phoneNumber?: string | null
+  address?: string | null
+  city?: string | null
+  province?: string | null
+  campusId?: string | null
+  industryId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRequestsInput, Prisma.UserUncheckedCreateWithoutRequestsInput>
+}
+
+export type UserUpsertWithoutRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRequestsInput, Prisma.UserUncheckedUpdateWithoutRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRequestsInput, Prisma.UserUncheckedCreateWithoutRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRequestsInput, Prisma.UserUncheckedUpdateWithoutRequestsInput>
+}
+
+export type UserUpdateWithoutRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  province?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  campus?: Prisma.CampusUpdateOneWithoutUsersNestedInput
+  industry?: Prisma.IndustryUpdateOneWithoutUsersNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  province?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  campusId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  industryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutBidsInput = {
   id?: string
   name?: string | null
@@ -1138,6 +1279,7 @@ export type UserCreateWithoutBidsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBidsInput = {
@@ -1160,6 +1302,7 @@ export type UserUncheckedCreateWithoutBidsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBidsInput = {
@@ -1198,6 +1341,7 @@ export type UserUpdateWithoutBidsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBidsInput = {
@@ -1220,6 +1364,7 @@ export type UserUncheckedUpdateWithoutBidsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -1242,6 +1387,7 @@ export type UserCreateWithoutCommentsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -1264,6 +1410,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -1302,6 +1449,7 @@ export type UserUpdateWithoutCommentsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -1324,6 +1472,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWishlistsInput = {
@@ -1346,6 +1495,7 @@ export type UserCreateWithoutWishlistsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   bids?: Prisma.BidCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWishlistsInput = {
@@ -1368,6 +1518,7 @@ export type UserUncheckedCreateWithoutWishlistsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   bids?: Prisma.BidUncheckedCreateNestedManyWithoutUserInput
+  requests?: Prisma.RequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWishlistsInput = {
@@ -1406,6 +1557,7 @@ export type UserUpdateWithoutWishlistsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWishlistsInput = {
@@ -1428,6 +1580,7 @@ export type UserUncheckedUpdateWithoutWishlistsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyCampusInput = {
@@ -1467,6 +1620,7 @@ export type UserUpdateWithoutCampusInput = {
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCampusInput = {
@@ -1489,6 +1643,7 @@ export type UserUncheckedUpdateWithoutCampusInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutCampusInput = {
@@ -1545,6 +1700,7 @@ export type UserUpdateWithoutIndustryInput = {
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutIndustryInput = {
@@ -1567,6 +1723,7 @@ export type UserUncheckedUpdateWithoutIndustryInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
   bids?: Prisma.BidUncheckedUpdateManyWithoutUserNestedInput
+  requests?: Prisma.RequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutIndustryInput = {
@@ -1597,6 +1754,7 @@ export type UserCountOutputType = {
   comments: number
   wishlists: number
   bids: number
+  requests: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1605,6 +1763,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   comments?: boolean | UserCountOutputTypeCountCommentsArgs
   wishlists?: boolean | UserCountOutputTypeCountWishlistsArgs
   bids?: boolean | UserCountOutputTypeCountBidsArgs
+  requests?: boolean | UserCountOutputTypeCountRequestsArgs
 }
 
 /**
@@ -1652,6 +1811,13 @@ export type UserCountOutputTypeCountBidsArgs<ExtArgs extends runtime.Types.Exten
   where?: Prisma.BidWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RequestWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1676,6 +1842,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   wishlists?: boolean | Prisma.User$wishlistsArgs<ExtArgs>
   bids?: boolean | Prisma.User$bidsArgs<ExtArgs>
+  requests?: boolean | Prisma.User$requestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1746,6 +1913,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   wishlists?: boolean | Prisma.User$wishlistsArgs<ExtArgs>
   bids?: boolean | Prisma.User$bidsArgs<ExtArgs>
+  requests?: boolean | Prisma.User$requestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1767,6 +1935,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     comments: Prisma.$CommentPayload<ExtArgs>[]
     wishlists: Prisma.$WishlistPayload<ExtArgs>[]
     bids: Prisma.$BidPayload<ExtArgs>[]
+    requests: Prisma.$RequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2185,6 +2354,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wishlists<T extends Prisma.User$wishlistsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wishlistsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bids<T extends Prisma.User$bidsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bidsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BidPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  requests<T extends Prisma.User$requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2780,6 +2950,30 @@ export type User$bidsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   take?: number
   skip?: number
   distinct?: Prisma.BidScalarFieldEnum | Prisma.BidScalarFieldEnum[]
+}
+
+/**
+ * User.requests
+ */
+export type User$requestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Request
+   */
+  select?: Prisma.RequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Request
+   */
+  omit?: Prisma.RequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RequestInclude<ExtArgs> | null
+  where?: Prisma.RequestWhereInput
+  orderBy?: Prisma.RequestOrderByWithRelationInput | Prisma.RequestOrderByWithRelationInput[]
+  cursor?: Prisma.RequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RequestScalarFieldEnum | Prisma.RequestScalarFieldEnum[]
 }
 
 /**

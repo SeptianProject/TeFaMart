@@ -8,11 +8,13 @@ export async function GET(req: NextRequest) {
     const kategoriParam = searchParams.get("kategori");
     const jenisParam = searchParams.get("jenis");
     const whereClause: Prisma.ProductWhereInput = {};
-    if(kategoriParam) {
+
+    if (kategoriParam) {
       const categories = kategoriParam.split(",");
-      whereClause.category = { in: categories };
+      whereClause.categoryId = { in: categories };
     }
-    if(jenisParam) {
+
+    if (jenisParam) {
       const saleType = jenisParam.split(",");
       const sale = saleType.map((item) => {
         if (item == "Pre Order") return "direct";
@@ -21,13 +23,28 @@ export async function GET(req: NextRequest) {
       });
       whereClause.saleType = { in: sale };
     }
+
     const products = await prisma.product.findMany({
       where: whereClause,
       include: {
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
         tefa: {
           select: {
+            id: true,
             name: true,
             major: true,
+            campus: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
       },
@@ -41,7 +58,7 @@ export async function GET(req: NextRequest) {
     console.error("Error fetching products:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

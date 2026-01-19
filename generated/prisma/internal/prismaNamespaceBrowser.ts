@@ -56,9 +56,11 @@ export const ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   Campus: 'Campus',
+  Category: 'Category',
   Tefa: 'Tefa',
   Industry: 'Industry',
   Product: 'Product',
+  Request: 'Request',
   Auction: 'Auction',
   Bid: 'Bid',
   Comment: 'Comment',
@@ -149,6 +151,17 @@ export const CampusScalarFieldEnum = {
 export type CampusScalarFieldEnum = (typeof CampusScalarFieldEnum)[keyof typeof CampusScalarFieldEnum]
 
 
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
 export const TefaScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -183,7 +196,7 @@ export const ProductScalarFieldEnum = {
   price: 'price',
   isAvailable: 'isAvailable',
   imageUrl: 'imageUrl',
-  category: 'category',
+  categoryId: 'categoryId',
   saleType: 'saleType',
   tefaId: 'tefaId',
   createdAt: 'createdAt',
@@ -191,6 +204,18 @@ export const ProductScalarFieldEnum = {
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const RequestScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  userId: 'userId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RequestScalarFieldEnum = (typeof RequestScalarFieldEnum)[keyof typeof RequestScalarFieldEnum]
 
 
 export const AuctionScalarFieldEnum = {

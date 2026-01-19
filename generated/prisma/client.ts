@@ -65,6 +65,11 @@ export type VerificationToken = Prisma.VerificationTokenModel
  */
 export type Campus = Prisma.CampusModel
 /**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
  * Model Tefa
  * 
  */
@@ -79,6 +84,11 @@ export type Industry = Prisma.IndustryModel
  * 
  */
 export type Product = Prisma.ProductModel
+/**
+ * Model Request
+ * 
+ */
+export type Request = Prisma.RequestModel
 /**
  * Model Auction
  * 

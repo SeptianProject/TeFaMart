@@ -3,6 +3,7 @@ import { Comment } from "./comment";
 import { Auction } from "./auction";
 import { Wishlist } from "./wishlist";
 import { Request } from "./request";
+import { Category } from "./category";
 
 export interface Product {
   id: string;
@@ -11,7 +12,8 @@ export interface Product {
   price: number;
   isAvailable: string;
   imageUrl: string | null;
-  category: string | null;
+  categoryId: string | null;
+  category?: Category;
   saleType: string | null;
   tefaId: string;
   tefa?: Tefa;

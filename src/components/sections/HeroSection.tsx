@@ -30,7 +30,7 @@ const HeroSection = () => {
           <div className="bg-linear-to-r to-foreground from-muted-foreground opacity-90 w-full h-28 rounded-xl flex items-center justify-between px-5">
             {/* product image */}
             <div className="flex items-center gap-3">
-              <div className="size-20 bg-gray-400 flex items-center rounded-lg overflow-hidden">
+              <div className="size-20 flex items-center rounded-lg overflow-hidden">
                 <Image
                   src="/assets/digital2.png"
                   alt="Hero Image"
