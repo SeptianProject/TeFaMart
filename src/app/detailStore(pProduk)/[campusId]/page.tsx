@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import SidebarFilter from "@/components/ui/sidebarFilter";
 import DetailStore from "@/components/ui/detailStore";
@@ -19,7 +19,6 @@ export default function DetailStoreProduct() {
 
   const params = useParams();
   const campusId = params.campusId;
-
 
   const [filterCategories, setFilterCategories] = useState<string[]>([]);
   const handleCategoryChange = (id: string) => {
@@ -42,7 +41,7 @@ export default function DetailStoreProduct() {
   };
 
   useEffect(() => {
-    if(!campusId) return;
+    if (!campusId) return;
     const fetchDataProducts = async () => {
       try {
         setLoading(true);
@@ -54,15 +53,12 @@ export default function DetailStoreProduct() {
         if (filterTypes!.length > 0) {
           params.append("jenis", filterTypes!.join(","));
         }
-        const products = await fetch(
-          `/api/client/campus/${campusId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
+        const products = await fetch(`/api/client/campus/${campusId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+        });
         const dataProducts = await products.json();
         if (Array.isArray(dataProducts)) {
           setProducts(dataProducts);
@@ -151,15 +147,13 @@ export default function DetailStoreProduct() {
                   variant="outline"
                   size="icon"
                   className="rounded-full lg:hidden"
-                  onClick={() => setOpenFilter(true)}
-                >
+                  onClick={() => setOpenFilter(true)}>
                   <svg
                     className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
+                    viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"

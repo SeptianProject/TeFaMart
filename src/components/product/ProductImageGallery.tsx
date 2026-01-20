@@ -21,12 +21,12 @@ export function ProductImageGallery({
   return (
     <div className="flex flex-col lg:flex-row gap-4">
       {/* Thumbnail list - Vertical on desktop, horizontal on mobile */}
-      <div className="flex lg:flex-col gap-2 order-2 lg:order-1 overflow-x-auto lg:overflow-y-auto max-w-full lg:max-w-[100px]">
+      <div className="flex lg:flex-col gap-2 order-2 lg:order-1 overflow-x-auto lg:overflow-y-auto max-w-full lg:max-w-25">
         {imageList.map((image, index) => (
           <button
             key={index}
             onClick={() => setSelectedImage(index)}
-            className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+            className={`relative shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
               selectedImage === index
                 ? "border-blue-600 ring-2 ring-blue-200"
                 : "border-gray-200 hover:border-gray-300"

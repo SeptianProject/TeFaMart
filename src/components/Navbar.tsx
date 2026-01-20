@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { ShoppingCart, Search, User, Menu, X } from "lucide-react";
 import Image from "next/image";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 import { useState } from "react";
 
 export default function Navbar() {

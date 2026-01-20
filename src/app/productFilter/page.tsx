@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import SidebarFilter from "@/components/ui/sidebarFilter";
 import { ProductCard, ProductPagination } from "@/components/ui/productCard";
@@ -176,15 +176,13 @@ export default function ProductFilter() {
                   variant="outline"
                   size="icon"
                   className="rounded-full lg:hidden"
-                  onClick={() => setOpenFilter(true)}
-                >
+                  onClick={() => setOpenFilter(true)}>
                   <svg
                     className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
+                    viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"

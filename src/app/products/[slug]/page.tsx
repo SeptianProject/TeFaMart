@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductBySlug } from "@/services/productService";

@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import PopularProduct from "@/components/sections/PopularProduct";
 import ProductCategory from "@/components/sections/ProductCategory";

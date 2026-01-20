@@ -39,7 +39,7 @@ export function ProductInfo({
         </h1>
         <button
           onClick={onToggleWishlist}
-          className="flex-shrink-0 p-2 hover:bg-gray-100 rounded-full transition"
+          className="shrink-0 p-2 hover:bg-gray-100 rounded-full transition"
           aria-label="Toggle wishlist">
           <Wishlist active={isWishlisted} />
         </button>
