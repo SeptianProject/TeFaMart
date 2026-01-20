@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface ProductImageGalleryProps {
   images: string[];
@@ -31,7 +31,7 @@ export function ProductImageGallery({
                 ? "border-blue-600 ring-2 ring-blue-200"
                 : "border-gray-200 hover:border-gray-300"
             }`}>
-            <Image
+            <OptimizedImage
               src={image}
               alt={`${productName} - ${index + 1}`}
               fill
@@ -44,7 +44,7 @@ export function ProductImageGallery({
 
       {/* Main image */}
       <div className="relative w-full lg:flex-1 aspect-square order-1 lg:order-2 rounded-lg overflow-hidden border border-gray-200 bg-white">
-        <Image
+        <OptimizedImage
           src={imageList[selectedImage]}
           alt={productName}
           fill

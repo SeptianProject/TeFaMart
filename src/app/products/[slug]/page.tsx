@@ -11,7 +11,8 @@ import { ProductInfo } from "@/components/product/ProductInfo";
 import { ProductActions } from "@/components/product/ProductActions";
 import { StoreInfo } from "@/components/product/StoreInfo";
 import { ProductTabs } from "@/components/product/ProductTabs";
-import { ChevronRight, Home, Loader2 } from "lucide-react";
+import { ProductDetailSkeleton } from "@/components/skeletons/ProductDetailSkeleton";
+import { ChevronRight, Home } from "lucide-react";
 import Link from "next/link";
 
 const DetailProductPage = () => {
@@ -32,10 +33,9 @@ const DetailProductPage = () => {
     return (
       <>
         <Navbar />
-        <div className="container mx-auto px-4 py-20 flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <Loader2 className="w-12 h-12 animate-spin mx-auto text-blue-600 mb-4" />
-            <p className="text-gray-600">Memuat detail produk...</p>
+        <div className="bg-gray-50 min-h-screen">
+          <div className="container mx-auto px-4 py-6">
+            <ProductDetailSkeleton />
           </div>
         </div>
         <Footer />

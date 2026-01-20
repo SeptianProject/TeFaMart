@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Wishlist } from "@/components/ui/wishlist";
 import { Product } from "@/types";
 import Link from "next/link";
 import { formatCurrency } from "@/helper/format-currency";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 type ProductCardProps = {
   product: Product;
@@ -58,7 +58,7 @@ export function ProductCard({
         )}
 
         {/* Product Image */}
-        <Image
+        <OptimizedImage
           src={product.imageUrl || "/assets/placeholder-product.png"}
           alt={product.name}
           fill

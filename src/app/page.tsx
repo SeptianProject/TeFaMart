@@ -12,16 +12,20 @@ import { useState, useMemo, useEffect } from "react";
 import { Product } from "@/types";
 import { fetchProducts } from "@/services/productService";
 import { fetchCategories } from "@/services/categoryService";
+import { ProductGridSkeleton } from "@/components/skeletons/ProductCardSkeleton";
+import { CategoryGridSkeleton } from "@/components/skeletons/CategoryCardSkeleton";
 
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  const { data: products = [] } = useQuery<Product[]>({
+  const { data: products = [], isLoading: isLoadingProducts } = useQuery<
+    Product[]
+  >({
     queryKey: ["products"],
     queryFn: () => fetchProducts(),
   });
 
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [], isLoading: isLoadingCategories } = useQuery({
     queryKey: ["categories"],
     queryFn: () => fetchCategories(),
   });
@@ -60,10 +64,14 @@ const HomePage = () => {
           categories={categories}
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
+          isLoading={isLoadingProducts || isLoadingCategories}
         />
 
         {/* Product Category */}
-        <ProductCategory categories={categories} />
+        <ProductCategory
+          categories={categories}
+          isLoading={isLoadingCategories}
+        />
 
         {/* Product Auction */}
         <ProductAuction />
