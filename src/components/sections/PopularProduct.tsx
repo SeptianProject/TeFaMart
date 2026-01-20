@@ -15,16 +15,6 @@ const PopularProduct: React.FC<PopularProductProps> = ({
   selectedCategory,
   onCategoryChange,
 }) => {
-  // Icons mapping untuk setiap kategori (di state, tidak di database)
-  const categoryIcons: Record<string, string> = {
-    digital: "💻",
-    manufaktur: "⚙️",
-    elektronik: "⚡",
-    fashion: "👕",
-    kuliner: "🍔",
-    kerajinan: "🎨",
-  };
-
   return (
     <section className="w-full flex flex-col gap-10">
       {/* header */}
@@ -49,7 +39,7 @@ const PopularProduct: React.FC<PopularProductProps> = ({
                   ? "bg-foreground text-background border-foreground"
                   : "border-foreground hover:bg-foreground hover:text-background"
               }`}>
-              {categoryIcons[category.slug] || "📦"} {category.name}
+              {category.name}
             </button>
           ))}
         </div>

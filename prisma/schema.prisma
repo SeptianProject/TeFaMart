@@ -150,17 +150,23 @@ model Product {
 }
 
 model Request {
-  id        String   @id @default(cuid())
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status    String   @default("pending") // pending, success, cancelled
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clientName  String
+  clientEmail String
+  quantity    Int      @default(1)
+  type        String   @default("PURCHASE_ORDER") // PURCHASE_ORDER, INVESTMENT
+  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([status])
   @@index([productId])
+  @@index([userId])
 }
 
 model Auction {

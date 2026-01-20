@@ -8,10 +8,10 @@ import ProductCategory from "@/components/sections/ProductCategory";
 import ProductAuction from "@/components/sections/ProductAuction";
 import VocationalEducation from "@/components/sections/VocationalEducation";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProducts } from "@/lib/api/products";
-import { fetchCategories } from "@/lib/api/categories";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Product } from "@/types";
+import { fetchProducts } from "@/services/productService";
+import { fetchCategories } from "@/services/categoryService";
 
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -33,11 +33,6 @@ const HomePage = () => {
       (product) => product.categoryId === selectedCategory,
     );
   }, [products, selectedCategory]);
-
-  useEffect(() => {
-    console.log("categories:", categories);
-    console.log("products:", products);
-  },[products, categories]);
 
   return (
     <>

@@ -210,7 +210,12 @@ export const RequestScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
   userId: 'userId',
+  clientName: 'clientName',
+  clientEmail: 'clientEmail',
+  quantity: 'quantity',
+  type: 'type',
   status: 'status',
+  notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
