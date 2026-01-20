@@ -7,8 +7,8 @@ export async function fetchProducts() {
   return response.json();
 }
 
-export async function fetchProductById(productId: string) {
-  const response = await fetch(`/api/client/product/${productId}`);
+export async function fetchProductBySlug(slug: string) {
+  const response = await fetch(`/api/client/product/${slug}`);
   if (!response.ok) {
     throw new Error("Failed to fetch product");
   }

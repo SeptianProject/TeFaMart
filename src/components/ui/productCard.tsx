@@ -31,7 +31,6 @@ export function ProductCard({
   showWishlist = true,
   onToggleWishlist,
 }: ProductCardProps) {
-
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -42,7 +41,7 @@ export function ProductCard({
 
   return (
     <Link
-      href={`/products/${product.id}`}
+      href={`/products/${product.slug}`}
       className="group overflow-hidden rounded-lg border bg-white transition hover:shadow-md block">
       {/* IMAGE */}
       <div

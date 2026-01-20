@@ -192,6 +192,7 @@ export type IndustryScalarFieldEnum = (typeof IndustryScalarFieldEnum)[keyof typ
 export const ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  slug: 'slug',
   description: 'description',
   price: 'price',
   isAvailable: 'isAvailable',

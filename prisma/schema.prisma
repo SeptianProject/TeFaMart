@@ -128,6 +128,7 @@ model Industry {
 model Product {
   id          String     @id @default(cuid())
   name        String
+  slug        String     @unique
   description String?
   price       Float
   isAvailable String     @default("Tersedia") // Tersedia, Tidak Tersedia
@@ -146,6 +147,7 @@ model Product {
 
   @@index([tefaId])
   @@index([name])
+  @@index([slug])
   @@index([categoryId])
 }
 
