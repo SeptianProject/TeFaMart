@@ -65,8 +65,17 @@ export async function POST(req: NextRequest) {
                     id: checkWishlist.id,
                 }
             });
+            const wishlistProducts = await prisma.wishlist.findMany({
+                where: {
+                    userId: session.user.id,
+                    productId: productId
+                }, 
+                select: {
+                    id: true
+                }
+            });
             return NextResponse.json({
-                message: "Success delete product in wishlist!"
+                data: wishlistProducts
             }, { status: 200 });
         } else {
             await prisma.wishlist.create({
@@ -75,8 +84,17 @@ export async function POST(req: NextRequest) {
                     productId: productId
                 }
             });
+            const wishlistProducts = await prisma.wishlist.findMany({
+                where: {
+                    userId: session.user.id,
+                    productId: productId
+                }, 
+                select: {
+                    id: true
+                }
+            });
             return NextResponse.json({
-                message: "Success add product in wishlist!"
+               data: wishlistProducts
             }, { status: 201 });
         }
     } catch (error) {

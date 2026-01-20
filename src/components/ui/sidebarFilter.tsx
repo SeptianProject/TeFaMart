@@ -1,13 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
 type SidebarFilterProps = {
   isMobile?: boolean;
   onClose?: () => void;
+  selectedCategories: string[];
+  selectedTypes: string[];
+  onCategoryChange: (id: string) => void;
+  onTypeChange: (type: string) => void;
+  onReset: () => void;
 };
+
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  _count: {
+    products: number;
+  };
+}
 
 function FilterSection({
   title,
@@ -26,9 +40,7 @@ function FilterSection({
       >
         {title}
         <svg
-          className={`h-4 w-4 transition-transform ${
-            open ? "rotate-180" : ""
-          }`}
+          className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -47,10 +59,18 @@ function FilterSection({
   );
 }
 
-function FilterItem({ label }: { label: string }) {
+function FilterItem({ 
+  label,
+  checked,
+  onChange
+}: { 
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}) {
   return (
     <label className="flex cursor-pointer items-center gap-2">
-      <Checkbox />
+      <Checkbox value={label} checked={checked} onCheckedChange={onChange} />
       {label}
     </label>
   );
@@ -59,13 +79,40 @@ function FilterItem({ label }: { label: string }) {
 export default function SidebarFilter({
   isMobile = false,
   onClose,
+  selectedCategories = [],
+  selectedTypes = [],
+  onCategoryChange,
+  onTypeChange,
+  onReset
 }: SidebarFilterProps) {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDataCategories = async () => {
+      try {
+        setLoading(true);
+        const products = await fetch("/api/client/categories", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const dataProducts = await products.json();
+        setCategories(dataProducts.data || []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDataCategories();
+  }, []);
   return (
     <div
       className={`${
-        isMobile
-          ? "rounded-t-2xl bg-white p-5"
-          : "rounded-xl border p-5"
+        isMobile ? "rounded-t-2xl bg-white p-5" : "rounded-xl border p-5"
       }`}
     >
       <div className="mb-4 flex items-center justify-between">
@@ -81,16 +128,37 @@ export default function SidebarFilter({
       </div>
 
       <FilterSection title="Kategori">
-        <FilterItem label="Digital & IT" />
-        <FilterItem label="Manufaktur" />
-        <FilterItem label="Fashion & Tekstil" />
-        <FilterItem label="Kreatif & Media" />
-        <FilterItem label="Tata Boga & Agribisnis" />
+        {loading ? (
+          <div className="col-span-full flex h-64 w-full items-center justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
+          </div>
+        ) : categories.length > 0 ? (
+          categories.map((category) => (
+            <FilterItem 
+             key={category.id} 
+             label={category.name} 
+             checked={selectedCategories.includes(category.id)}
+             onChange={() => onCategoryChange?.(category.id)}
+            />
+          ))
+        ) : (
+          <div className="col-span-full flex h-64 w-full items-center justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
+          </div>
+        )}
       </FilterSection>
 
       <FilterSection title="Jenis">
-        <FilterItem label="Pre Order" />
-        <FilterItem label="Lelang" />
+        <FilterItem 
+         label="Pre Order"
+         checked={selectedTypes.includes("direct")}
+         onChange={() => onTypeChange?.('direct')}
+         />
+        <FilterItem 
+         label="Lelang" 
+         checked={selectedTypes.includes("auction")}
+         onChange={() => onTypeChange?.('auction')}
+         />
       </FilterSection>
 
       {isMobile && (

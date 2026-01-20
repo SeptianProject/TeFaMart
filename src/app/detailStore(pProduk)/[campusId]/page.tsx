@@ -8,48 +8,77 @@ import SidebarFilter from "@/components/ui/sidebarFilter";
 import DetailStore from "@/components/ui/detailStore";
 import { ProductCard, ProductPagination } from "@/components/ui/productCard";
 import { Product } from "@/types";
-
-/* DATA DUMMY - This should be replaced with actual API call */
-const products: Product[] = Array.from({ length: 9 }, (_, i) => ({
-  id: `dummy-${i + 1}`,
-  name: "Website Profil Perusahaan",
-  description: "Pembuatan website profil perusahaan profesional",
-  price: 1500000,
-  imageUrl: "/img-card1.png",
-  isAvailable: "Tersedia",
-  tefaId: "dummy-tefa",
-  categoryId: "cat-1",
-  saleType: "direct",
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  category: {
-    id: "cat-1",
-    name: "Digital",
-    slug: "digital",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  tefa: {
-    id: "dummy-tefa",
-    name: "TEFA Teknik Informatika",
-    major: "Teknik Informatika",
-    description: "Teaching Factory untuk jurusan Teknik Informatika",
-    campusId: "campus-1",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    campus: {
-      id: "campus-1",
-      name: "Politeknik Negeri Banyuwangi",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  },
-}));
+import { useParams } from "next/navigation";
 
 export default function DetailStoreProduct() {
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [openFilter, setOpenFilter] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const params = useParams();
+  const campusId = params.campusId;
+
+
+  const [filterCategories, setFilterCategories] = useState<string[]>([]);
+  const handleCategoryChange = (id: string) => {
+    setFilterCategories((prev) =>
+      prev?.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
+  const [filterTypes, setFilterTypes] = useState<string[]>([]);
+  const handleTypeChange = (type: string) => {
+    setFilterTypes((prev) =>
+      prev.includes(type)
+        ? prev.filter((item) => item !== type)
+        : [...prev, type],
+    );
+  };
+
+  const handleReset = () => {
+    setFilterCategories([]);
+    setFilterTypes([]);
+  };
+
+  useEffect(() => {
+    if(!campusId) return;
+    const fetchDataProducts = async () => {
+      try {
+        setLoading(true);
+
+        const params = new URLSearchParams();
+        if (filterCategories!.length > 0) {
+          params.append("kategori", filterCategories!.join(","));
+        }
+        if (filterTypes!.length > 0) {
+          params.append("jenis", filterTypes!.join(","));
+        }
+        const products = await fetch(
+          `/api/client/campus/${campusId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        const dataProducts = await products.json();
+        if (Array.isArray(dataProducts)) {
+          setProducts(dataProducts);
+        } else {
+          setProducts([]);
+          console.error("Format data salah: ", dataProducts);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDataProducts();
+  }, [filterCategories, filterTypes, campusId]);
 
   const toggleWishlist = (id: string) => {
     setWishlist((prev) =>
@@ -99,7 +128,13 @@ export default function DetailStoreProduct() {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[260px_1fr]">
             {/* SIDEBAR DESKTOP */}
             <aside className="hidden lg:block">
-              <SidebarFilter />
+              <SidebarFilter
+                selectedCategories={filterCategories}
+                selectedTypes={filterTypes}
+                onCategoryChange={handleCategoryChange}
+                onTypeChange={handleTypeChange}
+                onReset={handleReset}
+              />
             </aside>
 
             {/* MAIN */}
@@ -116,13 +151,15 @@ export default function DetailStoreProduct() {
                   variant="outline"
                   size="icon"
                   className="rounded-full lg:hidden"
-                  onClick={() => setOpenFilter(true)}>
+                  onClick={() => setOpenFilter(true)}
+                >
                   <svg
                     className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    viewBox="0 0 24 24">
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -171,7 +208,15 @@ export default function DetailStoreProduct() {
             onClick={() => setOpenFilter(false)}
           />
           <div className="absolute bottom-0 left-0 right-0 max-h-[80vh] overflow-y-auto">
-            <SidebarFilter isMobile onClose={() => setOpenFilter(false)} />
+            <SidebarFilter
+              isMobile
+              onClose={() => setOpenFilter(false)}
+              selectedCategories={filterCategories}
+              selectedTypes={filterTypes}
+              onCategoryChange={handleCategoryChange}
+              onTypeChange={handleTypeChange}
+              onReset={handleReset}
+            />
           </div>
         </div>
       )}
