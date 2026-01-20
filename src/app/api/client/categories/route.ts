@@ -11,6 +11,18 @@ export async function GET(request: NextRequest) {
         id: true,
         name: true,
         slug: true,
+        products: {
+          select: {
+            id: true,
+            imageUrl: true,
+          },
+          where: {
+            imageUrl: {
+              not: null,
+            },
+          },
+          take: 5, // Ambil maksimal 5 products per category untuk performa
+        },
         _count: {
           select: {
             products: true,

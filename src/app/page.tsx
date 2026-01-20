@@ -37,7 +37,7 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center w-full px-20 space-y-20 py-20">
+      <div className="flex flex-col items-center w-full px-25 space-y-20 py-15">
         {/* hero section */}
         <HeroSection />
 
@@ -50,7 +50,7 @@ const HomePage = () => {
         />
 
         {/* Product Category */}
-        <ProductCategory />
+        <ProductCategory categories={categories} />
 
         {/* Product Auction */}
         <ProductAuction />

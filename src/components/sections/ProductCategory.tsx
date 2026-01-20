@@ -1,51 +1,44 @@
 import Image from "next/image";
 import React from "react";
-import DigitalImage from "../../../public/assets/digital1.png";
-import IotImage from "../../../public/assets/iot2.png";
-import ManufakturImage from "../../../public/assets/manufaktur1.png";
-import TekstilImage from "../../../public/assets/tekstil2.png";
-import KreatifImage from "../../../public/assets/kreatif1.png";
-import AgbImage from "../../../public/assets/agb1.png";
+import TitleLanding from "../ui/titleLanding";
+import { Category } from "@/types";
 
-const ProductCategory = () => {
-  const bentoGridItem = [
-    {
-      category: "Digital & Jasa IT",
-      image: DigitalImage,
-    },
-    {
-      category: "Elektronika & IOT",
-      image: IotImage,
-    },
-    {
-      category: "Manufaktur",
-      image: ManufakturImage,
-    },
-    {
-      category: "Fashion & Tekstil",
-      image: TekstilImage,
-    },
-    {
-      category: "Kreatif & Media",
-      image: KreatifImage,
-    },
-    {
-      category: "Tata Boga & Agribisnis",
-      image: AgbImage,
-    },
-  ];
+interface ProductCategoryProps {
+  categories: Category[];
+}
+
+const ProductCategory: React.FC<ProductCategoryProps> = ({ categories }) => {
+  const getCategoryImage = (category: Category): string => {
+    if (category.products && category.products.length > 0) {
+      const productWithImage = category.products.find(
+        (product) => product.imageUrl,
+      );
+      return productWithImage?.imageUrl || "/assets/placeholder.jpg";
+    }
+    return "/assets/placeholder.jpg";
+  };
+
+  // Debug: log categories untuk cek data
+  console.log(
+    "Categories data:",
+    categories.map((c) => ({
+      name: c.name,
+      productsCount: c.products?.length || 0,
+      hasImages: c.products?.some((p) => p.imageUrl) || false,
+    })),
+  );
 
   return (
     <section className="w-full flex flex-col gap-10">
-      <h2 className="text-[28px] font-semibold">Kategori Produk Populer</h2>
-      <div
-        className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-rows-2
-               lg:grid-cols-4 md:h-[calc(100vh-100px)] w-full transition-all duration-700">
-        {bentoGridItem.map((item, index) => {
+      <TitleLanding name="Kategori Produk Populer" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 md:h-[calc(100vh-100px)] w-full transition-all duration-700">
+        {categories.map((item, index) => {
+          const categoryImage = getCategoryImage(item);
+
           return (
             <div
-              key={index}
-              className={`relative rounded-xl overflow-hidden h-64 md:h-auto w-full
+              key={item.id} // Best practice: gunakan id unik daripada index
+              className={`relative rounded-xl overflow-hidden h-64 md:h-auto w-full group cursor-pointer
                               ${
                                 index === 0 || index === 5
                                   ? "md:col-span-2"
@@ -57,12 +50,24 @@ const ProductCategory = () => {
                                     : ""
                               }`}>
               <Image
-                className="absolute inset-0 w-full h-full object-cover border"
+                className="absolute inset-0 w-full h-full object-cover border transition-transform duration-300 group-hover:scale-105"
                 width={1200}
                 height={400}
-                src={item.image}
-                alt={item.category}
+                src={categoryImage}
+                alt={item.name}
+                priority={index < 2} // Load first 2 images with priority
               />
+              {/* Overlay dengan nama kategori */}
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+                <div className="text-white">
+                  <h3 className="text-2xl font-bold mb-1">{item.name}</h3>
+                  {item._count && (
+                    <p className="text-sm text-gray-200">
+                      {item._count.products} produk
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           );
         })}

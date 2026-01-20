@@ -1,6 +1,7 @@
 import React from "react";
 import { Product, Category } from "@/types";
 import { ProductCard } from "../ui/productCard";
+import TitleLanding from "../ui/titleLanding";
 
 interface PopularProductProps {
   products: Product[];
@@ -19,7 +20,7 @@ const PopularProduct: React.FC<PopularProductProps> = ({
     <section className="w-full flex flex-col gap-10">
       {/* header */}
       <div className="flex items-center justify-between w-full">
-        <h2 className="text-[28px] font-semibold">Produk Populer</h2>
+        <TitleLanding name="Produk Populer" />
         <div className="flex items-center gap-2.5 flex-wrap">
           <button
             onClick={() => onCategoryChange("")}

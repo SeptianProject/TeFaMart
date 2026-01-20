@@ -4,6 +4,7 @@ import IotImage from "../../../public/assets/iot2.png";
 import KreatifImage from "../../../public/assets/kreatif1.png";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import TitleLanding from "../ui/titleLanding";
 
 const ProductAuction = () => {
   const auctionProducts = [
@@ -31,23 +32,21 @@ const ProductAuction = () => {
 
   return (
     <section className="flex flex-col w-full gap-10">
-      <h2 className="text-[28px] font-semibold">Produk Lelang</h2>
+      <TitleLanding name="Produk Lelang" />
       <div className="relative flex gap-5">
         {auctionProducts.map((item, index) => {
           const styleClasses = index === 0 ? "w-full h-160" : "w-1/2 h-80";
 
           return (
-            <>
-              <div
-                key={index}
-                className={`rounded-xl overflow-hidden border ${styleClasses}`}>
-                <Image
-                  src={item.image}
-                  alt={item.category}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </>
+            <div
+              key={index}
+              className={`rounded-xl overflow-hidden border ${styleClasses}`}>
+              <Image
+                src={item.image}
+                alt={item.category}
+                className="w-full h-full object-cover"
+              />
+            </div>
           );
         })}
         <div className="absolute bottom-0 left-1/2 space-y-6">
