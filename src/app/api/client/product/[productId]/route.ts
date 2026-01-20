@@ -12,10 +12,30 @@ export async function GET(
     const product = await prisma.product.findUnique({
       where: { id: productId },
       include: {
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
         tefa: {
           select: {
+            id: true,
             name: true,
             major: true,
+            description: true,
+            campusId: true,
+            createdAt: true,
+            updatedAt: true,
+            campus: {
+              select: {
+                id: true,
+                name: true,
+                createdAt: true,
+                updatedAt: true,
+              },
+            },
           },
         },
       },

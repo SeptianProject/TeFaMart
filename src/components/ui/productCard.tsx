@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Wishlist } from "@/components/ui/wishlist";
 import { Product } from "@/types";
 import Link from "next/link";
+import { formatCurrency } from "@/helper/format-currency";
 
 type ProductCardProps = {
   product: Product;
@@ -30,13 +31,6 @@ export function ProductCard({
   showWishlist = true,
   onToggleWishlist,
 }: ProductCardProps) {
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -83,7 +77,7 @@ export function ProductCard({
             group-hover:translate-y-0 group-hover:opacity-100
             lg:flex
           ">
-          {formatPrice(product.price)}
+          {formatCurrency(product.price)}
         </div>
 
         {/* Availability Badge */}
@@ -103,7 +97,7 @@ export function ProductCard({
 
         {/* Price Mobile */}
         <p className="text-[13px] font-semibold lg:hidden">
-          {formatPrice(product.price)}
+          {formatCurrency(product.price)}
         </p>
 
         {/* Category & Campus Info */}
