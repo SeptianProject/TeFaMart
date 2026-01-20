@@ -5,12 +5,12 @@ export default function Footer() {
   const date = new Date().getFullYear();
 
   return (
-    <CardFooter className="bg-gray-50 pt-16 pb-8 mt-20 border-t border-gray-100">
+    <CardFooter className="bg-background pt-16 pb-8 mt-20">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-bold">
+              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center text-white font-bold">
                 T
               </div>
               <span className="text-xl font-bold text-gray-800">T-Mart</span>
@@ -34,7 +34,7 @@ export default function Footer() {
                 <li key={item}>
                   <Link
                     href={"#"}
-                    className="text-gray-500 hover:text-blue-600 transition-colors">
+                    className="text-gray-500 hover:text-primary transition-colors">
                     {item}
                   </Link>
                 </li>
@@ -48,7 +48,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="#"
-                  className="text-gray-500 hover:text-blue-600 transition-colors">
+                  className="text-gray-500 hover:text-primary transition-colors">
                   Hubungi Kami
                 </Link>
               </li>

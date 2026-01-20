@@ -29,16 +29,16 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ categories }) => {
   );
 
   return (
-    <section className="w-full flex flex-col gap-10">
+    <section className="w-full flex flex-col gap-6 sm:gap-8 lg:gap-10">
       <TitleLanding name="Kategori Produk Populer" />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 md:h-[calc(100vh-100px)] w-full transition-all duration-700">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-rows-2 lg:grid-cols-4 h-auto md:h-[calc(100vh-100px)] w-full transition-all duration-700">
         {categories.map((item, index) => {
           const categoryImage = getCategoryImage(item);
 
           return (
             <div
               key={item.id} // Best practice: gunakan id unik daripada index
-              className={`relative rounded-xl overflow-hidden h-64 md:h-auto w-full group cursor-pointer
+              className={`relative rounded-xl overflow-hidden h-48 sm:h-56 md:h-auto w-full group cursor-pointer
                               ${
                                 index === 0 || index === 5
                                   ? "md:col-span-2"
@@ -58,11 +58,13 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ categories }) => {
                 priority={index < 2} // Load first 2 images with priority
               />
               {/* Overlay dengan nama kategori */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-3 sm:p-4 md:p-6">
                 <div className="text-white">
-                  <h3 className="text-2xl font-bold mb-1">{item.name}</h3>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
+                    {item.name}
+                  </h3>
                   {item._count && (
-                    <p className="text-sm text-gray-200">
+                    <p className="text-xs sm:text-sm text-gray-200">
                       {item._count.products} produk
                     </p>
                   )}
