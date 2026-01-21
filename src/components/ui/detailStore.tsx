@@ -77,7 +77,7 @@ export default function DetailStore({
 
         <span className="relative cursor-pointer pb-2 font-semibold text-black">
           Produk
-          <span className="absolute left-0 -bottom-[1px] h-[2px] w-full bg-black rounded-full" />
+          <span className="absolute left-0 -bottom-px h-0.5 w-full bg-black rounded-full" />
         </span>
 
         <span className="cursor-pointer pb-2">Ulasan</span>

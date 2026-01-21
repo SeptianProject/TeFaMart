@@ -6,9 +6,11 @@ import Image from "next/image";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import SearchModal from "./ui/SearchModal";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   return (
     <nav className="w-full bg-background border-b border-gray-200 sticky top-0 z-50">
@@ -29,12 +31,12 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Search */}
-        <div className="hidden md:flex flex-1 mx-6 lg:mx-12 max-w-2xl relative">
-          <Input
-            type="text"
-            placeholder="Cari di TeFaMart"
-            className="w-full bg-gray-50 border border-gray-200 rounded-full py-2.5 lg:py-3 px-6 pl-10 lg:pl-12 text-sm lg:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-          />
+        <div
+          className="hidden md:flex flex-1 mx-6 lg:mx-12 max-w-2xl relative cursor-pointer"
+          onClick={() => setIsSearchModalOpen(true)}>
+          <div className="w-full bg-gray-50 border border-gray-200 rounded-full py-2.5 lg:py-3 px-6 pl-10 lg:pl-12 text-sm lg:text-base text-gray-500 flex items-center">
+            Cari di TeFaMart
+          </div>
           <Search className="absolute left-3 lg:left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 lg:w-5 lg:h-5" />
         </div>
 
@@ -65,12 +67,12 @@ export default function Navbar() {
         <div className="sm:hidden border-t border-gray-200 bg-background">
           <div className="px-4 py-4 space-y-4">
             {/* Mobile Search */}
-            <div className="relative">
-              <Input
-                type="text"
-                placeholder="Cari di TeFaMart"
-                className="w-full bg-gray-50 border border-gray-200 rounded-full py-2.5 px-6 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              />
+            <div
+              className="relative cursor-pointer"
+              onClick={() => setIsSearchModalOpen(true)}>
+              <div className="w-full bg-gray-50 border border-gray-200 rounded-full py-2.5 px-6 pl-10 text-sm text-gray-500 flex items-center">
+                Cari di TeFaMart
+              </div>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
             </div>
 
@@ -88,6 +90,12 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
+      {/* Search Modal */}
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
+      />
     </nav>
   );
 }

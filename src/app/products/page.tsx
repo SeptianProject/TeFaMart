@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,10 @@ import { ProductCard, ProductPagination } from "@/components/ui/productCard";
 import { Product } from "@/types";
 
 export default function ProductFilter() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search");
+  const categorySlug = searchParams.get("category");
+
   const [openFilter, setOpenFilter] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -70,12 +75,24 @@ export default function ProductFilter() {
         setLoading(true);
 
         const params = new URLSearchParams();
+
+        // Add search query if exists
+        if (searchQuery) {
+          params.append("search", searchQuery);
+        }
+
+        // Add category slug if exists
+        if (categorySlug) {
+          params.append("categorySlug", categorySlug);
+        }
+
         if (filterCategories!.length > 0) {
           params.append("kategori", filterCategories!.join(","));
         }
         if (filterTypes!.length > 0) {
           params.append("jenis", filterTypes!.join(","));
         }
+
         const products = await fetch(
           `/api/client/product?${params.toString()}`,
           {
@@ -100,7 +117,7 @@ export default function ProductFilter() {
     };
 
     fetchDataProducts();
-  }, [filterCategories, filterTypes]);
+  }, [filterCategories, filterTypes, searchQuery, categorySlug]);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -147,6 +164,14 @@ export default function ProductFilter() {
             <span>Beranda</span>
             <span>›</span>
             <span className="font-medium text-black">Produk</span>
+            {searchQuery && (
+              <>
+                <span>›</span>
+                <span className="font-medium text-blue-600">
+                  &quot;{searchQuery}&quot;
+                </span>
+              </>
+            )}
           </div>
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[260px_1fr]">

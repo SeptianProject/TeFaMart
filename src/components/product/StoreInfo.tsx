@@ -45,7 +45,7 @@ export function StoreInfo({ product }: StoreInfoProps) {
 
       <div className="flex gap-2 pt-2">
         <Button variant="outline" className="flex-1" asChild>
-          <Link href={`/detailStore(pProduk)/${product.tefa.campusId}`}>
+          <Link href={`/store/${product.tefa.campusId}`}>
             <Building2 className="w-4 h-4 mr-2" />
             Kunjungi Toko
           </Link>

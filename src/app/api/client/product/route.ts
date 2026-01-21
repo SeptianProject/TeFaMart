@@ -7,13 +7,59 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const kategoriParam = searchParams.get("kategori");
     const jenisParam = searchParams.get("jenis");
+    const searchQuery = searchParams.get("search");
+    const categorySlug = searchParams.get("categorySlug");
+
     const whereClause: Prisma.ProductWhereInput = {};
 
+    // Search by text
+    if (searchQuery) {
+      whereClause.OR = [
+        {
+          name: {
+            contains: searchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: searchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          category: {
+            name: {
+              contains: searchQuery,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          tefa: {
+            name: {
+              contains: searchQuery,
+              mode: "insensitive",
+            },
+          },
+        },
+      ];
+    }
+
+    // Filter by category slug
+    if (categorySlug) {
+      whereClause.category = {
+        slug: categorySlug,
+      };
+    }
+
+    // Filter by category IDs
     if (kategoriParam) {
       const categories = kategoriParam.split(",");
       whereClause.categoryId = { in: categories };
     }
 
+    // Filter by sale type
     if (jenisParam) {
       const saleType = jenisParam.split(",");
       const sale = saleType.map((item) => {
