@@ -1,13 +1,35 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { SearchData, Product, Category, Tefa } from "@/types/search";
+
+// Fetch function for React Query
+async function fetchSearch(
+  query: string,
+  signal?: AbortSignal,
+): Promise<SearchData | null> {
+  if (!query.trim() || query.trim().length < 2) {
+    return null;
+  }
+
+  const response = await fetch(
+    `/api/products/search?q=${encodeURIComponent(query)}`,
+    { signal },
+  );
+
+  if (!response.ok) {
+    throw new Error("Search failed");
+  }
+
+  const result = await response.json();
+  return result.success ? result.data : null;
+}
 
 export function useSearch() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [searchData, setSearchData] = useState<SearchData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -15,48 +37,46 @@ export function useSearch() {
   useEffect(() => {
     const history = localStorage.getItem("searchHistory");
     if (history) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearchHistory(JSON.parse(history));
     }
   }, []);
 
-  // Fetch search results with debounce
-  const fetchSearchResults = useCallback(async (query: string) => {
-    if (!query.trim()) {
-      setSearchData(null);
-      setIsLoading(false);
-      return;
-    }
+  // React Query with auto-caching and AbortController
+  const { data: searchData, isLoading } = useQuery({
+    queryKey: ["search", debouncedQuery],
+    queryFn: ({ signal }) => fetchSearch(debouncedQuery, signal),
+    enabled: debouncedQuery.length >= 2,
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
+    retry: 1,
+  });
 
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `/api/products/search?q=${encodeURIComponent(query)}`,
-      );
-      const result = await response.json();
-
-      if (result.success) {
-        setSearchData(result.data);
-      }
-    } catch (error) {
-      console.error("Search error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  // Handle input change with debounce
+  // Handle input change with optimized debounce (250ms)
+  // Handle input change with optimized debounce (250ms)
   const handleInputChange = (value: string) => {
     setSearchQuery(value);
     setSelectedIndex(-1);
 
+    // Clear previous timer
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
 
+    // Optimal debounce: 250ms
     debounceTimerRef.current = setTimeout(() => {
-      fetchSearchResults(value);
-    }, 300);
+      setDebouncedQuery(value);
+    }, 250);
   };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
 
   // Add to search history
   const addToHistory = (query: string) => {

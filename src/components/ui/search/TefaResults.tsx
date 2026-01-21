@@ -31,10 +31,10 @@ export function TefaResults({
             onClick={() => onTefaClick(tefa)}
             className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all group border border-transparent ${
               selectedIndex === index
-                ? "bg-blue-50 border-blue-200"
+                ? "bg-primary-50 border-primary-200"
                 : "hover:bg-gray-50 hover:border-gray-200"
             }`}>
-            <div className="shrink-0 w-12 h-12 rounded-lg bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+            <div className="shrink-0 w-12 h-12 rounded-lg bg-linear-to-br from-primary to-primary-dark flex items-center justify-center">
               <Building2 className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1 min-w-0">
@@ -46,7 +46,7 @@ export function TefaResults({
                   {tefa.campus.name}
                 </p>
                 <span className="text-xs text-gray-400">•</span>
-                <p className="text-xs text-blue-600 font-medium">
+                <p className="text-xs text-primary font-medium">
                   {tefa._count.products} produk
                 </p>
               </div>
@@ -54,7 +54,7 @@ export function TefaResults({
                 {tefa.major}
               </p>
             </div>
-            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 shrink-0 transition-colors" />
+            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-primary shrink-0 transition-colors" />
           </div>
         ))}
       </div>

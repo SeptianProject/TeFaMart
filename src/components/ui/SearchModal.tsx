@@ -115,7 +115,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 />
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#7c7c7c] w-5 h-5 group-focus-within:text-primary transition-colors" />
                 {isLoading && (
-                  <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-500 w-5 h-5 animate-spin" />
+                  <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 text-primary w-5 h-5 animate-spin" />
                 )}
               </div>
               <Button

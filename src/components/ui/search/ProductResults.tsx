@@ -37,7 +37,7 @@ export function ProductResults({
               onClick={() => onProductClick(product)}
               className={`flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-all group ${
                 selectedIndex === productIndex
-                  ? "bg-blue-50"
+                  ? "bg-primary/20"
                   : "hover:bg-gray-50"
               }`}>
               <div className="relative w-12 h-12 shrink-0 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
@@ -64,12 +64,12 @@ export function ProductResults({
                     {product.category?.name || "Tanpa Kategori"}
                   </p>
                   <span className="text-xs text-gray-400">•</span>
-                  <p className="text-xs font-semibold text-blue-600 shrink-0">
+                  <p className="text-xs font-semibold text-primary shrink-0">
                     {formatCurrency(product.price)}
                   </p>
                 </div>
               </div>
-              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-500 shrink-0" />
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary shrink-0" />
             </div>
           );
         })}

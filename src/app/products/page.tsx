@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,7 +9,7 @@ import SidebarFilter from "@/components/ui/sidebarFilter";
 import { ProductCard, ProductPagination } from "@/components/ui/productCard";
 import { Product } from "@/types";
 
-export default function ProductFilter() {
+function ProductFilterContent() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search");
   const categorySlug = searchParams.get("category");
@@ -272,5 +272,18 @@ export default function ProductFilter() {
         </div>
       )}
     </>
+  );
+}
+
+export default function ProductFilter() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
+        </div>
+      }>
+      <ProductFilterContent />
+    </Suspense>
   );
 }

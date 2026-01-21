@@ -19,7 +19,7 @@ export function SearchSuggestions({
           <button
             key={index}
             onClick={() => onSuggestionClick(suggestion)}
-            className="px-4 py-2 bg-gray-100 hover:bg-blue-50 border border-gray-200 hover:border-blue-300 rounded-lg text-sm text-gray-700 hover:text-blue-600 transition-all duration-200 font-medium">
+            className="px-4 py-2 bg-gray-100 hover:bg-primary/20 border border-gray-200 hover:border-primary/80 rounded-lg text-sm text-gray-700 hover:text-primary transition-all duration-200 font-medium">
             {suggestion}
           </button>
         ))}

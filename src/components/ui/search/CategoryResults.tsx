@@ -41,7 +41,7 @@ export function CategoryResults({
                   : "hover:bg-gray-50"
               }`}>
               <div className="flex items-center gap-2">
-                <Tag className="w-4 h-4 text-blue-500" />
+                <Tag className="w-4 h-4 text-primary" />
                 <div>
                   <p className="text-sm font-medium text-gray-900">
                     {highlightText(category.name, searchQuery)}
@@ -51,7 +51,7 @@ export function CategoryResults({
                   </p>
                 </div>
               </div>
-              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-500" />
+              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-primary" />
             </div>
           );
         })}

@@ -27,7 +27,7 @@ export function SearchHistory({
           variant="ghost"
           size="sm"
           onClick={onClearAll}
-          className="text-xs text-blue-600 hover:text-blue-700 h-7 px-2">
+          className="text-xs text-primary hover:text-primary-foreground h-8 px-3">
           Hapus Semua
         </Button>
       </div>
@@ -48,8 +48,8 @@ export function SearchHistory({
                 e.stopPropagation();
                 onRemoveItem(item);
               }}
-              className="opacity-0 group-hover:opacity-100 transition-opacity h-7 w-7">
-              <X className="w-3.5 h-3.5 text-gray-400" />
+              className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-7 w-7 bg-primary/50">
+              <X className="w-3.5 h-3.5 text-primary-foreground" />
             </Button>
           </div>
         ))}
