@@ -7,9 +7,22 @@ import { fileToBase64 } from "@/helper/image-converter";
 import cloudinary from "@/lib/cloudinary";
 import { getPublicIdFromUrl } from "@/helper/cloudinary-helper";
 
+// Helper function to generate unique slug
+function generateSlug(name: string): string {
+  const baseSlug = name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
+  const timestamp = Date.now().toString(36);
+  return `${baseSlug}-${timestamp}`;
+}
+
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -57,14 +70,14 @@ export async function DELETE(
     console.error("Error deleting product:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -79,21 +92,23 @@ export async function PUT(
       where: { id },
       include: {
         tefa: { select: { campusId: true } },
-      }
+      },
     });
 
     if (!product) {
-      return NextResponse.json({
-        error: "Product not found"
-      }, { status: 404 });
+      return NextResponse.json(
+        {
+          error: "Product not found",
+        },
+        { status: 404 },
+      );
     }
 
     if (product.tefa.campusId !== session.user.campusId) {
-      console.error(`Forbidden Update: User Campus ${session.user.campusId} tries to edit Product Campus ${product.tefa.campusId}`);
-      return NextResponse.json(
-        { error: "Forbidden" },
-        { status: 403 }
+      console.error(
+        `Forbidden Update: User Campus ${session.user.campusId} tries to edit Product Campus ${product.tefa.campusId}`,
       );
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const body = await req.formData();
@@ -105,7 +120,7 @@ export async function PUT(
     if (!name || isNaN(price)) {
       return NextResponse.json(
         { error: "Name, price, and stock are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const image = body.get("imageUrl") as File | null;
@@ -127,18 +142,21 @@ export async function PUT(
       try {
         const base64Image = await fileToBase64(image);
 
-        const uploadImage = await cloudinary.uploader.upload(`data:${image.type};base64,${base64Image}`, {
-          folder: "tefamart_products",
-          resource_type: "image",
-          quality: "auto"
-        });
+        const uploadImage = await cloudinary.uploader.upload(
+          `data:${image.type};base64,${base64Image}`,
+          {
+            folder: "tefamart_products",
+            resource_type: "image",
+            quality: "auto",
+          },
+        );
 
         imageUrl = uploadImage.secure_url;
       } catch (error) {
         console.error("Error upload image: ", error);
         return NextResponse.json(
           { error: "Failed to upload image" },
-          { status: 500 }
+          { status: 500 },
         );
       }
     }
@@ -147,6 +165,7 @@ export async function PUT(
       where: { id },
       data: {
         name: name ?? product.name,
+        slug: name && name !== product.name ? generateSlug(name) : product.slug,
         description: description ?? product.description ?? null,
         price: price ?? product.price ?? 0,
         isAvailable: isAvailable ?? product.isAvailable,
@@ -168,14 +187,14 @@ export async function PUT(
     console.error("Error updating product:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -210,7 +229,7 @@ export async function GET(
     console.error("Error fetching product:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

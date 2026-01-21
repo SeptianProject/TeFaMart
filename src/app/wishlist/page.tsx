@@ -1,66 +1,153 @@
 "use client";
 
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
-import { Product } from "@/types";
-import WishlistTable from "@/components/ui/wishlistTable";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Heart } from "lucide-react";
 
-/* data dummy */
-const dummyProducts: Product[] = [
-  {
-    id: "1",
-    name: "Website Company Profile",
-    price: 1500000,
-    stock: 10,
-    imageUrl: "/assets/logo/logo-poliwangi.png",
-  },
-  {
-    id: "2",
-    name: "Aplikasi Kasir UMKM",
-    price: 2500000,
-    stock: 0,
-    imageUrl: "/assets/logo/logo-smea.png",
-  },
-  {
-    id: "3",
-    name: "Desain UI/UX Mobile App",
-    price: 1200000,
-    stock: 5,
-    imageUrl: "/assets/logo/logo-polinema.png",
-  },
-  {
-    id: "4",
-    name: "Landing Page Produk",
-    price: 800000,
-    stock: 0,
-    imageUrl: "/assets/logo/logo-pens.png",
-  },
-];
+interface WishlistItem {
+  id: string;
+  productId: string;
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    images: string[];
+    slug: string;
+  };
+}
 
 export default function WishlistPage() {
-  return (
-    <>
-      <Navbar />
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-5 py-6">
-          {/* breadcrumb */}
-          <div className="mb-4 flex items-center gap-2 text-sm text-gray-500">
-            <span>Beranda</span>
-            <span>›</span>
-            <span className="font-medium text-black">Wishlist</span>
-          </div>
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/login");
+      return;
+    }
 
-          <h1 className="mb-5 text-xl font-semibold lg:text-2xl">
-            Wishlist
-          </h1>
+    if (status === "authenticated") {
+      fetchWishlist();
+    }
+  }, [status, router]);
 
-          {/* TABLE COMPONENT */}
-          <WishlistTable products={dummyProducts} />
-        </div>
+  const fetchWishlist = async () => {
+    try {
+      const response = await fetch("/api/wishlist");
+      if (response.ok) {
+        const data = await response.json();
+        setWishlist(data);
+      }
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const removeFromWishlist = async (productId: string) => {
+    try {
+      const response = await fetch(`/api/wishlist/${productId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setWishlist((prev) =>
+          prev.filter((item) => item.productId !== productId),
+        );
+      }
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
+  };
+
+  if (status === "loading" || loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-8 w-48" />
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-64 w-full" />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
+    );
+  }
 
-      <Footer />
-    </>
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold flex items-center gap-2">
+            <Heart className="h-6 w-6" />
+            Wishlist Saya
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {wishlist.length === 0 ? (
+            <div className="text-center py-12">
+              <Heart className="h-16 w-16 mx-auto text-gray-300 mb-4" />
+              <p className="text-gray-600 mb-4">
+                Belum ada produk di wishlist Anda
+              </p>
+              <Button onClick={() => router.push("/products")}>
+                Jelajahi Produk
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {wishlist.map((item) => (
+                <div
+                  key={item.id}
+                  className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                  <div className="aspect-square bg-gray-100 relative">
+                    {item.product.images[0] && (
+                      <img
+                        src={item.product.images[0]}
+                        alt={item.product.name}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-semibold mb-2">{item.product.name}</h3>
+                    <p className="text-lg font-bold text-primary mb-4">
+                      Rp {item.product.price.toLocaleString("id-ID")}
+                    </p>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() =>
+                          router.push(`/products/${item.product.slug}`)
+                        }>
+                        Lihat
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        onClick={() => removeFromWishlist(item.productId)}>
+                        Hapus
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

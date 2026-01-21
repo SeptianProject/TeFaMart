@@ -168,6 +168,7 @@ export const TefaScalarFieldEnum = {
   major: 'major',
   description: 'description',
   campusId: 'campusId',
+  slug: 'slug',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -192,6 +193,7 @@ export type IndustryScalarFieldEnum = (typeof IndustryScalarFieldEnum)[keyof typ
 export const ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  slug: 'slug',
   description: 'description',
   price: 'price',
   isAvailable: 'isAvailable',

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CardFooter } from "../ui/card";
+import { CardFooter } from "./ui/card";
+import Image from "next/image";
 
 export default function Footer() {
   const date = new Date().getFullYear();
@@ -9,12 +10,20 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center text-white font-bold">
-                T
-              </div>
-              <span className="text-xl font-bold text-gray-800">T-Mart</span>
-            </div>
+            <Link
+              href={"/"}
+              className="flex items-center gap-2 mb-4 shrink-0">
+              <Image
+                src={"/assets/logo-nav-client.png"}
+                width={40}
+                height={40}
+                alt="Logo"
+                className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"
+              />
+              <span className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
+                <span className="text-primary">TeFa</span>Mart
+              </span>
+            </Link>
             <p className="text-gray-500 leading-relaxed mb-6 max-w-sm">
               Platform E-Commerce resmi hasil inovasi dan praktikum
               siswa/mahasiswa vokasi. Dari ruang kelas menuju pasar global.

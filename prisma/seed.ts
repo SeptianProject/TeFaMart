@@ -1,6 +1,16 @@
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+// Helper function to generate slug
+function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
 async function main() {
   console.log("🌱 Starting seeding...");
 
@@ -188,6 +198,7 @@ async function main() {
   const productData = [
     {
       name: "Website Company Profile",
+      slug: "website-company-profile",
       description: "Pembuatan website company profile profesional",
       price: 5000000,
       isAvailable: "Tersedia",
@@ -196,6 +207,7 @@ async function main() {
     },
     {
       name: "Aplikasi Mobile Android",
+      slug: "aplikasi-mobile-android",
       description: "Pengembangan aplikasi mobile berbasis Android",
       price: 15000000,
       isAvailable: "Tersedia",
@@ -204,6 +216,7 @@ async function main() {
     },
     {
       name: "Sistem Informasi Manajemen",
+      slug: "sistem-informasi-manajemen",
       description: "Pembuatan sistem informasi manajemen terintegrasi",
       price: 25000000,
       isAvailable: "Tersedia",
@@ -212,6 +225,7 @@ async function main() {
     },
     {
       name: "Mesin CNC Custom",
+      slug: "mesin-cnc-custom",
       description: "Pembuatan mesin CNC sesuai kebutuhan",
       price: 50000000,
       isAvailable: "Tersedia",
@@ -220,6 +234,7 @@ async function main() {
     },
     {
       name: "Komponen Mesin Presisi",
+      slug: "komponen-mesin-presisi",
       description: "Produksi komponen mesin dengan presisi tinggi",
       price: 2000000,
       isAvailable: "Tersedia",
@@ -228,6 +243,7 @@ async function main() {
     },
     {
       name: "Panel Listrik Industri",
+      slug: "panel-listrik-industri",
       description: "Pembuatan panel listrik untuk industri",
       price: 8000000,
       isAvailable: "Tersedia",
@@ -236,6 +252,7 @@ async function main() {
     },
     {
       name: "Sistem Kontrol Otomatis",
+      slug: "sistem-kontrol-otomatis",
       description: "Instalasi sistem kontrol otomatis berbasis PLC",
       price: 12000000,
       isAvailable: "Tersedia",

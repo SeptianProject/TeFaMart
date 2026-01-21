@@ -2,12 +2,18 @@ import Image from "next/image";
 import React from "react";
 import TitleLanding from "../ui/titleLanding";
 import { Category } from "@/types";
+import { CategoryGridSkeleton } from "../skeletons/CategoryCardSkeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductCategoryProps {
   categories: Category[];
+  isLoading?: boolean;
 }
 
-const ProductCategory: React.FC<ProductCategoryProps> = ({ categories }) => {
+const ProductCategory: React.FC<ProductCategoryProps> = ({
+  categories,
+  isLoading = false,
+}) => {
   const getCategoryImage = (category: Category): string => {
     if (category.products && category.products.length > 0) {
       const productWithImage = category.products.find(
@@ -27,6 +33,26 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ categories }) => {
       hasImages: c.products?.some((p) => p.imageUrl) || false,
     })),
   );
+
+  if (isLoading) {
+    return (
+      <section className="w-full flex flex-col gap-6 sm:gap-8 lg:gap-10">
+        <TitleLanding name="Kategori Produk Populer" />
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-rows-2 lg:grid-cols-4 h-auto md:h-[calc(100vh-100px)] w-full">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              key={index}
+              className={`rounded-xl overflow-hidden h-48 sm:h-56 md:h-auto w-full
+                ${
+                  index === 0 || index === 5 ? "md:col-span-2" : "md:col-span-1"
+                }`}>
+              <Skeleton className="w-full h-full" />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="w-full flex flex-col gap-6 sm:gap-8 lg:gap-10">

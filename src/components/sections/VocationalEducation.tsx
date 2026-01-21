@@ -114,7 +114,7 @@ const VocationalEducation = () => {
             {duplicatedData.map((item, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center gap-1.5 sm:gap-2 md:gap-2.5 justify-center w-64 sm:w-72 md:w-80 lg:w-86 shrink-0 bg-[#7c7c7c]/10 py-3 sm:py-4 md:py-5 px-4 sm:px-5 md:px-6 rounded-xl grayscale hover:grayscale-0 transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
+                className="flex flex-col items-center gap-1.5 sm:gap-2 md:gap-2.5 justify-center w-64 sm:w-72 md:w-80 lg:w-86 shrink-0 bg-[#7c7c7c]/10 py-3 sm:py-4 md:py-5 px-4 sm:px-5 md:px-6 rounded-xl grayscale hover:grayscale-0 transition-all duration-300 hover:scale-105 cursor-pointer">
                 <Image
                   src={item.image}
                   alt={item.name}

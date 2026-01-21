@@ -1,19 +1,24 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import SidebarFilter from "@/components/ui/sidebarFilter";
+import DetailStore from "@/components/ui/detailStore";
 import { ProductCard, ProductPagination } from "@/components/ui/productCard";
 import { Product } from "@/types";
+import { useParams } from "next/navigation";
 
-export default function ProductFilter() {
-  const [openFilter, setOpenFilter] = useState(false);
+export default function DetailStoreProduct() {
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [openFilter, setOpenFilter] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const gridRef = useRef<HTMLDivElement>(null);
+
+  const params = useParams();
+  const campusId = params.campusId;
 
   const [filterCategories, setFilterCategories] = useState<string[]>([]);
   const handleCategoryChange = (id: string) => {
@@ -34,37 +39,9 @@ export default function ProductFilter() {
     setFilterCategories([]);
     setFilterTypes([]);
   };
-  const toggleWishlist = async (id: string) => {
-    try {
-      const res = await fetch("/api/client/wishlist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          productId: id,
-        }),
-      });
-      if (!res.ok) {
-        throw Error("Failed get data product");
-      } else {
-        setWishlist((prev) => {
-          if (prev.includes(id)) {
-            // Kalau sudah ada, hapus (Unlike)
-            return prev.filter((itemId) => itemId !== id);
-          } else {
-            // Kalau belum ada, tambah (Like)
-            return [...prev, id];
-          }
-        });
-      }
-    } catch (error) {
-      console.error("Error update wishlist product: ", error);
-      throw new Error("Error update wishlist product!");
-    }
-  };
 
   useEffect(() => {
+    if (!campusId) return;
     const fetchDataProducts = async () => {
       try {
         setLoading(true);
@@ -76,15 +53,12 @@ export default function ProductFilter() {
         if (filterTypes!.length > 0) {
           params.append("jenis", filterTypes!.join(","));
         }
-        const products = await fetch(
-          `/api/client/product?${params.toString()}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
+        const products = await fetch(`/api/client/campus/${campusId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+        });
         const dataProducts = await products.json();
         if (Array.isArray(dataProducts)) {
           setProducts(dataProducts);
@@ -100,29 +74,15 @@ export default function ProductFilter() {
     };
 
     fetchDataProducts();
-  }, [filterCategories, filterTypes]);
+  }, [filterCategories, filterTypes, campusId]);
 
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      try {
-        const response = await fetch("/api/client/wishlist");
-        if (response.ok) {
-          const data = await response.json();
-          if (Array.isArray(data)) {
-            const ids = data.map((item: any) => item.product.id);
-            setWishlist(ids);
-          } else {
-            setWishlist([]);
-            console.error("Format data salah: ", data);
-          }
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchWishlist();
-  }, []);
+  const toggleWishlist = (id: string) => {
+    setWishlist((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
 
+  /* auto close filter saat scroll */
   useEffect(() => {
     if (!openFilter) return;
 
@@ -142,15 +102,27 @@ export default function ProductFilter() {
 
       <div className="min-h-screen">
         <div className="container mx-auto px-5 py-5">
-          {/* header title page */}
+          {/* breadcrumb */}
           <div className="mb-4 flex items-center gap-2 text-[13px] text-gray-500">
             <span>Beranda</span>
+            <span>›</span>
+            <span>Pendidikan Vokasi</span>
             <span>›</span>
             <span className="font-medium text-black">Produk</span>
           </div>
 
+          {/* detail store */}
+          <DetailStore
+            name="Politeknik Negeri Banyuwangi"
+            location="Kota Banyuwangi"
+            rating={4.9}
+            reviews={10}
+            sold={10}
+            logo="/assets/logo-nav-client.png"
+          />
+
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[260px_1fr]">
-            {/* sidebar desktop */}
+            {/* SIDEBAR DESKTOP */}
             <aside className="hidden lg:block">
               <SidebarFilter
                 selectedCategories={filterCategories}
@@ -161,30 +133,27 @@ export default function ProductFilter() {
               />
             </aside>
 
-            {/* main */}
+            {/* MAIN */}
             <main ref={gridRef} className="space-y-4">
+              {/* HEADER INFO */}
               <div className="flex items-center justify-between">
                 <p className="text-[12px] text-gray-600">
-                  Menampilkan
-                  <span className="font-semibold mx-1 text-black">
-                    {products.length}
-                  </span>
-                  produk
+                  Menampilkan 1–20 produk dari{" "}
+                  <span className="font-semibold text-black">Website</span>
                 </p>
 
+                {/* FILTER MOBILE */}
                 <Button
                   variant="outline"
                   size="icon"
                   className="rounded-full lg:hidden"
-                  onClick={() => setOpenFilter(true)}
-                >
+                  onClick={() => setOpenFilter(true)}>
                   <svg
                     className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
+                    viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -193,6 +162,7 @@ export default function ProductFilter() {
                   </svg>
                 </Button>
 
+                {/* SORT DESKTOP */}
                 <div className="hidden items-center gap-2 lg:flex">
                   <span className="text-sm font-medium">Urutkan</span>
                   <select className="rounded-lg border px-3 py-2 text-sm">
@@ -204,22 +174,18 @@ export default function ProductFilter() {
               </div>
 
               {/* GRID PRODUK */}
-              {loading ? (
-                <div className="col-span-full flex h-64 w-full items-center justify-center">
-                  <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-                  {products.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      isWishlisted={wishlist.includes(product.id)}
-                      onToggleWishlist={toggleWishlist}
-                    />
-                  ))}
-                </div>
-              )}
+              <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+                {products.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    isWishlisted={wishlist.includes(product.id)}
+                    onToggleWishlist={toggleWishlist}
+                  />
+                ))}
+              </div>
+
+              {/* PAGINATION */}
               <ProductPagination />
             </main>
           </div>
@@ -228,7 +194,7 @@ export default function ProductFilter() {
 
       <Footer />
 
-      {/* mobile filter */}
+      {/* MOBILE FILTER */}
       {openFilter && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div

@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Wishlist } from "@/components/ui/wishlist";
 import { Product } from "@/types";
 import Link from "next/link";
 import { formatCurrency } from "@/helper/format-currency";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 type ProductCardProps = {
   product: Product;
@@ -31,7 +31,6 @@ export function ProductCard({
   showWishlist = true,
   onToggleWishlist,
 }: ProductCardProps) {
-
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -42,7 +41,7 @@ export function ProductCard({
 
   return (
     <Link
-      href={`/products/${product.id}`}
+      href={`/products/${product.slug}`}
       className="group overflow-hidden rounded-lg border bg-white transition hover:shadow-md block">
       {/* IMAGE */}
       <div
@@ -59,7 +58,7 @@ export function ProductCard({
         )}
 
         {/* Product Image */}
-        <Image
+        <OptimizedImage
           src={product.imageUrl || "/assets/placeholder-product.png"}
           alt={product.name}
           fill

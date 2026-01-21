@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import PopularProduct from "@/components/sections/PopularProduct";
 import ProductCategory from "@/components/sections/ProductCategory";
@@ -16,12 +16,14 @@ import { fetchCategories } from "@/services/categoryService";
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  const { data: products = [] } = useQuery<Product[]>({
+  const { data: products = [], isLoading: isLoadingProducts } = useQuery<
+    Product[]
+  >({
     queryKey: ["products"],
     queryFn: () => fetchProducts(),
   });
 
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [], isLoading: isLoadingCategories } = useQuery({
     queryKey: ["categories"],
     queryFn: () => fetchCategories(),
   });
@@ -50,7 +52,7 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-25 space-y-10 sm:space-y-12 md:space-y-16 lg:space-y-20 py-6 sm:py-8 md:py-10 lg:py-15">
+      <div className="transition flex flex-col items-center w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-25 space-y-10 sm:space-y-12 md:space-y-16 lg:space-y-20 py-6 sm:py-8 md:py-10 lg:py-15">
         {/* hero section */}
         <HeroSection />
 
@@ -60,10 +62,14 @@ const HomePage = () => {
           categories={categories}
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
+          isLoading={isLoadingProducts || isLoadingCategories}
         />
 
         {/* Product Category */}
-        <ProductCategory categories={categories} />
+        <ProductCategory
+          categories={categories}
+          isLoading={isLoadingCategories}
+        />
 
         {/* Product Auction */}
         <ProductAuction />

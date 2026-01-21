@@ -30,6 +30,7 @@ export type TefaMinAggregateOutputType = {
   major: string | null
   description: string | null
   campusId: string | null
+  slug: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -40,6 +41,7 @@ export type TefaMaxAggregateOutputType = {
   major: string | null
   description: string | null
   campusId: string | null
+  slug: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +52,7 @@ export type TefaCountAggregateOutputType = {
   major: number
   description: number
   campusId: number
+  slug: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -62,6 +65,7 @@ export type TefaMinAggregateInputType = {
   major?: true
   description?: true
   campusId?: true
+  slug?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -72,6 +76,7 @@ export type TefaMaxAggregateInputType = {
   major?: true
   description?: true
   campusId?: true
+  slug?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +87,7 @@ export type TefaCountAggregateInputType = {
   major?: true
   description?: true
   campusId?: true
+  slug?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -165,6 +171,7 @@ export type TefaGroupByOutputType = {
   major: string
   description: string | null
   campusId: string
+  slug: string | null
   createdAt: Date
   updatedAt: Date
   _count: TefaCountAggregateOutputType | null
@@ -196,6 +203,7 @@ export type TefaWhereInput = {
   major?: Prisma.StringFilter<"Tefa"> | string
   description?: Prisma.StringNullableFilter<"Tefa"> | string | null
   campusId?: Prisma.StringFilter<"Tefa"> | string
+  slug?: Prisma.StringNullableFilter<"Tefa"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Tefa"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tefa"> | Date | string
   campus?: Prisma.XOR<Prisma.CampusScalarRelationFilter, Prisma.CampusWhereInput>
@@ -208,6 +216,7 @@ export type TefaOrderByWithRelationInput = {
   major?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   campusId?: Prisma.SortOrder
+  slug?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   campus?: Prisma.CampusOrderByWithRelationInput
@@ -216,6 +225,7 @@ export type TefaOrderByWithRelationInput = {
 
 export type TefaWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  slug?: string
   AND?: Prisma.TefaWhereInput | Prisma.TefaWhereInput[]
   OR?: Prisma.TefaWhereInput[]
   NOT?: Prisma.TefaWhereInput | Prisma.TefaWhereInput[]
@@ -227,7 +237,7 @@ export type TefaWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Tefa"> | Date | string
   campus?: Prisma.XOR<Prisma.CampusScalarRelationFilter, Prisma.CampusWhereInput>
   products?: Prisma.ProductListRelationFilter
-}, "id">
+}, "id" | "slug">
 
 export type TefaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -235,6 +245,7 @@ export type TefaOrderByWithAggregationInput = {
   major?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   campusId?: Prisma.SortOrder
+  slug?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.TefaCountOrderByAggregateInput
@@ -251,6 +262,7 @@ export type TefaScalarWhereWithAggregatesInput = {
   major?: Prisma.StringWithAggregatesFilter<"Tefa"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Tefa"> | string | null
   campusId?: Prisma.StringWithAggregatesFilter<"Tefa"> | string
+  slug?: Prisma.StringNullableWithAggregatesFilter<"Tefa"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tefa"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tefa"> | Date | string
 }
@@ -260,6 +272,7 @@ export type TefaCreateInput = {
   name: string
   major: string
   description?: string | null
+  slug?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   campus: Prisma.CampusCreateNestedOneWithoutTefasInput
@@ -272,6 +285,7 @@ export type TefaUncheckedCreateInput = {
   major: string
   description?: string | null
   campusId: string
+  slug?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutTefaInput
@@ -282,6 +296,7 @@ export type TefaUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   major?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campus?: Prisma.CampusUpdateOneRequiredWithoutTefasNestedInput
@@ -294,6 +309,7 @@ export type TefaUncheckedUpdateInput = {
   major?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campusId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUncheckedUpdateManyWithoutTefaNestedInput
@@ -305,6 +321,7 @@ export type TefaCreateManyInput = {
   major: string
   description?: string | null
   campusId: string
+  slug?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -314,6 +331,7 @@ export type TefaUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   major?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -324,6 +342,7 @@ export type TefaUncheckedUpdateManyInput = {
   major?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campusId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -344,6 +363,7 @@ export type TefaCountOrderByAggregateInput = {
   major?: Prisma.SortOrder
   description?: Prisma.SortOrder
   campusId?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -354,6 +374,7 @@ export type TefaMaxOrderByAggregateInput = {
   major?: Prisma.SortOrder
   description?: Prisma.SortOrder
   campusId?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -364,6 +385,7 @@ export type TefaMinOrderByAggregateInput = {
   major?: Prisma.SortOrder
   description?: Prisma.SortOrder
   campusId?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -434,6 +456,7 @@ export type TefaCreateWithoutCampusInput = {
   name: string
   major: string
   description?: string | null
+  slug?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductCreateNestedManyWithoutTefaInput
@@ -444,6 +467,7 @@ export type TefaUncheckedCreateWithoutCampusInput = {
   name: string
   major: string
   description?: string | null
+  slug?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutTefaInput
@@ -484,6 +508,7 @@ export type TefaScalarWhereInput = {
   major?: Prisma.StringFilter<"Tefa"> | string
   description?: Prisma.StringNullableFilter<"Tefa"> | string | null
   campusId?: Prisma.StringFilter<"Tefa"> | string
+  slug?: Prisma.StringNullableFilter<"Tefa"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Tefa"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tefa"> | Date | string
 }
@@ -493,6 +518,7 @@ export type TefaCreateWithoutProductsInput = {
   name: string
   major: string
   description?: string | null
+  slug?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   campus: Prisma.CampusCreateNestedOneWithoutTefasInput
@@ -504,6 +530,7 @@ export type TefaUncheckedCreateWithoutProductsInput = {
   major: string
   description?: string | null
   campusId: string
+  slug?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -529,6 +556,7 @@ export type TefaUpdateWithoutProductsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   major?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campus?: Prisma.CampusUpdateOneRequiredWithoutTefasNestedInput
@@ -540,6 +568,7 @@ export type TefaUncheckedUpdateWithoutProductsInput = {
   major?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campusId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -549,6 +578,7 @@ export type TefaCreateManyCampusInput = {
   name: string
   major: string
   description?: string | null
+  slug?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -558,6 +588,7 @@ export type TefaUpdateWithoutCampusInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   major?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUpdateManyWithoutTefaNestedInput
@@ -568,6 +599,7 @@ export type TefaUncheckedUpdateWithoutCampusInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   major?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   products?: Prisma.ProductUncheckedUpdateManyWithoutTefaNestedInput
@@ -578,6 +610,7 @@ export type TefaUncheckedUpdateManyWithoutCampusInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   major?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -619,6 +652,7 @@ export type TefaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   major?: boolean
   description?: boolean
   campusId?: boolean
+  slug?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   campus?: boolean | Prisma.CampusDefaultArgs<ExtArgs>
@@ -632,6 +666,7 @@ export type TefaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   major?: boolean
   description?: boolean
   campusId?: boolean
+  slug?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   campus?: boolean | Prisma.CampusDefaultArgs<ExtArgs>
@@ -643,6 +678,7 @@ export type TefaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   major?: boolean
   description?: boolean
   campusId?: boolean
+  slug?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   campus?: boolean | Prisma.CampusDefaultArgs<ExtArgs>
@@ -654,11 +690,12 @@ export type TefaSelectScalar = {
   major?: boolean
   description?: boolean
   campusId?: boolean
+  slug?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TefaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "major" | "description" | "campusId" | "createdAt" | "updatedAt", ExtArgs["result"]["tefa"]>
+export type TefaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "major" | "description" | "campusId" | "slug" | "createdAt" | "updatedAt", ExtArgs["result"]["tefa"]>
 export type TefaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   campus?: boolean | Prisma.CampusDefaultArgs<ExtArgs>
   products?: boolean | Prisma.Tefa$productsArgs<ExtArgs>
@@ -683,6 +720,7 @@ export type $TefaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     major: string
     description: string | null
     campusId: string
+    slug: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["tefa"]>
@@ -1115,6 +1153,7 @@ export interface TefaFieldRefs {
   readonly major: Prisma.FieldRef<"Tefa", 'String'>
   readonly description: Prisma.FieldRef<"Tefa", 'String'>
   readonly campusId: Prisma.FieldRef<"Tefa", 'String'>
+  readonly slug: Prisma.FieldRef<"Tefa", 'String'>
   readonly createdAt: Prisma.FieldRef<"Tefa", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Tefa", 'DateTime'>
 }

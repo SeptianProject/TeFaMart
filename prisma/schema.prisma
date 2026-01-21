@@ -96,6 +96,7 @@ model Category {
   updatedAt DateTime  @updatedAt
 
   @@index([slug])
+  @@index([name])
 }
 
 model Tefa {
@@ -105,12 +106,15 @@ model Tefa {
   description String?
   campusId    String
   campus      Campus    @relation(fields: [campusId], references: [id], onDelete: Cascade)
+  slug        String?   @unique
   products    Product[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
   @@index([campusId])
   @@index([major])
+  @@index([name])
+  @@index([slug])
 }
 
 model Industry {
@@ -128,6 +132,7 @@ model Industry {
 model Product {
   id          String     @id @default(cuid())
   name        String
+  slug        String     @unique
   description String?
   price       Float
   isAvailable String     @default("Tersedia") // Tersedia, Tidak Tersedia
@@ -141,12 +146,14 @@ model Product {
   auctions    Auction[]
   wishlists   Wishlist[]
   createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  updatedAt   DateTime  @updatedAt
   requests    Request[]
 
   @@index([tefaId])
   @@index([name])
+  @@index([slug])
   @@index([categoryId])
+  @@index([isAvailable, name])
 }
 
 model Request {
