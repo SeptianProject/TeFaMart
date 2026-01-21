@@ -99,7 +99,8 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       <div className="fixed inset-x-0 top-20 z-50 flex justify-center px-4 animate-in fade-in zoom-in-95 slide-in-from-top-10 duration-300">
         <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-gray-200">
           {/* Search Input */}
-          <div className="p-5 border-b border-gray-100">
+          <div
+            className={`p-5 ${hasResults ? "border-b border-gray-200" : ""}`}>
             <div className="flex items-center gap-3">
               <div className="flex-1 relative group">
                 <Input
@@ -109,10 +110,10 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   value={searchQuery}
                   onChange={(e) => handleInputChange(e.target.value)}
                   onKeyDown={(e) => handleKeyDown(e, onClose)}
-                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl py-3.5 px-5 pl-12 text-base focus:outline-none focus:border-blue-500 focus:bg-white transition-all"
+                  className="w-full bg-background rounded-full border-2 border-[#7c7c7c]/10  py-6 px-5 pl-12 text-base focus:outline-none focus:border-primary transition-all duration-300"
                   autoFocus
                 />
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-blue-500 transition-colors" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#7c7c7c] w-5 h-5 group-focus-within:text-primary transition-colors" />
                 {isLoading && (
                   <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-500 w-5 h-5 animate-spin" />
                 )}
@@ -121,7 +122,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                className="rounded-full hover:bg-gray-100 h-11 w-11 shrink-0">
+                className="rounded-full hover:bg-primary h-11 w-11 shrink-0">
                 <X className="w-5 h-5" />
               </Button>
             </div>
