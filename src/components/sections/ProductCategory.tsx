@@ -19,9 +19,9 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
       const productWithImage = category.products.find(
         (product) => product.imageUrl,
       );
-      return productWithImage?.imageUrl || "/assets/placeholder.jpg";
+      return productWithImage?.imageUrl || "/assets/placeholder-product.png";
     }
-    return "/assets/placeholder.jpg";
+    return "/assets/placeholder-product.png";
   };
 
   // Debug: log categories untuk cek data
@@ -87,7 +87,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
               <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-3 sm:p-4 md:p-6">
                 <div className="text-white">
                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
-                    {item.name}
+                    {item.name} 
                   </h3>
                   {item._count && (
                     <p className="text-xs sm:text-sm text-gray-200">

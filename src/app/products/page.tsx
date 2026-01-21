@@ -202,13 +202,15 @@ function ProductFilterContent() {
                   variant="outline"
                   size="icon"
                   className="rounded-full lg:hidden"
-                  onClick={() => setOpenFilter(true)}>
+                  onClick={() => setOpenFilter(true)}
+                >
                   <svg
                     className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    viewBox="0 0 24 24">
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -230,11 +232,11 @@ function ProductFilterContent() {
               {/* GRID PRODUK */}
               {loading ? (
                 <div className="grid grid-cols-3 gap-3">
-                  <ProductCardSkeleton/>
-                  <ProductCardSkeleton/>
-                  <ProductCardSkeleton/>
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
                 </div>
-              ) : (
+              ) : products.length > 0 ? (
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
                   {products.map((product) => (
                     <ProductCard
@@ -244,6 +246,12 @@ function ProductFilterContent() {
                       onToggleWishlist={toggleWishlist}
                     />
                   ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-3 gap-3">
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
                 </div>
               )}
               <ProductPagination />
@@ -285,7 +293,8 @@ export default function ProductFilter() {
         <div className="flex min-h-screen items-center justify-center">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
         </div>
-      }>
+      }
+    >
       <ProductFilterContent />
     </Suspense>
   );

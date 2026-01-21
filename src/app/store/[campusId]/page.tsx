@@ -9,12 +9,32 @@ import DetailStore from "@/components/ui/detailStore";
 import { ProductCard, ProductPagination } from "@/components/ui/productCard";
 import { Product } from "@/types";
 import { useParams } from "next/navigation";
+import { ProductCardSkeleton } from "@/components/skeletons/ProductCardSkeleton";
+
+interface Campus {
+  id: string;
+  name: string;
+  users: [
+    {
+      city: string;
+    },
+  ];
+}
 
 export default function DetailStoreProduct() {
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [openFilter, setOpenFilter] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const [products, setProducts] = useState<Product[]>([]);
+  const [campus, setCampus] = useState<Campus>({
+    id: "",
+    name: "",
+    users: [
+      {
+        city: "",
+      },
+    ],
+  });
   const [loading, setLoading] = useState(true);
 
   const params = useParams();
@@ -40,9 +60,39 @@ export default function DetailStoreProduct() {
     setFilterTypes([]);
   };
 
+  const toggleWishlist = async (id: string) => {
+    try {
+      const res = await fetch("/api/client/wishlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: id,
+        }),
+      });
+      if (!res.ok) {
+        throw Error("Failed get data product");
+      } else {
+        setWishlist((prev) => {
+          if (prev.includes(id)) {
+            // Kalau sudah ada, hapus (Unlike)
+            return prev.filter((itemId) => itemId !== id);
+          } else {
+            // Kalau belum ada, tambah (Like)
+            return [...prev, id];
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error update wishlist product: ", error);
+      throw new Error("Error update wishlist product!");
+    }
+  };
+
   useEffect(() => {
     if (!campusId) return;
-    const fetchDataProducts = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
 
@@ -53,19 +103,21 @@ export default function DetailStoreProduct() {
         if (filterTypes!.length > 0) {
           params.append("jenis", filterTypes!.join(","));
         }
-        const products = await fetch(`/api/client/campus/${campusId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
+        const products = await fetch(
+          `/api/client/campus/${campusId}?${params.toString()}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        });
-        const dataProducts = await products.json();
-        if (Array.isArray(dataProducts)) {
-          setProducts(dataProducts);
-        } else {
-          setProducts([]);
-          console.error("Format data salah: ", dataProducts);
-        }
+        );
+        const data = await products.json();
+        const dataProducts = data.products;
+        const dataCampus = data.campus;
+
+        setProducts(dataProducts);
+        setCampus(dataCampus);
       } catch (error) {
         console.error(error);
       } finally {
@@ -73,14 +125,29 @@ export default function DetailStoreProduct() {
       }
     };
 
-    fetchDataProducts();
+    fetchData();
   }, [filterCategories, filterTypes, campusId]);
 
-  const toggleWishlist = (id: string) => {
-    setWishlist((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    );
-  };
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const response = await fetch("/api/client/wishlist");
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            const ids = data.map((item: any) => item.product.id);
+            setWishlist(ids);
+          } else {
+            setWishlist([]);
+            console.error("Format data salah: ", data);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchWishlist();
+  }, []);
 
   /* auto close filter saat scroll */
   useEffect(() => {
@@ -113,8 +180,8 @@ export default function DetailStoreProduct() {
 
           {/* detail store */}
           <DetailStore
-            name="Politeknik Negeri Banyuwangi"
-            location="Kota Banyuwangi"
+            name={campus.name}
+            location={campus.users[0].city}
             rating={4.9}
             reviews={10}
             sold={10}
@@ -147,13 +214,15 @@ export default function DetailStoreProduct() {
                   variant="outline"
                   size="icon"
                   className="rounded-full lg:hidden"
-                  onClick={() => setOpenFilter(true)}>
+                  onClick={() => setOpenFilter(true)}
+                >
                   <svg
                     className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    viewBox="0 0 24 24">
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -174,16 +243,30 @@ export default function DetailStoreProduct() {
               </div>
 
               {/* GRID PRODUK */}
-              <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-                {products.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    isWishlisted={wishlist.includes(product.id)}
-                    onToggleWishlist={toggleWishlist}
-                  />
-                ))}
-              </div>
+              {loading ? (
+                <div className="grid grid-cols-3 gap-3">
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                </div>
+              ) : products.length > 0 ? (
+                <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+                  {products.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      isWishlisted={wishlist.includes(product.id)}
+                      onToggleWishlist={toggleWishlist}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-3 gap-3">
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
+                </div>
+              )}
 
               {/* PAGINATION */}
               <ProductPagination />

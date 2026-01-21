@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Skeleton } from "../Skeleton";
 
 type SidebarFilterProps = {
   isMobile?: boolean;
@@ -59,11 +60,11 @@ function FilterSection({
   );
 }
 
-function FilterItem({ 
+function FilterItem({
   label,
   checked,
-  onChange
-}: { 
+  onChange,
+}: {
   label: string;
   checked: boolean;
   onChange: () => void;
@@ -83,7 +84,7 @@ export default function SidebarFilter({
   selectedTypes = [],
   onCategoryChange,
   onTypeChange,
-  onReset
+  onReset,
 }: SidebarFilterProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -129,36 +130,44 @@ export default function SidebarFilter({
 
       <FilterSection title="Kategori">
         {loading ? (
-          <div className="col-span-full flex h-64 w-full items-center justify-center">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
+          <div className="space-y-3">
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
           </div>
         ) : categories.length > 0 ? (
           categories.map((category) => (
-            <FilterItem 
-             key={category.id} 
-             label={category.name} 
-             checked={selectedCategories.includes(category.id)}
-             onChange={() => onCategoryChange?.(category.id)}
+            <FilterItem
+              key={category.id}
+              label={category.name}
+              checked={selectedCategories.includes(category.id)}
+              onChange={() => onCategoryChange?.(category.id)}
             />
           ))
         ) : (
-          <div className="col-span-full flex h-64 w-full items-center justify-center">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
+          <div className="space-y-3">
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
           </div>
         )}
       </FilterSection>
 
       <FilterSection title="Jenis">
-        <FilterItem 
-         label="Pre Order"
-         checked={selectedTypes.includes("direct")}
-         onChange={() => onTypeChange?.('direct')}
-         />
-        <FilterItem 
-         label="Lelang" 
-         checked={selectedTypes.includes("auction")}
-         onChange={() => onTypeChange?.('auction')}
-         />
+        <FilterItem
+          label="Pre Order"
+          checked={selectedTypes.includes("direct")}
+          onChange={() => onTypeChange?.("direct")}
+        />
+        <FilterItem
+          label="Lelang"
+          checked={selectedTypes.includes("auction")}
+          onChange={() => onTypeChange?.("auction")}
+        />
       </FilterSection>
 
       {isMobile && (
