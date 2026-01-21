@@ -14,8 +14,8 @@ const HeroSection = () => {
           width={1600}
           height={400}
         />
-        <div className="group-hover:bg-foreground/40 bg-transparent size-full absolute transition duration-300"></div>
-        <div className="absolute -translate-x-full group-hover:translate-x-0 transition duration-300 ease-in-out top-3 left-3 sm:top-4 sm:left-4 lg:top-5 lg:left-5">
+        <div className="bg-foreground/40 size-full absolute transition duration-300"></div>
+        <div className="absolute translate-x-0 transition duration-300 ease-in-out top-3 left-3 sm:top-4 sm:left-4 lg:top-5 lg:left-5">
           <div className="flex items-center gap-2 sm:gap-3 w-4/5 lg:w-3/4">
             <div className="size-10 sm:size-12 lg:size-15 bg-background/20 p-2 sm:p-2.5 lg:p-3 rounded-lg">
               <Handbag className="text-background size-full" />
@@ -26,7 +26,7 @@ const HeroSection = () => {
           </div>
         </div>
         {/* card product */}
-        <div className="group-hover:translate-y-0 translate-y-full absolute w-full bottom-0 left-0 px-3 py-3 sm:px-4 sm:py-4 lg:px-5 lg:py-5 transition duration-300 ease-in-out">
+        <div className="translate-y-0 absolute w-full bottom-0 left-0 px-3 py-3 sm:px-4 sm:py-4 lg:px-5 lg:py-5 transition duration-300 ease-in-out">
           <div className="bg-linear-to-r to-foreground from-muted-foreground opacity-90 w-full h-20 sm:h-24 lg:h-28 rounded-xl flex items-center justify-between px-3 sm:px-4 lg:px-5">
             {/* product image */}
             <div className="flex items-center gap-2 sm:gap-3">
@@ -69,8 +69,8 @@ const HeroSection = () => {
           width={800}
           height={400}
         />
-        <div className="group-hover:bg-foreground/40 bg-transparent size-full absolute transition duration-300"></div>
-        <div className="absolute bottom-0 left-0 flex items-center justify-between w-full h-16 sm:h-18 lg:h-20 px-3 sm:px-4 lg:px-5 translate-y-full group-hover:translate-y-0 bg-transparent transition ease-in-out duration-300">
+        <div className="bg-foreground/40 size-full absolute transition duration-300"></div>
+        <div className="absolute bottom-0 left-0 flex items-center justify-between w-full h-16 sm:h-18 lg:h-20 px-3 sm:px-4 lg:px-5 translate-y-0 bg-transparent transition ease-in-out duration-300">
           <div className="text-background w-1/2 min-w-0">
             <h3 className="text-sm sm:text-base font-semibold truncate">
               ToteBag

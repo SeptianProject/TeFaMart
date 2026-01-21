@@ -5,6 +5,7 @@ type CategoryResultsProps = {
   categories: Category[];
   searchQuery: string;
   selectedIndex: number;
+  selectedItemRef: React.RefObject<HTMLDivElement | null>;
   tefasLength: number;
   productsLength: number;
   onCategoryClick: (category: Category) => void;
@@ -15,6 +16,7 @@ export function CategoryResults({
   categories,
   searchQuery,
   selectedIndex,
+  selectedItemRef,
   tefasLength,
   productsLength,
   onCategoryClick,
@@ -34,11 +36,12 @@ export function CategoryResults({
           return (
             <div
               key={category.id}
+              ref={selectedIndex === categoryIndex ? selectedItemRef : null}
               onClick={() => onCategoryClick(category)}
-              className={`flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all group ${
+              className={`flex border border-transparent items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all group ${
                 selectedIndex === categoryIndex
-                  ? "bg-blue-50"
-                  : "hover:bg-gray-50"
+                  ? "bg-primary/10"
+                  : "hover:bg-primary/10 hover:border-primary/10"
               }`}>
               <div className="flex items-center gap-2">
                 <Tag className="w-4 h-4 text-primary" />

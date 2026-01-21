@@ -17,6 +17,7 @@ import { KeyboardShortcuts } from "./search/KeyboardShortcuts";
 
 export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const selectedItemRef = useRef<HTMLDivElement>(null);
   const {
     searchQuery,
     setSearchQuery,
@@ -46,6 +47,16 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
+
+  // Scroll selected item into view
+  useEffect(() => {
+    if (selectedItemRef.current && selectedIndex >= 0) {
+      selectedItemRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [selectedIndex]);
 
   // Highlight matched text utility
   const highlightText = (text: string, query: string) => {
@@ -145,6 +156,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       tefas={searchData.tefas}
                       searchQuery={searchQuery}
                       selectedIndex={selectedIndex}
+                      selectedItemRef={selectedItemRef}
                       onTefaClick={(tefa) => handleTefaClick(tefa, onClose)}
                       highlightText={highlightText}
                     />
@@ -154,6 +166,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       products={searchData.products}
                       searchQuery={searchQuery}
                       selectedIndex={selectedIndex}
+                      selectedItemRef={selectedItemRef}
                       tefasLength={searchData.tefas.length}
                       onProductClick={(product) =>
                         handleProductClick(product, onClose)
@@ -166,6 +179,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       categories={searchData.categories}
                       searchQuery={searchQuery}
                       selectedIndex={selectedIndex}
+                      selectedItemRef={selectedItemRef}
                       tefasLength={searchData.tefas.length}
                       productsLength={searchData.products.length}
                       onCategoryClick={(category) =>

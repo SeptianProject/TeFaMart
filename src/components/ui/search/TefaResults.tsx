@@ -5,6 +5,7 @@ type TefaResultsProps = {
   tefas: Tefa[];
   searchQuery: string;
   selectedIndex: number;
+  selectedItemRef: React.RefObject<HTMLDivElement | null>;
   onTefaClick: (tefa: Tefa) => void;
   highlightText: (text: string, query: string) => React.ReactNode;
 };
@@ -13,6 +14,7 @@ export function TefaResults({
   tefas,
   searchQuery,
   selectedIndex,
+  selectedItemRef,
   onTefaClick,
   highlightText,
 }: TefaResultsProps) {
@@ -28,11 +30,12 @@ export function TefaResults({
         {tefas.map((tefa, index) => (
           <div
             key={tefa.id}
+            ref={selectedIndex === index ? selectedItemRef : null}
             onClick={() => onTefaClick(tefa)}
             className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all group border border-transparent ${
               selectedIndex === index
-                ? "bg-primary-50 border-primary-200"
-                : "hover:bg-gray-50 hover:border-gray-200"
+                ? "bg-primary/10"
+                : "hover:bg-primary/10 hover:border-primary/10"
             }`}>
             <div className="shrink-0 w-12 h-12 rounded-lg bg-linear-to-br from-primary to-primary-dark flex items-center justify-center">
               <Building2 className="w-6 h-6 text-white" />

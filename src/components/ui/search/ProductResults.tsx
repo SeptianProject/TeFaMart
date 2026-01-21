@@ -7,6 +7,7 @@ type ProductResultsProps = {
   products: Product[];
   searchQuery: string;
   selectedIndex: number;
+  selectedItemRef: React.RefObject<HTMLDivElement | null>;
   tefasLength: number;
   onProductClick: (product: Product) => void;
   highlightText: (text: string, query: string) => React.ReactNode;
@@ -16,6 +17,7 @@ export function ProductResults({
   products,
   searchQuery,
   selectedIndex,
+  selectedItemRef,
   tefasLength,
   onProductClick,
   highlightText,
@@ -34,11 +36,12 @@ export function ProductResults({
           return (
             <div
               key={product.id}
+              ref={selectedIndex === productIndex ? selectedItemRef : null}
               onClick={() => onProductClick(product)}
-              className={`flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-all group ${
+              className={`flex border border-transparent items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-all group ${
                 selectedIndex === productIndex
-                  ? "bg-primary/20"
-                  : "hover:bg-gray-50"
+                  ? "bg-primary/10"
+                  : "hover:bg-primary/10 hover:border-primary/10"
               }`}>
               <div className="relative w-12 h-12 shrink-0 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
                 {product.imageUrl ? (
