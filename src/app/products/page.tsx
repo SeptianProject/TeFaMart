@@ -52,7 +52,8 @@ function ProductFilterContent() {
         }),
       });
       if (!res.ok) {
-        throw Error("Failed get data product");
+        const response = await res.json();
+        throw Error(`Failed get data product: ${response.message}`);
       } else {
         setWishlist((prev) => {
           if (prev.includes(id)) {

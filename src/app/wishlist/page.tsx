@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Heart } from "lucide-react";
+import { Fullscreen, Heart } from "lucide-react";
+import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 interface WishlistItem {
   id: string;
@@ -15,8 +18,8 @@ interface WishlistItem {
     id: string;
     name: string;
     price: number;
-    images: string[];
-    slug: string;
+    imageUrl: string | null;
+    slug?: string;
   };
 }
 
@@ -39,7 +42,7 @@ export default function WishlistPage() {
 
   const fetchWishlist = async () => {
     try {
-      const response = await fetch("/api/wishlist");
+      const response = await fetch("/api/client/wishlist");
       if (response.ok) {
         const data = await response.json();
         setWishlist(data);
@@ -53,8 +56,14 @@ export default function WishlistPage() {
 
   const removeFromWishlist = async (productId: string) => {
     try {
-      const response = await fetch(`/api/wishlist/${productId}`, {
-        method: "DELETE",
+      const response = await fetch(`/api/client/wishlist`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: productId,
+        }),
       });
 
       if (response.ok) {
@@ -87,67 +96,89 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold flex items-center gap-2">
-            <Heart className="h-6 w-6" />
-            Wishlist Saya
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {wishlist.length === 0 ? (
-            <div className="text-center py-12">
-              <Heart className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-600 mb-4">
-                Belum ada produk di wishlist Anda
-              </p>
-              <Button onClick={() => router.push("/products")}>
-                Jelajahi Produk
-              </Button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {wishlist.map((item) => (
-                <div
-                  key={item.id}
-                  className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-square bg-gray-100 relative">
-                    {item.product.images[0] && (
-                      <img
-                        src={item.product.images[0]}
-                        alt={item.product.name}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold mb-2">{item.product.name}</h3>
-                    <p className="text-lg font-bold text-primary mb-4">
-                      Rp {item.product.price.toLocaleString("id-ID")}
-                    </p>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        className="flex-1"
-                        onClick={() =>
-                          router.push(`/products/${item.product.slug}`)
-                        }>
-                        Lihat
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        onClick={() => removeFromWishlist(item.productId)}>
-                        Hapus
-                      </Button>
+    <>
+      <Navbar />
+      <div className="container mx-auto px-4 py-8">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold flex items-center gap-2">
+              <Heart className="h-6 w-6" />
+              Wishlist Saya
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {wishlist.length === 0 ? (
+              <div className="text-center py-12">
+                <Heart className="h-16 w-16 mx-auto text-gray-300 mb-4" />
+                <p className="text-gray-600 mb-4">
+                  Belum ada produk di wishlist Anda
+                </p>
+                <Button onClick={() => router.push("/products")}>
+                  Jelajahi Produk
+                </Button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {wishlist.map((item, index) => (
+                  <div
+                    key={index}
+                    className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                  >
+                    <div className="aspect-square bg-gray-100 relative">
+                      {item.product.imageUrl ? (
+                        <Image
+                          src={
+                            item.product.imageUrl ??
+                            "/assets/placeholder-product.png"
+                          }
+                          alt={item.product.name}
+                          width={100}
+                          height={100}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Image
+                          src={"/assets/placeholder-product.png"}
+                          alt={item.product.name}
+                          width={100}
+                          height={100}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-semibold mb-2">
+                        {item.product.name}
+                      </h3>
+                      <p className="text-lg font-bold text-primary mb-4">
+                        Rp {item.product.price.toLocaleString("id-ID")}
+                      </p>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          className="flex-1"
+                          onClick={() =>
+                            router.push(`/products/${item.product.slug}`)
+                          }
+                        >
+                          Lihat
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          onClick={() => removeFromWishlist(item.productId)}
+                        >
+                          Hapus
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+      <Footer />
+    </>
   );
 }

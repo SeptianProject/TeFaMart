@@ -44,9 +44,33 @@ export async function POST(req: NextRequest) {
 
         const { productId } = await req.json();
 
+        const product = await prisma.product.findUnique({
+            where: {
+                id: productId
+            }
+        });
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: session.user.id
+            }
+        });
+
         if (!productId) {
             return NextResponse.json({
-                message: "ID Product is missing"
+                message: "Data product id not found"
+            }, { status: 400 });
+        }
+
+        if (!product) {
+            return NextResponse.json({
+                message: "Data product not found"
+            }, { status: 400 });
+        }
+
+        if (!user) {
+            return NextResponse.json({
+                message: `Data user not found ${session.user.id}`
             }, { status: 400 });
         }
 
@@ -69,7 +93,7 @@ export async function POST(req: NextRequest) {
                 where: {
                     userId: session.user.id,
                     productId: productId
-                }, 
+                },
                 select: {
                     id: true
                 }
@@ -88,13 +112,13 @@ export async function POST(req: NextRequest) {
                 where: {
                     userId: session.user.id,
                     productId: productId
-                }, 
+                },
                 select: {
                     id: true
                 }
             });
             return NextResponse.json({
-               data: wishlistProducts
+                data: wishlistProducts
             }, { status: 201 });
         }
     } catch (error) {
