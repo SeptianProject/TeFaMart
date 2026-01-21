@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import {  Search, User, Menu, X, Heart } from "lucide-react";
+import { Search, User, Menu, X, Heart } from "lucide-react";
 import Image from "next/image";
-import { Button } from "./ui/button";
 import { useState } from "react";
 import SearchModal from "./ui/SearchModal";
 
@@ -41,12 +40,16 @@ export default function Navbar() {
 
         {/* Desktop Icons */}
         <div className="hidden sm:flex items-center gap-3 lg:gap-6">
-          <Button className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group">
-            <Heart className="w-5 h-5 lg:w-6 lg:h-6 text-foreground group-hover:text-primary-foreground transition duration-300" />
-          </Button>
-          <Button className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group">
-            <User className="w-5 h-5 lg:w-6 lg:h-6 text-foreground group-hover:text-primary-foreground transition duration-300" />
-          </Button>
+          <Link
+            href="/wishlist"
+            className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
+            <Heart className="w-5 h-5 text-[#7c7c7c] group-hover:text-background transition duration-300" />
+          </Link>
+          <Link
+            href="/profile"
+            className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
+            <User className="w-5 h-5 text-[#7c7c7c] group-hover:text-background transition duration-300" />
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -77,14 +80,18 @@ export default function Navbar() {
 
             {/* Mobile Icons */}
             <div className="flex items-center justify-between gap-3">
-              <Button className="flex-1 h-10 bg-white rounded-full border border-gray-200 flex items-center justify-center gap-2">
+              <Link
+                href="/wishlist"
+                className="flex-1 h-10 bg-white rounded-full border border-gray-200 flex items-center justify-center gap-2">
                 <Heart className="w-5 h-5 text-primary" />
                 <span className="text-sm text-primary">Wishlist</span>
-              </Button>
-              <Button className="flex-1 h-10 bg-white rounded-full border border-gray-200 flex items-center justify-center gap-2">
+              </Link>
+              <Link
+                href="/profile"
+                className="flex-1 h-10 bg-white rounded-full border border-gray-200 flex items-center justify-center gap-2">
                 <User className="w-5 h-5 text-primary" />
                 <span className="text-sm text-primary">Profil</span>
-              </Button>
+              </Link>
             </div>
           </div>
         </div>

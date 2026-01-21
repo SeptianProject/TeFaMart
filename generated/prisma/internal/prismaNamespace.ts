@@ -1577,6 +1577,7 @@ export const TefaScalarFieldEnum = {
   major: 'major',
   description: 'description',
   campusId: 'campusId',
+  slug: 'slug',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

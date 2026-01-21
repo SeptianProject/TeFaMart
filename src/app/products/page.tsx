@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import SidebarFilter from "@/components/ui/sidebarFilter";
 import { ProductCard, ProductPagination } from "@/components/ui/productCard";
 import { Product } from "@/types";
+import { ProductCardSkeleton } from "@/components/skeletons/ProductCardSkeleton";
 
 function ProductFilterContent() {
   const searchParams = useSearchParams();
@@ -228,8 +229,10 @@ function ProductFilterContent() {
 
               {/* GRID PRODUK */}
               {loading ? (
-                <div className="col-span-full flex h-64 w-full items-center justify-center">
-                  <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
+                <div className="grid grid-cols-3 gap-3">
+                  <ProductCardSkeleton/>
+                  <ProductCardSkeleton/>
+                  <ProductCardSkeleton/>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
