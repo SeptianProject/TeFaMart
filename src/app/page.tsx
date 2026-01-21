@@ -12,8 +12,6 @@ import { useState, useMemo, useEffect } from "react";
 import { Product } from "@/types";
 import { fetchProducts } from "@/services/productService";
 import { fetchCategories } from "@/services/categoryService";
-import { ProductGridSkeleton } from "@/components/skeletons/ProductCardSkeleton";
-import { CategoryGridSkeleton } from "@/components/skeletons/CategoryCardSkeleton";
 
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
@@ -54,7 +52,7 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-25 space-y-10 sm:space-y-12 md:space-y-16 lg:space-y-20 py-6 sm:py-8 md:py-10 lg:py-15">
+      <div className="transition flex flex-col items-center w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-25 space-y-10 sm:space-y-12 md:space-y-16 lg:space-y-20 py-6 sm:py-8 md:py-10 lg:py-15">
         {/* hero section */}
         <HeroSection />
 

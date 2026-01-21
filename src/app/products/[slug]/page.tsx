@@ -33,7 +33,7 @@ const DetailProductPage = () => {
     return (
       <>
         <Navbar />
-        <div className="bg-gray-50 min-h-screen">
+        <div className="bg-background min-h-screen">
           <div className="container mx-auto px-4 py-6">
             <ProductDetailSkeleton />
           </div>
@@ -56,7 +56,7 @@ const DetailProductPage = () => {
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition">
             <Home className="w-4 h-4" />
             Kembali ke Beranda
           </Link>
@@ -72,27 +72,17 @@ const DetailProductPage = () => {
     <>
       <Navbar />
 
-      <div className="bg-gray-50 min-h-screen">
+      <div className="bg-background min-h-screen">
         <div className="container mx-auto px-4 py-6">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm mb-6 overflow-x-auto whitespace-nowrap">
             <Link
               href="/"
-              className="text-gray-600 hover:text-blue-600 transition">
-              <Home className="w-4 h-4" />
+              className="text-gray-600 hover:text-primary transition">
+              Beranda
             </Link>
             <ChevronRight className="w-4 h-4 text-gray-400" />
-            {product.category && (
-              <>
-                <Link
-                  href={`/?category=${product.category.id}`}
-                  className="text-gray-600 hover:text-blue-600 transition">
-                  {product.category.name}
-                </Link>
-                <ChevronRight className="w-4 h-4 text-gray-400" />
-              </>
-            )}
-            <span className="text-gray-900 font-medium truncate">
+            <span className="text-primary font-medium truncate">
               {product.name}
             </span>
           </nav>

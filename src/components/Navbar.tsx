@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, Search, User, Menu, X } from "lucide-react";
+import {  Search, User, Menu, X, Heart } from "lucide-react";
 import Image from "next/image";
-import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import SearchModal from "./ui/SearchModal";
@@ -26,7 +25,7 @@ export default function Navbar() {
             className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"
           />
           <span className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800">
-            T-Mart
+            <span className="text-primary">TeFa</span>Mart
           </span>
         </Link>
 
@@ -42,11 +41,11 @@ export default function Navbar() {
 
         {/* Desktop Icons */}
         <div className="hidden sm:flex items-center gap-3 lg:gap-6">
-          <Button className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center">
-            <ShoppingCart className="w-5 h-5 lg:w-6 lg:h-6 text-gray-900" />
+          <Button className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group">
+            <Heart className="w-5 h-5 lg:w-6 lg:h-6 text-foreground group-hover:text-primary-foreground transition duration-300" />
           </Button>
-          <Button className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center">
-            <User className="w-5 h-5 lg:w-6 lg:h-6 text-gray-900" />
+          <Button className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group">
+            <User className="w-5 h-5 lg:w-6 lg:h-6 text-foreground group-hover:text-primary-foreground transition duration-300" />
           </Button>
         </div>
 
@@ -77,14 +76,14 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Icons */}
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center justify-between gap-3">
               <Button className="flex-1 h-10 bg-white rounded-full border border-gray-200 flex items-center justify-center gap-2">
-                <ShoppingCart className="w-5 h-5 text-gray-900" />
-                <span className="text-sm">Keranjang</span>
+                <Heart className="w-5 h-5 text-primary" />
+                <span className="text-sm text-primary">Wishlist</span>
               </Button>
               <Button className="flex-1 h-10 bg-white rounded-full border border-gray-200 flex items-center justify-center gap-2">
-                <User className="w-5 h-5 text-gray-900" />
-                <span className="text-sm">Profil</span>
+                <User className="w-5 h-5 text-primary" />
+                <span className="text-sm text-primary">Profil</span>
               </Button>
             </div>
           </div>

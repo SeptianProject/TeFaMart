@@ -19,7 +19,7 @@ export function ProductDetailSkeleton() {
               {/* Thumbnails */}
               <div className="flex lg:flex-col gap-2">
                 {Array.from({ length: 3 }).map((_, i) => (
-                  <Skeleton key={i} className="h-20 w-20 flex-shrink-0" />
+                  <Skeleton key={i} className="h-20 w-20 shrink-0" />
                 ))}
               </div>
               {/* Main Image */}

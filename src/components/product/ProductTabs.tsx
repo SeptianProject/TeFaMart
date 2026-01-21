@@ -31,7 +31,7 @@ export function ProductTabs({ product }: ProductTabsProps) {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap transition ${
                 activeTab === tab.id
-                  ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                  ? "text-primary border-b-2 border-primary bg-primary/10"
                   : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
               }`}>
               <Icon className="w-4 h-4" />
