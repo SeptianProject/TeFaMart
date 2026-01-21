@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
 import { Button } from "@/components/ui/button";
 import SidebarEditProfile from "@/components/ui/sidebarEditProfil";
 import { Eye, EyeOff } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function ProfileEditPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);

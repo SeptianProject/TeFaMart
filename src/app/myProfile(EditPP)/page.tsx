@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import SidebarEditProfile from "@/components/ui/sidebarEditProfil";
 

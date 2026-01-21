@@ -1,11 +1,11 @@
 "use client";
 
-import Navbar from "@/components/layout_client/Navbar";
-import Footer from "@/components/layout_client/Footer";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Pencil } from "lucide-react";
 import SidebarEditProfile from "@/components/ui/sidebarEditProfil";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function ProfileInformationPage() {
   return (
