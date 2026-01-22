@@ -9,12 +9,15 @@ import ProductAuction from "@/components/sections/ProductAuction";
 import VocationalEducation from "@/components/sections/VocationalEducation";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { Product, Category } from "@/types";
 import { fetchPopularProducts } from "@/services/productService";
 import { fetchPopularCategories } from "@/services/categoryService";
 
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [wishlist, setWishlist] = useState<string[]>([]);
+  const { data: session } = useSession();
 
   // Fetch popular categories (maksimal 6)
   const { data: popularCategories = [], isLoading: isLoadingCategories } =
@@ -43,6 +46,70 @@ const HomePage = () => {
     }
   }, [popularCategories, selectedCategory]);
 
+  // Fetch wishlist data
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      if (!session) {
+        setWishlist([]);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/client/wishlist");
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data) && data.length > 0) {
+            const ids = data.map(
+              (item: { productId: string }) => item.productId,
+            );
+            setWishlist(ids);
+          } else {
+            setWishlist([]);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
+    fetchWishlist();
+  }, [session]);
+
+  // Toggle wishlist function
+  const toggleWishlist = async (id: string) => {
+    if (!session) {
+      alert("Silakan login terlebih dahulu untuk menambahkan ke wishlist");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/client/wishlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: id,
+        }),
+      });
+
+      if (!res.ok) {
+        const response = await res.json();
+        throw Error(`Failed to update wishlist: ${response.message}`);
+      }
+
+      setWishlist((prev) => {
+        if (prev.includes(id)) {
+          return prev.filter((itemId) => itemId !== id);
+        } else {
+          return [...prev, id];
+        }
+      });
+    } catch (error) {
+      console.error("Error update wishlist product: ", error);
+      alert("Gagal mengupdate wishlist, silakan coba lagi");
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -58,6 +125,8 @@ const HomePage = () => {
           onCategoryChange={setSelectedCategory}
           isLoadingCategories={isLoadingCategories}
           isFetchingProducts={isFetchingProducts}
+          wishlist={wishlist}
+          onToggleWishlist={toggleWishlist}
         />
 
         {/* Product Category - menggunakan semua popular categories (max 6) */}

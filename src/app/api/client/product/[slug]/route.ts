@@ -37,6 +37,20 @@ export async function GET(
             },
           },
         },
+        auctions: {
+          where: {
+            endTime: {
+              gte: new Date(),
+            },
+          },
+          include: {
+            bids: {
+              orderBy: {
+                amount: "desc",
+              },
+            },
+          },
+        },
       },
     });
 

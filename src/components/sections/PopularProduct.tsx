@@ -12,6 +12,8 @@ interface PopularProductProps {
   onCategoryChange: (categoryId: string) => void;
   isLoadingCategories?: boolean;
   isFetchingProducts?: boolean;
+  wishlist?: string[];
+  onToggleWishlist?: (productId: string) => void;
 }
 
 const PopularProduct: React.FC<PopularProductProps> = ({
@@ -21,6 +23,8 @@ const PopularProduct: React.FC<PopularProductProps> = ({
   onCategoryChange,
   isLoadingCategories = false,
   isFetchingProducts = false,
+  wishlist = [],
+  onToggleWishlist,
 }) => {
   // Hanya tampilkan 4 kategori populer sebagai button filter
   const displayedCategories = categories.slice(0, 4);
@@ -71,9 +75,9 @@ const PopularProduct: React.FC<PopularProductProps> = ({
               key={product.id}
               product={product}
               isSidebar
-              isWishlisted={false}
+              isWishlisted={wishlist.includes(product.id)}
               showWishlist={true}
-              onToggleWishlist={(id) => console.log("Toggle wishlist:", id)}
+              onToggleWishlist={onToggleWishlist}
             />
           ))
         )}

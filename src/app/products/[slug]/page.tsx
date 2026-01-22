@@ -9,28 +9,95 @@ import { Product } from "@/types";
 import { ProductImageGallery } from "@/components/product/ProductImageGallery";
 import { ProductInfo } from "@/components/product/ProductInfo";
 import { ProductActions } from "@/components/product/ProductActions";
-import { StoreInfo } from "@/components/product/StoreInfo";
-import { ProductTabs } from "@/components/product/ProductTabs";
+import { ProductDetailSection } from "@/components/product/ProductDetailSection";
 import { ProductDetailSkeleton } from "@/components/skeletons/ProductDetailSkeleton";
 import { Home } from "lucide-react";
 import Link from "next/link";
-import ProductReviews from "@/components/product/ProductReviews";
 import ProductRecommendations from "@/components/product/ProductRecommendations";
 import DynamicBreadcrumb from "@/components/DynamicBreadcrumb";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const DetailProductPage = () => {
   const params = useParams();
   const slug = params.slug as string;
+  const { data: session } = useSession();
+  const [wishlist, setWishlist] = useState<string[]>([]);
 
   const {
     data: product,
     isLoading,
     error,
+    refetch,
   } = useQuery<Product>({
     queryKey: ["product", slug],
     queryFn: () => fetchProductBySlug(slug),
     enabled: !!slug,
   });
+
+  // Fetch wishlist data
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      if (!session) {
+        setWishlist([]);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/client/wishlist");
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            const ids = data.map(
+              (item: { productId: string }) => item.productId
+            );
+            setWishlist(ids);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
+    fetchWishlist();
+  }, [session]);
+
+  // Toggle wishlist function
+  const toggleWishlist = async () => {
+    if (!session) {
+      alert("Silakan login terlebih dahulu untuk menambahkan ke wishlist");
+      return;
+    }
+
+    if (!product) return;
+
+    try {
+      const res = await fetch("/api/client/wishlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: product.id,
+        }),
+      });
+
+      if (!res.ok) {
+        const response = await res.json();
+        throw Error(`Failed to update wishlist: ${response.message}`);
+      }
+
+      // Update local state
+      setWishlist((prev) => {
+        if (prev.includes(product.id)) {
+          return prev.filter((itemId) => itemId !== product.id);
+        } else {
+          return [...prev, product.id];
+        }
+      });
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -96,27 +163,23 @@ const DetailProductPage = () => {
 
             {/* Middle: Product Info */}
             <div className="lg:col-span-4">
-              <ProductInfo product={product} />
+              <ProductInfo 
+                product={product} 
+                isWishlisted={wishlist.includes(product.id)}
+                onToggleWishlist={toggleWishlist}
+              />
             </div>
 
             {/* Right: Actions */}
             <div className="lg:col-span-3">
-              <ProductActions product={product} />
+              <ProductActions product={product} onRefetch={refetch} />
             </div>
           </div>
 
-          {/* Store Information */}
+          {/* Product Detail Section - Combined Store, Description, Specs, Reviews */}
           <div className="mb-8">
-            <StoreInfo product={product} />
+            <ProductDetailSection product={product} productSlug={slug} />
           </div>
-
-          {/* Product Details Tabs */}
-          <div className="mb-8">
-            <ProductTabs product={product} />
-          </div>
-
-          {/* Reviews Section */}
-          <ProductReviews productSlug={slug} />
 
           {/* Product Recommendations */}
           <ProductRecommendations productSlug={slug} />

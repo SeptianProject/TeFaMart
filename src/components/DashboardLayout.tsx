@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState, useMemo } from "react";
 import { Role } from "@/types";
-import { LogOut, Menu } from "lucide-react";
+import { LogOut, Menu, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -146,13 +146,24 @@ export default function DashboardLayout({
                   </p>
                 </div>
               </div>
-              <Button
-                variant="destructive"
-                className="w-full justify-start"
-                onClick={handleLogout}>
-                <LogOut className="mr-3 h-5 w-5" />
-                Logout
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start border-primary text-primary hover:bg-primary hover:text-white"
+                  asChild>
+                  <Link href="/">
+                    <Home className="mr-3 h-5 w-5" />
+                    Ke Halaman Client
+                  </Link>
+                </Button>
+                <Button
+                  variant="destructive"
+                  className="w-full justify-start"
+                  onClick={handleLogout}>
+                  <LogOut className="mr-3 h-5 w-5" />
+                  Logout
+                </Button>
+              </div>
             </div>
           </div>
         </SheetContent>
@@ -212,13 +223,24 @@ export default function DashboardLayout({
               </p>
             </div>
           </div>
-          <Button
-            variant="destructive"
-            className="w-full justify-start"
-            onClick={handleLogout}>
-            <LogOut className="mr-3 h-5 w-5" />
-            Logout
-          </Button>
+          <div className="space-y-2">
+            <Button
+              variant="outline"
+              className="w-full justify-start border-primary text-primary hover:bg-primary hover:text-white"
+              asChild>
+              <Link href="/">
+                <Home className="mr-3 h-5 w-5" />
+                Ke Halaman Client
+              </Link>
+            </Button>
+            <Button
+              variant="destructive"
+              className="w-full justify-start"
+              onClick={handleLogout}>
+              <LogOut className="mr-3 h-5 w-5" />
+              Logout
+            </Button>
+          </div>
         </div>
       </aside>
 

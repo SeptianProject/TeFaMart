@@ -42,9 +42,30 @@ export async function GET(
       }),
     ]);
 
+    // Calculate rating distribution
+    const ratingCounts = await prisma.comment.groupBy({
+      by: ["rating"],
+      where: { productId: product.id },
+      _count: { rating: true },
+    });
+
+    const ratingDistribution = {
+      5: 0,
+      4: 0,
+      3: 0,
+      2: 0,
+      1: 0,
+    };
+
+    ratingCounts.forEach((item) => {
+      ratingDistribution[item.rating as keyof typeof ratingDistribution] =
+        item._count.rating;
+    });
+
     const stats = {
       averageRating: aggregations._avg.rating || 0,
       totalReviews: aggregations._count.id || 0,
+      ratingDistribution,
     };
 
     return NextResponse.json(

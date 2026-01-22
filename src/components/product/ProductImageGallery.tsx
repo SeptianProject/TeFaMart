@@ -48,7 +48,7 @@ export function ProductImageGallery({
           src={imageList[selectedImage]}
           alt={productName}
           fill
-          className="object-contain p-4"
+          className="object-contain"
           priority
           sizes="(max-width: 768px) 100vw, 600px"
         />
