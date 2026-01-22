@@ -1,7 +1,7 @@
 import React from "react";
-import DigitalImage from "../../../public/assets/digital1.png";
-import IotImage from "../../../public/assets/iot2.png";
-import KreatifImage from "../../../public/assets/kreatif1.png";
+import DigitalImage from "../../../public/assets/digital-dan-jasa-it/digital1.png";
+import IotImage from "../../../public/assets/elektronik-dan-iot/iot2.png";
+import KreatifImage from "../../../public/assets/kreatif-dan-media/kreatif1.png";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import TitleLanding from "../ui/titleLanding";

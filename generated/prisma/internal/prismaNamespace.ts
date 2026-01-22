@@ -1554,6 +1554,14 @@ export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFi
 export const CampusScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  logo: 'logo',
+  image: 'image',
+  description: 'description',
+  address: 'address',
+  city: 'city',
+  province: 'province',
+  phoneNumber: 'phoneNumber',
+  website: 'website',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

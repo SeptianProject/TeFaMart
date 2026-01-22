@@ -1,286 +1,102 @@
-import prisma from "@/lib/prisma";
-import bcrypt from "bcryptjs";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/**
+ * Main Seeder File
+ * This file orchestrates all seeding operations in a modular way
+ */
 
-// Helper function to generate slug
-function generateSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-}
+import "dotenv/config";
+import prisma from "@/lib/prisma";
+import { seedCampus } from "./seeders/campus.seed";
+import { seedUsers } from "./seeders/users.seed";
+import { seedCategories } from "./seeders/category.seed";
+import { seedTefas } from "./seeders/tefa.seed";
+import { seedProducts } from "./seeders/product.seed";
 
 async function main() {
-  console.log("🌱 Starting seeding...");
+  console.log("🌱 Starting seeding process...\n");
+  console.log("=".repeat(60));
 
-  // Create Campus
-  const campus1 = await prisma.campus.upsert({
-    where: { id: "campus-1" },
-    update: {},
-    create: {
-      id: "campus-1",
-      name: "Politeknik Negeri Jakarta",
-    },
-  });
+  try {
+    // 1. Seed Campus
+    console.log("\n[1/5] Campus Seeding");
+    console.log("-".repeat(60));
+    const { campus1, campus2, campus3 } = await seedCampus(prisma);
 
-  const campus2 = await prisma.campus.upsert({
-    where: { id: "campus-2" },
-    update: {},
-    create: {
-      id: "campus-2",
-      name: "Politeknik Negeri Bandung",
-    },
-  });
-
-  console.log("✅ Kampus created");
-
-  // Create Users
-  const hashedPassword = await bcrypt.hash("password123", 10);
-
-  const superAdmin = await prisma.user.upsert({
-    where: { email: "superadmin@tefamart.com" },
-    update: {
-      role: "SUPER_ADMIN",
-      password: hashedPassword,
-    },
-    create: {
-      email: "superadmin@tefamart.com",
-      name: "Super Admin",
-      password: hashedPassword,
-      role: "SUPER_ADMIN",
-    },
-  });
-
-  const admin1 = await prisma.user.upsert({
-    where: { email: "admin.pnj@tefamart.com" },
-    update: {
-      role: "ADMIN",
-      password: hashedPassword,
-      campusId: campus1.id,
-    },
-    create: {
-      email: "admin.pnj@tefamart.com",
-      name: "Admin PNJ",
-      password: hashedPassword,
-      role: "ADMIN",
-      campusId: campus1.id,
-      address: "Jl. Prof. DR. G.A. Siwabessy, Kampus Baru UI Depok",
-      city: "Depok",
-      province: "Jawa Barat",
-    },
-  });
-
-  const admin2 = await prisma.user.upsert({
-    where: { email: "admin.polban@tefamart.com" },
-    update: {
-      role: "ADMIN",
-      password: hashedPassword,
-      campusId: campus2.id,
-    },
-    create: {
-      email: "admin.polban@tefamart.com",
-      name: "Admin Polban",
-      password: hashedPassword,
-      role: "ADMIN",
-      campusId: campus2.id,
-      address: "Jl. Gegerkalong Hilir, Ds. Ciwaruga",
-      city: "Bandung",
-      province: "Jawa Barat",
-    },
-  });
-
-  const client = await prisma.user.upsert({
-    where: { email: "client@example.com" },
-    update: {
-      role: "CLIENT",
-      password: hashedPassword,
-    },
-    create: {
-      email: "client@example.com",
-      name: "Client Test",
-      password: hashedPassword,
-      role: "CLIENT",
-    },
-  });
-
-  console.log("✅ Users created/updated");
-  console.log(`   - Super Admin: ${superAdmin.email} (${superAdmin.role})`);
-  console.log(`   - Admin PNJ: ${admin1.email} (${admin1.role})`);
-  console.log(`   - Admin Polban: ${admin2.email} (${admin2.role})`);
-  console.log(`   - Client: ${client.email} (${client.role})`);
-
-  // Create TEFA for Campus 1
-  const tefa1 = await prisma.tefa.upsert({
-    where: { id: "tefa-1" },
-    update: {},
-    create: {
-      id: "tefa-1",
-      name: "TEFA Teknik Informatika",
-      major: "Teknik Informatika",
-      description: "Teaching Factory untuk jurusan Teknik Informatika",
-      campusId: campus1.id,
-    },
-  });
-
-  const tefa2 = await prisma.tefa.upsert({
-    where: { id: "tefa-2" },
-    update: {},
-    create: {
-      id: "tefa-2",
-      name: "TEFA Teknik Mesin",
-      major: "Teknik Mesin",
-      description: "Teaching Factory untuk jurusan Teknik Mesin",
-      campusId: campus1.id,
-    },
-  });
-
-  // Create TEFA for Campus 2
-  const tefa3 = await prisma.tefa.upsert({
-    where: { id: "tefa-3" },
-    update: {},
-    create: {
-      id: "tefa-3",
-      name: "TEFA Teknik Elektro",
-      major: "Teknik Elektro",
-      description: "Teaching Factory untuk jurusan Teknik Elektro",
-      campusId: campus2.id,
-    },
-  });
-
-  console.log("✅ TEFA created");
-
-  // Create Categories
-  const categories = [
-    {
-      id: "cat-1",
-      name: "Digital",
-      slug: "digital",
-    },
-    {
-      id: "cat-2",
-      name: "Manufaktur",
-      slug: "manufaktur",
-    },
-    {
-      id: "cat-3",
-      name: "Elektronik",
-      slug: "elektronik",
-    },
-    {
-      id: "cat-4",
-      name: "Fashion",
-      slug: "fashion",
-    },
-    {
-      id: "cat-5",
-      name: "Kuliner",
-      slug: "kuliner",
-    },
-    {
-      id: "cat-6",
-      name: "Kerajinan",
-      slug: "kerajinan",
-    },
-  ];
-
-  for (const categoryData of categories) {
-    await prisma.category.upsert({
-      where: { id: categoryData.id },
-      update: {},
-      create: categoryData,
+    // 2. Seed Users
+    console.log("\n[2/5] Users Seeding");
+    console.log("-".repeat(60));
+    const users = await seedUsers(prisma, {
+      campus1: campus1.id,
+      campus2: campus2.id,
+      campus3: campus3.id,
     });
-  }
 
-  console.log("✅ Categories created");
+    // 3. Seed Categories
+    console.log("\n[3/5] Categories Seeding");
+    console.log("-".repeat(60));
+    const categories = await seedCategories(prisma);
 
-  // Create Products
-  const productData = [
-    {
-      name: "Website Company Profile",
-      slug: "website-company-profile",
-      description: "Pembuatan website company profile profesional",
-      price: 5000000,
-      isAvailable: "Tersedia",
-      tefaId: tefa1.id,
-      categoryId: "cat-1",
-    },
-    {
-      name: "Aplikasi Mobile Android",
-      slug: "aplikasi-mobile-android",
-      description: "Pengembangan aplikasi mobile berbasis Android",
-      price: 15000000,
-      isAvailable: "Tersedia",
-      tefaId: tefa1.id,
-      categoryId: "cat-1",
-    },
-    {
-      name: "Sistem Informasi Manajemen",
-      slug: "sistem-informasi-manajemen",
-      description: "Pembuatan sistem informasi manajemen terintegrasi",
-      price: 25000000,
-      isAvailable: "Tersedia",
-      tefaId: tefa1.id,
-      categoryId: "cat-1",
-    },
-    {
-      name: "Mesin CNC Custom",
-      slug: "mesin-cnc-custom",
-      description: "Pembuatan mesin CNC sesuai kebutuhan",
-      price: 50000000,
-      isAvailable: "Tersedia",
-      tefaId: tefa2.id,
-      categoryId: "cat-2",
-    },
-    {
-      name: "Komponen Mesin Presisi",
-      slug: "komponen-mesin-presisi",
-      description: "Produksi komponen mesin dengan presisi tinggi",
-      price: 2000000,
-      isAvailable: "Tersedia",
-      tefaId: tefa2.id,
-      categoryId: "cat-2",
-    },
-    {
-      name: "Panel Listrik Industri",
-      slug: "panel-listrik-industri",
-      description: "Pembuatan panel listrik untuk industri",
-      price: 8000000,
-      isAvailable: "Tersedia",
-      tefaId: tefa3.id,
-      categoryId: "cat-3",
-    },
-    {
-      name: "Sistem Kontrol Otomatis",
-      slug: "sistem-kontrol-otomatis",
-      description: "Instalasi sistem kontrol otomatis berbasis PLC",
-      price: 12000000,
-      isAvailable: "Tersedia",
-      tefaId: tefa3.id,
-      categoryId: "cat-3",
-    },
-  ];
-
-  // Check if products already exist
-  const existingProducts = await prisma.product.count();
-
-  if (existingProducts === 0) {
-    await prisma.product.createMany({
-      data: productData,
+    // 4. Seed TEFAs (Teaching Factory)
+    console.log("\n[4/5] TEFA (Teaching Factory) Seeding");
+    console.log("-".repeat(60));
+    const tefas = await seedTefas(prisma, {
+      campus1: campus1.id,
+      campus2: campus2.id,
+      campus3: campus3.id,
     });
-    console.log("✅ Products created");
-  } else {
-    console.log("✅ Products already exist, skipping...");
-  }
 
-  console.log("\n🎉 Seeding completed!");
-  console.log("\n📝 Login credentials:");
-  console.log("┌─────────────────────────────────────────────────────┐");
-  console.log("│ Super Admin: superadmin@tefamart.com / password123  │");
-  console.log("│ Admin PNJ:   admin.pnj@tefamart.com / password123   │");
-  console.log("│ Admin Polban: admin.polban@tefamart.com / password123│");
-  console.log("│ Client:      client@example.com / password123       │");
-  console.log("└─────────────────────────────────────────────────────┘");
+    // 5. Seed Products with Images from Cloudinary
+    console.log("\n[5/5] Products Seeding (with Cloudinary Upload)");
+    console.log("-".repeat(60));
+    await seedProducts(prisma, tefas, categories);
+
+    // Success Summary
+    console.log("\n" + "=".repeat(60));
+    console.log("🎉 Seeding completed successfully!\n");
+
+    console.log("📊 Summary:");
+    console.log(`   - Campuses: 3`);
+    console.log(`   - Users: 6`);
+    console.log(`   - Categories: ${categories.length}`);
+    console.log(`   - TEFAs: 8`);
+    console.log(`   - Products: 16 (with Cloudinary images)`);
+
+    console.log("\n📝 Login Credentials:");
+    console.log(
+      "┌────────────────────────────────────────────────────────────┐",
+    );
+    console.log(
+      "│ Super Admin:    superadmin@tefamart.com / password123     │",
+    );
+    console.log(
+      "│ Admin Poliwangi: admin@poliwangi.ac.id / password123      │",
+    );
+    console.log(
+      "│ Admin PNJ:      admin@pnj.ac.id / password123             │",
+    );
+    console.log(
+      "│ Admin Polban:   admin@polban.ac.id / password123          │",
+    );
+    console.log(
+      "│ Client:         client@example.com / password123          │",
+    );
+    console.log(
+      "│ Industri (Pending): industri@example.com / password123    │",
+    );
+    console.log(
+      "└────────────────────────────────────────────────────────────┘",
+    );
+
+    console.log("\n💡 Tips:");
+    console.log("   - Images are automatically uploaded to Cloudinary");
+    console.log("   - Some products have auction enabled (Lelang)");
+    console.log("   - Categories match with public/assets folder structure");
+    console.log("   - All seeders are modular in prisma/seeders/ directory");
+  } catch (error) {
+    console.error("\n❌ Seeding failed:");
+    console.error(error);
+    throw error;
+  }
 }
 
 main()
