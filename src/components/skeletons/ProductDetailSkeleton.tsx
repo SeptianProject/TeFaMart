@@ -57,7 +57,7 @@ export function ProductDetailSkeleton() {
 
           {/* Right: Actions Skeleton */}
           <div className="lg:col-span-3">
-            <div className="p-6 border rounded-lg space-y-4 bg-white">
+            <div className="p-6 border rounded-lg space-y-4 bg-background">
               <Skeleton className="h-5 w-28" />
               <Skeleton className="h-12 w-full" />
               <Skeleton className="h-5 w-full" />
@@ -68,7 +68,7 @@ export function ProductDetailSkeleton() {
         </div>
 
         {/* Store Info Skeleton */}
-        <div className="mb-8 p-6 border rounded-lg bg-white space-y-3">
+        <div className="mb-8 p-6 border rounded-lg bg-background space-y-3">
           <Skeleton className="h-6 w-48" />
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-2/3" />
@@ -79,7 +79,7 @@ export function ProductDetailSkeleton() {
         </div>
 
         {/* Tabs Skeleton */}
-        <div className="mb-8 border rounded-lg bg-white">
+        <div className="mb-8 border rounded-lg bg-background">
           <div className="flex border-b p-4 gap-4">
             <Skeleton className="h-5 w-28" />
             <Skeleton className="h-5 w-28" />
@@ -95,7 +95,7 @@ export function ProductDetailSkeleton() {
         </div>
 
         {/* Reviews Skeleton */}
-        <div className="mb-8 p-6 border rounded-lg bg-white space-y-4">
+        <div className="mb-8 p-6 border rounded-lg bg-background space-y-4">
           <Skeleton className="h-6 w-36" />
           <div className="space-y-2 py-8">
             <Skeleton className="h-4 w-full" />

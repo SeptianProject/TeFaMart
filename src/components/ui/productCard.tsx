@@ -42,7 +42,7 @@ export function ProductCard({
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group overflow-hidden rounded-lg border bg-white transition hover:shadow-md block">
+      className="group overflow-hidden rounded-lg border bg-background transition hover:shadow-md block">
       {/* IMAGE */}
       <div
         className={`relative overflow-hidden ${
@@ -52,7 +52,7 @@ export function ProductCard({
         {showWishlist && (
           <button
             onClick={handleWishlistClick}
-            className="absolute right-2 top-2 z-10 rounded-full bg-white/90 p-1.5 shadow hover:bg-white transition">
+            className=" absolute right-2 top-2 z-10 rounded-full bg-background/90 p-1.5 shadow hover:bg-background transition">
             <Wishlist active={isWishlisted} />
           </button>
         )}

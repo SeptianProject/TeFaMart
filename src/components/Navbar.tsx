@@ -42,12 +42,12 @@ export default function Navbar() {
         <div className="hidden sm:flex items-center gap-3 lg:gap-6">
           <Link
             href="/wishlist"
-            className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
+            className="w-9 h-9 lg:w-10 lg:h-10 bg-background rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
             <Heart className="w-5 h-5 text-[#7c7c7c] group-hover:text-background transition duration-300" />
           </Link>
           <Link
             href="/profile"
-            className="w-9 h-9 lg:w-10 lg:h-10 bg-white rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
+            className="w-9 h-9 lg:w-10 lg:h-10 bg-background rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
             <User className="w-5 h-5 text-[#7c7c7c] group-hover:text-background transition duration-300" />
           </Link>
         </div>
@@ -82,13 +82,13 @@ export default function Navbar() {
             <div className="flex items-center justify-between gap-3">
               <Link
                 href="/wishlist"
-                className="flex-1 h-10 bg-white rounded-full border border-gray-200 flex items-center justify-center gap-2">
+                className="flex-1 h-10 bg-background rounded-full border border-gray-200 flex items-center justify-center gap-2">
                 <Heart className="w-5 h-5 text-primary" />
                 <span className="text-sm text-primary">Wishlist</span>
               </Link>
               <Link
                 href="/profile"
-                className="flex-1 h-10 bg-white rounded-full border border-gray-200 flex items-center justify-center gap-2">
+                className="flex-1 h-10 bg-background rounded-full border border-gray-200 flex items-center justify-center gap-2">
                 <User className="w-5 h-5 text-primary" />
                 <span className="text-sm text-primary">Profil</span>
               </Link>

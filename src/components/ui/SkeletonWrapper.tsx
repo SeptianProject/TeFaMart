@@ -73,7 +73,11 @@ export function SkeletonText({
  */
 export function SkeletonCard({ className }: { className?: string }) {
   return (
-    <div className={cn("rounded-lg border bg-white p-4 space-y-3", className)}>
+    <div
+      className={cn(
+        "rounded-lg border bg-background p-4 space-y-3",
+        className,
+      )}>
       <Skeleton className="h-48 w-full rounded-md" />
       <Skeleton className="h-4 w-3/4" />
       <Skeleton className="h-4 w-1/2" />

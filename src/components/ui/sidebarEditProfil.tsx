@@ -25,19 +25,17 @@ export default function SidebarEditProfile({
             variant="outline"
             size="icon"
             className="rounded-full"
-            onClick={() => setOpen(!open)}
-          >
+            onClick={() => setOpen(!open)}>
             <Menu size={18} />
           </Button>
 
           {/* dropdown */}
           {open && (
-            <div className="absolute left-0 z-20 mt-2 w-48 rounded-xl border bg-white p-2 shadow">
+            <div className="absolute left-0 z-20 mt-2 w-48 rounded-xl border bg-background p-2 shadow">
               <Button
                 variant={active === "info" ? "default" : "ghost"}
                 size="sm"
-                className="mb-2 w-full justify-start gap-2"
-              >
+                className="mb-2 w-full justify-start gap-2">
                 <User size={16} />
                 Informasi Akun
               </Button>
@@ -45,8 +43,7 @@ export default function SidebarEditProfile({
               <Button
                 variant={active === "password" ? "default" : "ghost"}
                 size="sm"
-                className="w-full justify-start gap-2"
-              >
+                className="w-full justify-start gap-2">
                 <Lock size={16} />
                 Ubah Password
               </Button>
@@ -68,8 +65,7 @@ export default function SidebarEditProfile({
             hover:bg-red-50
             text-white
             hover:text-red-600
-            "
-        >
+            ">
           <LogOut size={16} />
           <span>Logout</span>
         </Button>
@@ -79,22 +75,19 @@ export default function SidebarEditProfile({
       <aside className="hidden lg:block">
         <Button
           variant={active === "info" ? "default" : "outline"}
-          className="mb-3 w-full"
-        >
+          className="mb-3 w-full">
           Informasi Akun
         </Button>
 
         <Button
           variant={active === "password" ? "default" : "outline"}
-          className="mb-3 w-full"
-        >
+          className="mb-3 w-full">
           Pengaturan Password
         </Button>
 
         <Button
           onClick={onLogout}
-          className="w-full bg-red-500 hover:bg-red-600"
-        >
+          className="w-full bg-red-500 hover:bg-red-600">
           Logout
         </Button>
       </aside>

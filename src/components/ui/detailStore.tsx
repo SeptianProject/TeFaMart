@@ -38,13 +38,19 @@ export default function DetailStore({
 
           {/* text content */}
           <div className="flex flex-col space-y-1">
-            <h2 className="lg:text-3xl text-xm font-semibold leading-tight">{name}</h2>
+            <h2 className="lg:text-3xl text-xm font-semibold leading-tight">
+              {name}
+            </h2>
             <p className="lg:text-sm text-xs text-gray-500">{location}</p>
 
             {/* button grup */}
             <div className="flex flex-wrap gap-2 pt-1">
-              <Button className="w-16 h-6 lg:h-8 lg:w-48 text-xs tlg:ext-sm">Ikuti</Button>
-              <Button variant="outline" className="w-32 h-6 lg:h-8 lg:w-48 text-xs">
+              <Button className="w-16 h-6 lg:h-8 lg:w-48 text-xs tlg:ext-sm">
+                Ikuti
+              </Button>
+              <Button
+                variant="outline"
+                className="w-32 h-6 lg:h-8 lg:w-48 text-xs">
                 Hubungi Penjual
               </Button>
             </div>
@@ -69,18 +75,6 @@ export default function DetailStore({
             <span className="text-sm text-gray-500">Pesanan diproses</span>
           </div>
         </div>
-      </div>
-
-      {/* navigasi detail store*/}
-      <div className="mt-4 flex items-center gap-10 border-b text-[18px] font-medium text-gray-500">
-        <span className="cursor-pointer pb-2">Beranda</span>
-
-        <span className="relative cursor-pointer pb-2 font-semibold text-black">
-          Produk
-          <span className="absolute left-0 -bottom-px h-0.5 w-full bg-black rounded-full" />
-        </span>
-
-        <span className="cursor-pointer pb-2">Ulasan</span>
       </div>
     </div>
   );

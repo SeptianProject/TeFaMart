@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Search,  Loader2 } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import { Input } from "./input";
 import { SearchModalProps } from "@/types/search";
 import { useSearch } from "@/hooks/useSearch";
@@ -106,7 +106,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       />
 
       {/* Modal - Floating with Popup Animation */}
-      <div className="fixed inset-x-0 top-20 z-50 flex justify-center px-4 animate-in fade-in zoom-in-95 slide-in-from-top-10 duration-300">
+      <div className="fixed inset-x-0 translate-x-1/2 w-full max-w-3xl top-20 z-50 flex justify-center rounded-2xl animate-in fade-in zoom-in-95 slide-in-from-top-10 duration-300">
         <div className="w-full max-w-3xl bg-background rounded-2xl shadow-2xl border border-gray-200">
           {/* Search Input */}
           <div

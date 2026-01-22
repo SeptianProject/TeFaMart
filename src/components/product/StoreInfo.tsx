@@ -14,7 +14,7 @@ export function StoreInfo({ product }: StoreInfoProps) {
   if (!product.tefa) return null;
 
   return (
-    <div className="border border-gray-200 rounded-lg p-6 bg-white space-y-4">
+    <div className="border border-gray-200 rounded-lg p-6 bg-background space-y-4">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <h3 className="font-bold text-lg text-gray-900 mb-1">

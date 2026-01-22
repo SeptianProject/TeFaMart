@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Fullscreen, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import DynamicBreadcrumb from "@/components/DynamicBreadcrumb";
 
 interface WishlistItem {
   id: string;
@@ -24,7 +25,7 @@ interface WishlistItem {
 }
 
 export default function WishlistPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -99,6 +100,7 @@ export default function WishlistPage() {
     <>
       <Navbar />
       <div className="container mx-auto px-4 py-8">
+        <DynamicBreadcrumb />
         <Card>
           <CardHeader>
             <CardTitle className="text-2xl font-bold flex items-center gap-2">
@@ -122,8 +124,7 @@ export default function WishlistPage() {
                 {wishlist.map((item, index) => (
                   <div
                     key={index}
-                    className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                  >
+                    className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                     <div className="aspect-square bg-gray-100 relative">
                       {item.product.imageUrl ? (
                         <Image
@@ -159,14 +160,12 @@ export default function WishlistPage() {
                           className="flex-1"
                           onClick={() =>
                             router.push(`/products/${item.product.slug}`)
-                          }
-                        >
+                          }>
                           Lihat
                         </Button>
                         <Button
                           variant="destructive"
-                          onClick={() => removeFromWishlist(item.productId)}
-                        >
+                          onClick={() => removeFromWishlist(item.productId)}>
                           Hapus
                         </Button>
                       </div>

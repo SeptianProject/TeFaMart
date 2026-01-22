@@ -197,7 +197,7 @@ export default function ProductsPage() {
       </div>
 
       {/* Search */}
-      <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+      <div className="bg-background rounded-lg shadow-sm p-4 border border-gray-200">
         <div className="relative">
           <Search
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -214,7 +214,7 @@ export default function ProductsPage() {
       </div>
 
       {/* Products Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-background rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -248,13 +248,12 @@ export default function ProductsPage() {
                 </tr>
               </tbody>
             ) : (
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-background divide-y divide-gray-200">
                 {filteredProducts.length === 0 ? (
                   <tr>
                     <td
                       colSpan={5}
-                      className="px-6 py-4 text-center text-gray-500"
-                    >
+                      className="px-6 py-4 text-center text-gray-500">
                       {searchTerm
                         ? "Tidak ada product ditemukan"
                         : "Belum ada product. Tambahkan product pertama Anda!"}
@@ -310,8 +309,7 @@ export default function ProductsPage() {
                               : product.isAvailable == "Tidak Tersedia"
                                 ? "bg-yellow-100 text-yellow-800"
                                 : "bg-red-100 text-red-800"
-                          }`}
-                        >
+                          }`}>
                           {product.isAvailable}
                         </span>
                       </td>
@@ -323,23 +321,24 @@ export default function ProductsPage() {
                               : product.saleType == "auction"
                                 ? "bg-yellow-100 text-yellow-800"
                                 : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {product.saleType == "direct" ? "Massal" : product.saleType == "auction" ? "Lelang" : "Tidak Diketahui"}
+                          }`}>
+                          {product.saleType == "direct"
+                            ? "Massal"
+                            : product.saleType == "auction"
+                              ? "Lelang"
+                              : "Tidak Diketahui"}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => handleOpenEditModal(product)}
-                            className="text-primary hover:text-primary/80 p-1 hover:bg-primary/10 rounded cursor-pointer"
-                          >
+                            className="text-primary hover:text-primary/80 p-1 hover:bg-primary/10 rounded cursor-pointer">
                             <Pencil size={18} />
                           </button>
                           <button
                             onClick={() => handleDeleteProduct(product.id)}
-                            className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded cursor-pointer"
-                          >
+                            className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded cursor-pointer">
                             <Trash2 size={18} />
                           </button>
                         </div>

@@ -20,7 +20,7 @@ export function ProductTabs({ product }: ProductTabsProps) {
   ];
 
   return (
-    <div className="border border-gray-200 rounded-lg bg-white overflow-hidden">
+    <div className="border border-gray-200 rounded-lg bg-background overflow-hidden">
       {/* Tab Headers */}
       <div className="flex border-b border-gray-200 overflow-x-auto">
         {tabs.map((tab) => {

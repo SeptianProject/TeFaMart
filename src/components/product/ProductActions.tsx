@@ -51,7 +51,7 @@ export function ProductActions({ product }: ProductActionsProps) {
   const isAvailable = product.isAvailable === "Tersedia";
 
   return (
-    <div className="sticky top-4 space-y-4 p-6 border border-gray-200 rounded-lg bg-white shadow-sm">
+    <div className="sticky top-4 space-y-4 p-6 border border-gray-200 rounded-lg bg-background shadow-sm">
       <h3 className="font-semibold text-lg">Atur Jumlah</h3>
 
       {/* Quantity Selector */}

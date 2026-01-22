@@ -10,6 +10,7 @@ import { Eye, EyeOff, User, Lock, LogOut, Pencil, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Alert, { AlertType } from "@/components/Alert";
+import DynamicBreadcrumb from "@/components/DynamicBreadcrumb";
 
 interface UserData {
   name: string;
@@ -150,17 +151,19 @@ export default function ProfilePage() {
         title: "Berhasil",
         message: "Profil Anda berhasil diperbarui!",
       });
-      
+
       setUser((prev) => ({ ...prev, ...data }));
       setImageFile(null);
-      
-    } catch (error: any) {
+    } catch (error) {
       // 3. GANTI ALERT BIASA DENGAN SET ALERT CONFIG (ERROR)
       setAlertConfig({
         isOpen: true,
         type: "error",
         title: "Gagal",
-        message: error.message || "Terjadi kesalahan saat update profil",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Terjadi kesalahan saat update profil",
       });
     } finally {
       setIsSubmitting(false);
@@ -207,13 +210,14 @@ export default function ProfilePage() {
         new_password: "",
         confirm_new_password: "",
       });
-    } catch (error: any) {
+    } catch (error) {
       // 3. ALERT ERROR
       setAlertConfig({
         isOpen: true,
         type: "error",
         title: "Gagal",
-        message: error.message,
+        message:
+          error instanceof Error ? error.message : "Gagal mengubah password",
       });
     } finally {
       setIsSubmitting(false);
@@ -236,7 +240,7 @@ export default function ProfilePage() {
                 <Skeleton className="h-12 w-full rounded-lg" />
                 <Skeleton className="h-12 w-full rounded-lg" />
               </div>
-              <div className="bg-white p-6 rounded-xl shadow space-y-6">
+              <div className="bg-background p-6 rounded-xl shadow space-y-6">
                 <div className="flex gap-4 items-center">
                   <Skeleton className="h-24 w-24 rounded-full" />
                   <div className="space-y-2">
@@ -262,12 +266,8 @@ export default function ProfilePage() {
 
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-6 lg:px-5">
-          {/* Breadcrumb */}
-          <div className="mb-4 flex flex-wrap items-center gap-2 text-sm text-gray-500">
-            <span>Beranda</span>
-            <span>›</span>
-            <span className="font-medium text-black">Profil Saya</span>
-          </div>
+          {/* Dynamic Breadcrumb */}
+          <DynamicBreadcrumb />
 
           <h1 className="mb-6 text-xl font-semibold lg:text-2xl">
             Pengaturan Akun
@@ -275,15 +275,14 @@ export default function ProfilePage() {
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[250px_1fr]">
             {/* --- SIDEBAR MENU --- */}
-            <aside className="flex flex-col gap-2 rounded-xl bg-white p-4 shadow h-fit">
+            <aside className="flex flex-col gap-2 rounded-xl bg-background p-4 shadow h-fit">
               <button
                 onClick={() => setActiveTab("info")}
                 className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
                   activeTab === "info"
                     ? "bg-blue-50 text-blue-600"
                     : "text-gray-600 hover:bg-gray-50"
-                }`}
-              >
+                }`}>
                 <User size={18} />
                 Edit Profil
               </button>
@@ -294,8 +293,7 @@ export default function ProfilePage() {
                   activeTab === "password"
                     ? "bg-blue-50 text-blue-600"
                     : "text-gray-600 hover:bg-gray-50"
-                }`}
-              >
+                }`}>
                 <Lock size={18} />
                 Ubah Password
               </button>
@@ -304,16 +302,14 @@ export default function ProfilePage() {
 
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
-              >
+                className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-600 transition-colors hover:bg-red-50">
                 <LogOut size={18} />
                 Keluar
               </button>
             </aside>
 
             {/* --- CONTENT AREA --- */}
-            <section className="rounded-xl bg-white p-4 shadow sm:p-6 min-h-100">
-              
+            <section className="rounded-xl bg-background p-4 shadow sm:p-6 min-h-100">
               {/* === TAB 1: EDIT PROFIL === */}
               {activeTab === "info" && (
                 <div className="animate-in fade-in zoom-in duration-300">
@@ -344,29 +340,28 @@ export default function ProfilePage() {
                             {user.name?.charAt(0).toUpperCase() || "U"}
                           </span>
                         )}
-                        
+
                         {/* Overlay loading jika upload */}
                         {isSubmitting && imageFile && (
-                           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                              <Loader2 className="w-6 h-6 text-white animate-spin" />
-                           </div>
+                          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                            <Loader2 className="w-6 h-6 text-white animate-spin" />
+                          </div>
                         )}
                       </div>
-                      
-                      <input 
-                        type="file" 
+
+                      <input
+                        type="file"
                         ref={fileInputRef}
                         className="hidden"
                         accept="image/*"
                         onChange={handleImageChange}
                       />
-                      
+
                       <button
                         type="button"
                         onClick={handleImageClick}
                         className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white shadow hover:bg-blue-700 transition-colors z-10"
-                        title="Ganti Foto Profil"
-                      >
+                        title="Ganti Foto Profil">
                         <Pencil size={14} />
                       </button>
                     </div>
@@ -382,7 +377,9 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           value={user.name}
-                          onChange={(e) => setUser({ ...user, name: e.target.value })}
+                          onChange={(e) =>
+                            setUser({ ...user, name: e.target.value })
+                          }
                           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                           required
                         />
@@ -407,7 +404,9 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           value={user.phoneNumber}
-                          onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
+                          onChange={(e) =>
+                            setUser({ ...user, phoneNumber: e.target.value })
+                          }
                           placeholder="08xxxxxxxxxx"
                           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
@@ -420,7 +419,9 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           value={user.address}
-                          onChange={(e) => setUser({ ...user, address: e.target.value })}
+                          onChange={(e) =>
+                            setUser({ ...user, address: e.target.value })
+                          }
                           placeholder="Nama Jalan, RT/RW"
                           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
@@ -433,7 +434,9 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           value={user.city}
-                          onChange={(e) => setUser({ ...user, city: e.target.value })}
+                          onChange={(e) =>
+                            setUser({ ...user, city: e.target.value })
+                          }
                           placeholder="Contoh: Banyuwangi"
                           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
@@ -446,7 +449,9 @@ export default function ProfilePage() {
                         <input
                           type="text"
                           value={user.province}
-                          onChange={(e) => setUser({ ...user, province: e.target.value })}
+                          onChange={(e) =>
+                            setUser({ ...user, province: e.target.value })
+                          }
                           placeholder="Contoh: Jawa Timur"
                           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
@@ -454,11 +459,10 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="pt-4 flex justify-end">
-                      <Button 
-                        type="submit" 
+                      <Button
+                        type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-orange-500 hover:bg-orange-600 sm:w-auto"
-                      >
+                        className="w-full bg-orange-500 hover:bg-orange-600 sm:w-auto">
                         {isSubmitting ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -479,8 +483,10 @@ export default function ProfilePage() {
                   <h2 className="mb-6 text-lg font-semibold text-gray-800 border-b pb-3">
                     Keamanan Akun
                   </h2>
-                  
-                  <form onSubmit={handleUpdatePassword} className="space-y-5 max-w-lg">
+
+                  <form
+                    onSubmit={handleUpdatePassword}
+                    className="space-y-5 max-w-lg">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Password Saat Ini
@@ -489,7 +495,12 @@ export default function ProfilePage() {
                         <input
                           type={showPassword ? "text" : "password"}
                           value={passwordForm.current_password}
-                          onChange={(e) => setPasswordForm({...passwordForm, current_password: e.target.value})}
+                          onChange={(e) =>
+                            setPasswordForm({
+                              ...passwordForm,
+                              current_password: e.target.value,
+                            })
+                          }
                           placeholder="Masukkan password lama"
                           required
                           className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -497,9 +508,12 @@ export default function ProfilePage() {
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                        >
-                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                          {showPassword ? (
+                            <EyeOff size={18} />
+                          ) : (
+                            <Eye size={18} />
+                          )}
                         </button>
                       </div>
                     </div>
@@ -512,7 +526,12 @@ export default function ProfilePage() {
                         <input
                           type={showPassword ? "text" : "password"}
                           value={passwordForm.new_password}
-                          onChange={(e) => setPasswordForm({...passwordForm, new_password: e.target.value})}
+                          onChange={(e) =>
+                            setPasswordForm({
+                              ...passwordForm,
+                              new_password: e.target.value,
+                            })
+                          }
                           placeholder="Masukkan password baru"
                           required
                           className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -528,7 +547,12 @@ export default function ProfilePage() {
                         <input
                           type={showPassword ? "text" : "password"}
                           value={passwordForm.confirm_new_password}
-                          onChange={(e) => setPasswordForm({...passwordForm, confirm_new_password: e.target.value})}
+                          onChange={(e) =>
+                            setPasswordForm({
+                              ...passwordForm,
+                              confirm_new_password: e.target.value,
+                            })
+                          }
                           placeholder="Ulangi password baru"
                           required
                           className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -537,12 +561,11 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="pt-4 flex justify-end">
-                      <Button 
-                        type="submit" 
+                      <Button
+                        type="submit"
                         disabled={isSubmitting}
-                        className="w-full sm:w-auto"
-                      >
-                         {isSubmitting ? (
+                        className="w-full sm:w-auto">
+                        {isSubmitting ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Memproses...
@@ -555,7 +578,6 @@ export default function ProfilePage() {
                   </form>
                 </div>
               )}
-
             </section>
           </div>
         </div>

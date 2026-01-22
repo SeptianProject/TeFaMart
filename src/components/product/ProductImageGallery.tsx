@@ -43,7 +43,7 @@ export function ProductImageGallery({
       </div>
 
       {/* Main image */}
-      <div className="relative w-full lg:flex-1 aspect-square order-1 lg:order-2 rounded-lg overflow-hidden border border-gray-200 bg-white">
+      <div className="relative w-full lg:flex-1 aspect-square order-1 lg:order-2 rounded-lg overflow-hidden border border-gray-200 bg-background">
         <OptimizedImage
           src={imageList[selectedImage]}
           alt={productName}

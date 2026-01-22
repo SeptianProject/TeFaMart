@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function CategoryCardSkeleton() {
   return (
-    <div className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white transition-all hover:shadow-md">
+    <div className="group relative overflow-hidden rounded-xl border border-gray-200 bg-background transition-all hover:shadow-md">
       {/* Image Skeleton */}
       <div className="relative h-48">
         <Skeleton className="w-full h-full" />

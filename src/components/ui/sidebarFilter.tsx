@@ -37,16 +37,14 @@ function FilterSection({
     <div className="mb-4">
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between text-[14px] font-medium"
-      >
+        className="flex w-full items-center justify-between text-[14px] font-medium">
         {title}
         <svg
           className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
+          viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -113,16 +111,14 @@ export default function SidebarFilter({
   return (
     <div
       className={`${
-        isMobile ? "rounded-t-2xl bg-white p-5" : "rounded-xl border p-5"
-      }`}
-    >
+        isMobile ? "rounded-t-2xl bg-background p-5" : "rounded-xl border p-5"
+      }`}>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-semibold">Filter Produk</h2>
         {isMobile && (
           <button
             onClick={onClose}
-            className="rounded-md p-1 hover:bg-gray-100"
-          >
+            className="rounded-md p-1 hover:bg-gray-100">
             ✕
           </button>
         )}

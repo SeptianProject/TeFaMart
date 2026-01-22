@@ -9,6 +9,7 @@ import SidebarFilter from "@/components/ui/sidebarFilter";
 import { ProductCard, ProductPagination } from "@/components/ui/productCard";
 import { Product } from "@/types";
 import { ProductCardSkeleton } from "@/components/skeletons/ProductCardSkeleton";
+import DynamicBreadcrumb from "@/components/DynamicBreadcrumb";
 
 function ProductFilterContent() {
   const searchParams = useSearchParams();
@@ -128,7 +129,9 @@ function ProductFilterContent() {
         if (response.ok) {
           const data = await response.json();
           if (Array.isArray(data)) {
-            const ids = data.map((item: any) => item.product.id);
+            const ids = data.map(
+              (item: { product: { id: string } }) => item.product.id,
+            );
             setWishlist(ids);
           } else {
             setWishlist([]);
@@ -161,20 +164,12 @@ function ProductFilterContent() {
 
       <div className="min-h-screen">
         <div className="container mx-auto px-5 py-5">
-          {/* header title page */}
-          <div className="mb-4 flex items-center gap-2 text-[13px] text-gray-500">
-            <span>Beranda</span>
-            <span>›</span>
-            <span className="font-medium text-black">Produk</span>
-            {searchQuery && (
-              <>
-                <span>›</span>
-                <span className="font-medium text-blue-600">
-                  &quot;{searchQuery}&quot;
-                </span>
-              </>
-            )}
-          </div>
+          {/* Dynamic Breadcrumb */}
+          <DynamicBreadcrumb
+            customLabels={{
+              search: searchQuery ? `Pencarian: "${searchQuery}"` : "Pencarian",
+            }}
+          />
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[260px_1fr]">
             {/* sidebar desktop */}
@@ -203,15 +198,13 @@ function ProductFilterContent() {
                   variant="outline"
                   size="icon"
                   className="rounded-full lg:hidden"
-                  onClick={() => setOpenFilter(true)}
-                >
+                  onClick={() => setOpenFilter(true)}>
                   <svg
                     className="h-5 w-5"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
+                    viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -294,8 +287,7 @@ export default function ProductFilter() {
         <div className="flex min-h-screen items-center justify-center">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
         </div>
-      }
-    >
+      }>
       <ProductFilterContent />
     </Suspense>
   );

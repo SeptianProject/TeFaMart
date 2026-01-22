@@ -6,7 +6,7 @@ export function ProductCardSkeleton({
   isSidebar?: boolean;
 }) {
   return (
-    <div className="overflow-hidden rounded-lg border bg-white">
+    <div className="overflow-hidden rounded-lg border bg-background">
       {/* Image Skeleton */}
       <div className={isSidebar ? "h-50 lg:h-70" : "h-40 lg:h-50"}>
         <Skeleton className="w-full h-full" />
