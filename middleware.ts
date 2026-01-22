@@ -15,6 +15,19 @@ export default withAuth(
     if (path.startsWith("/dashboard")) {
       const role = token?.role as string;
 
+      // Redirect /dashboard ke dashboard sesuai role
+      if (path === "/dashboard") {
+        if (role === "SUPER_ADMIN") {
+          return NextResponse.redirect(
+            new URL("/dashboard/super-admin", req.url),
+          );
+        } else if (role === "ADMIN") {
+          return NextResponse.redirect(new URL("/dashboard/admin", req.url));
+        } else {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
+      }
+
       if (path.startsWith("/dashboard/super-admin") && role !== "SUPER_ADMIN") {
         return NextResponse.redirect(new URL("/", req.url));
       }
