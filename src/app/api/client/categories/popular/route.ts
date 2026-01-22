@@ -28,6 +28,22 @@ export async function GET() {
             products: true,
           },
         },
+        products: {
+          where: {
+            isAvailable: "Tersedia",
+            imageUrl: {
+              not: null,
+            },
+          },
+          select: {
+            id: true,
+            imageUrl: true,
+          },
+          take: 5, // Ambil max 5 produk untuk carousel
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
 
@@ -47,6 +63,22 @@ export async function GET() {
           _count: {
             select: {
               products: true,
+            },
+          },
+          products: {
+            where: {
+              isAvailable: "Tersedia",
+              imageUrl: {
+                not: null,
+              },
+            },
+            select: {
+              id: true,
+              imageUrl: true,
+            },
+            take: 5, // Ambil max 5 produk untuk carousel
+            orderBy: {
+              createdAt: "desc",
             },
           },
         },

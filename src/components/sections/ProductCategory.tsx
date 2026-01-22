@@ -4,6 +4,7 @@ import TitleLanding from "../ui/titleLanding";
 import { Category } from "@/types";
 import { CategoryGridSkeleton } from "../skeletons/CategoryCardSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
+import CategoryImageCarousel from "../ui/CategoryImageCarousel";
 
 interface ProductCategoryProps {
   categories: Category[];
@@ -14,14 +15,26 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
   categories,
   isLoading = false,
 }) => {
-  const getCategoryImage = (category: Category): string => {
+  const getCategoryImages = (category: Category): string[] => {
+    const images: string[] = [];
+
+    // Jika category punya products dengan imageUrl, gunakan itu
     if (category.products && category.products.length > 0) {
-      const productWithImage = category.products.find(
-        (product) => product.imageUrl,
-      );
-      return productWithImage?.imageUrl || "/assets/placeholder-product.png";
+      const productImages = category.products
+        .filter((product) => product.imageUrl)
+        .map((product) => product.imageUrl as string);
+
+      if (productImages.length > 0) {
+        return productImages;
+      }
     }
-    return "/assets/placeholder-product.png";
+
+    // Fallback ke imageUrl kategori jika ada
+    if (category.imageUrl) {
+      images.push(category.imageUrl);
+    }
+
+    return images;
   };
 
   // Debug: log categories untuk cek data
@@ -31,6 +44,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
       name: c.name,
       productsCount: c.products?.length || 0,
       hasImages: c.products?.some((p) => p.imageUrl) || false,
+      imageCount: getCategoryImages(c).length,
     })),
   );
 
@@ -59,7 +73,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
       <TitleLanding name="Kategori Produk Populer" />
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-rows-2 lg:grid-cols-4 h-auto md:h-[calc(100vh-100px)] w-full transition-all duration-700">
         {categories.map((item, index) => {
-          const categoryImage = getCategoryImage(item);
+          const categoryImages = getCategoryImages(item);
 
           return (
             <div
@@ -75,19 +89,18 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({
                                     ? "md:col-span-1"
                                     : ""
                               }`}>
-              <Image
-                className="absolute inset-0 w-full h-full object-cover border transition-transform duration-300 group-hover:scale-105"
-                width={1200}
-                height={400}
-                src={categoryImage}
-                alt={item.name}
-                priority={index < 2} // Load first 2 images with priority
+              {/* Image Carousel Component */}
+              <CategoryImageCarousel
+                images={categoryImages}
+                categoryName={item.name}
+                priority={index < 2}
               />
+
               {/* Overlay dengan nama kategori */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-3 sm:p-4 md:p-6">
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent flex items-end p-3 sm:p-4 md:p-6 z-[2]">
                 <div className="text-white">
                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-1">
-                    {item.name} 
+                    {item.name}
                   </h3>
                   {item._count && (
                     <p className="text-xs sm:text-sm text-gray-200">

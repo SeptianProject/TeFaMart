@@ -10,7 +10,8 @@ interface PopularProductProps {
   categories: Category[];
   selectedCategory: string;
   onCategoryChange: (categoryId: string) => void;
-  isLoading?: boolean;
+  isLoadingCategories?: boolean;
+  isFetchingProducts?: boolean;
 }
 
 const PopularProduct: React.FC<PopularProductProps> = ({
@@ -18,7 +19,8 @@ const PopularProduct: React.FC<PopularProductProps> = ({
   categories,
   selectedCategory,
   onCategoryChange,
-  isLoading = false,
+  isLoadingCategories = false,
+  isFetchingProducts = false,
 }) => {
   // Hanya tampilkan 4 kategori populer sebagai button filter
   const displayedCategories = categories.slice(0, 4);
@@ -32,7 +34,7 @@ const PopularProduct: React.FC<PopularProductProps> = ({
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-4 sm:gap-6">
         <TitleLanding name="Produk Populer" />
         <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap max-w-full sm:max-w-none">
-          {isLoading ? (
+          {isLoadingCategories ? (
             <>
               {Array.from({ length: 4 }).map((_, i) => (
                 <Skeleton key={i} className="h-9 w-24 rounded-full" />
@@ -43,11 +45,12 @@ const PopularProduct: React.FC<PopularProductProps> = ({
               <button
                 key={category.id}
                 onClick={() => onCategoryChange(category.id)}
+                disabled={isFetchingProducts}
                 className={`border font-medium rounded-full px-3 sm:px-4 lg:px-5 h-8 sm:h-9 lg:h-10 text-xs sm:text-sm cursor-pointer transition duration-300 whitespace-nowrap ${
                   selectedCategory === category.id
                     ? "bg-foreground text-background border-foreground"
                     : "border-foreground hover:bg-foreground hover:text-background"
-                }`}>
+                } ${isFetchingProducts ? "opacity-50 cursor-not-allowed" : ""}`}>
                 {category.name}
               </button>
             ))
@@ -56,7 +59,7 @@ const PopularProduct: React.FC<PopularProductProps> = ({
       </div>
       {/* Card products */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
-        {isLoading ? (
+        {isLoadingCategories || isFetchingProducts ? (
           <ProductGridSkeleton count={6} isSidebar />
         ) : displayedProducts.length === 0 ? (
           <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-10 text-muted-foreground">

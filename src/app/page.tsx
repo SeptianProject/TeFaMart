@@ -24,12 +24,15 @@ const HomePage = () => {
     });
 
   // Fetch popular products berdasarkan selected category
-  const { data: popularProducts = [], isLoading: isLoadingProducts } = useQuery<
-    Product[]
-  >({
+  const {
+    data: popularProducts = [],
+    isLoading: isLoadingProducts,
+    isFetching: isFetchingProducts,
+  } = useQuery<Product[]>({
     queryKey: ["popularProducts", selectedCategory],
     queryFn: () => fetchPopularProducts(selectedCategory || undefined),
     enabled: !!selectedCategory, // Only fetch when category is selected
+    placeholderData: (previousData) => previousData, // Keep old data while fetching new data
   });
 
   // Auto-select first popular category on mount
@@ -53,7 +56,8 @@ const HomePage = () => {
           categories={popularCategories}
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
-          isLoading={isLoadingProducts || isLoadingCategories}
+          isLoadingCategories={isLoadingCategories}
+          isFetchingProducts={isFetchingProducts}
         />
 
         {/* Product Category - menggunakan semua popular categories (max 6) */}
