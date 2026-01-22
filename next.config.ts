@@ -1,14 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  outputFileTracingIncludes: {
-    "/api/**/*": ["./node_modules/**/*"],
-  },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "2mb",
-    },
-  },
   images: {
     remotePatterns: [
       {
