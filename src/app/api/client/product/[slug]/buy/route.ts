@@ -48,7 +48,7 @@ export async function POST(
     const admin = await prisma.user.findFirst({
       where: {
         campusId: product.tefa.campusId,
-        role: "admin",
+        role: "ADMIN",
         phoneNumber: {
           not: null,
         },
@@ -58,7 +58,7 @@ export async function POST(
     if (!admin || !admin.phoneNumber) {
       return NextResponse.json(
         {
-          error: "Admin contact not available",
+          error: `Admin contact not available.`,
         },
         { status: 404 },
       );
