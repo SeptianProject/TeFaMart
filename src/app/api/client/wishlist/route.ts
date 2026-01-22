@@ -19,7 +19,8 @@ export async function GET() {
                         id: true,
                         name: true,
                         price: true,
-                        imageUrl: true
+                        imageUrl: true,
+                        slug: true,
                     }
                 }
             }
