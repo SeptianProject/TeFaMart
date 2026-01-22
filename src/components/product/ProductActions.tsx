@@ -43,10 +43,22 @@ export function ProductActions({ product, onRefetch }: ProductActionsProps) {
     }
   };
 
+  // Detect if user is on mobile device
+  const isMobileDevice = () => {
+    if (typeof window === "undefined") return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
+  };
+
   // Format WhatsApp message
   const getWhatsAppUrl = (action: "buy" | "chat") => {
-    const whatsappNumber =
-      product.tefa?.campus?.whatsappNumber || product.tefa?.campus?.phoneNumber;
+    // Campus hanya memiliki phoneNumber yang digunakan untuk WhatsApp
+    const whatsappNumber = product.tefa?.campus?.phoneNumber;
+
+    console.log("Product Tefa:", product.tefa);
+    console.log("Campus Data:", product.tefa?.campus);
+    console.log("Phone Number (WhatsApp):", whatsappNumber);
 
     if (!whatsappNumber) {
       alert("Nomor WhatsApp tidak tersedia");
@@ -72,18 +84,31 @@ export function ProductActions({ product, onRefetch }: ProductActionsProps) {
     return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
   };
 
+  // Open WhatsApp with proper redirect (app on mobile, web on desktop)
+  const openWhatsApp = (url: string) => {
+    if (!url) return;
+
+    if (isMobileDevice()) {
+      // On mobile: try to open WhatsApp app first
+      window.location.href = url;
+    } else {
+      // On desktop: open WhatsApp Web in new tab
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
+
   const handleBuyNow = () => {
     if (!isAvailable) {
       alert("Produk tidak tersedia");
       return;
     }
     const url = getWhatsAppUrl("buy");
-    if (url) window.open(url, "_blank");
+    if (url) openWhatsApp(url);
   };
 
   const handleChatSeller = () => {
     const url = getWhatsAppUrl("chat");
-    if (url) window.open(url, "_blank");
+    if (url) openWhatsApp(url);
   };
 
   const handleBidClick = () => {

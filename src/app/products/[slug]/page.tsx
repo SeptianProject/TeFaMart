@@ -49,7 +49,7 @@ const DetailProductPage = () => {
           const data = await response.json();
           if (Array.isArray(data)) {
             const ids = data.map(
-              (item: { productId: string }) => item.productId
+              (item: { productId: string }) => item.productId,
             );
             setWishlist(ids);
           }
@@ -163,8 +163,8 @@ const DetailProductPage = () => {
 
             {/* Middle: Product Info */}
             <div className="lg:col-span-4">
-              <ProductInfo 
-                product={product} 
+              <ProductInfo
+                product={product}
                 isWishlisted={wishlist.includes(product.id)}
                 onToggleWishlist={toggleWishlist}
               />

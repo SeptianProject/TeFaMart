@@ -31,6 +31,7 @@ export async function GET(
               select: {
                 id: true,
                 name: true,
+                phoneNumber: true,
                 createdAt: true,
                 updatedAt: true,
               },
