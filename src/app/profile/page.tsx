@@ -225,7 +225,7 @@ export default function ProfilePage() {
   };
 
   const handleLogout = async () => {
-    await signOut({ callbackUrl: "/auth/login" });
+    await signOut({ callbackUrl: "/auth" });
   };
 
   if (status === "loading" || loadingData) {
@@ -280,7 +280,7 @@ export default function ProfilePage() {
                 onClick={() => setActiveTab("info")}
                 className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
                   activeTab === "info"
-                    ? "bg-blue-50 text-blue-600"
+                    ? "bg-primary/10 text-primary"
                     : "text-gray-600 hover:bg-gray-50"
                 }`}>
                 <User size={18} />
@@ -291,7 +291,7 @@ export default function ProfilePage() {
                 onClick={() => setActiveTab("password")}
                 className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
                   activeTab === "password"
-                    ? "bg-blue-50 text-blue-600"
+                    ? "bg-primary/10 text-primary"
                     : "text-gray-600 hover:bg-gray-50"
                 }`}>
                 <Lock size={18} />
@@ -360,7 +360,7 @@ export default function ProfilePage() {
                       <button
                         type="button"
                         onClick={handleImageClick}
-                        className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white shadow hover:bg-blue-700 transition-colors z-10"
+                        className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white shadow hover:bg-primary/90 transition-colors z-10"
                         title="Ganti Foto Profil">
                         <Pencil size={14} />
                       </button>
@@ -380,7 +380,7 @@ export default function ProfilePage() {
                           onChange={(e) =>
                             setUser({ ...user, name: e.target.value })
                           }
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                           required
                         />
                       </div>
@@ -408,7 +408,7 @@ export default function ProfilePage() {
                             setUser({ ...user, phoneNumber: e.target.value })
                           }
                           placeholder="08xxxxxxxxxx"
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                       </div>
 
@@ -423,7 +423,7 @@ export default function ProfilePage() {
                             setUser({ ...user, address: e.target.value })
                           }
                           placeholder="Nama Jalan, RT/RW"
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                       </div>
 
@@ -438,7 +438,7 @@ export default function ProfilePage() {
                             setUser({ ...user, city: e.target.value })
                           }
                           placeholder="Contoh: Banyuwangi"
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                       </div>
 
@@ -453,7 +453,7 @@ export default function ProfilePage() {
                             setUser({ ...user, province: e.target.value })
                           }
                           placeholder="Contoh: Jawa Timur"
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                       </div>
                     </div>
@@ -462,7 +462,7 @@ export default function ProfilePage() {
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-orange-500 hover:bg-orange-600 sm:w-auto">
+                        className="w-full bg-tertiary hover:bg-tertiary/90 sm:w-auto">
                         {isSubmitting ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -503,7 +503,7 @@ export default function ProfilePage() {
                           }
                           placeholder="Masukkan password lama"
                           required
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                         <button
                           type="button"
@@ -534,7 +534,7 @@ export default function ProfilePage() {
                           }
                           placeholder="Masukkan password baru"
                           required
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                       </div>
                     </div>
@@ -555,7 +555,7 @@ export default function ProfilePage() {
                           }
                           placeholder="Ulangi password baru"
                           required
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                         />
                       </div>
                     </div>

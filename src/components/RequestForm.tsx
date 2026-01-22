@@ -118,7 +118,7 @@ export default function RequestForm({
             value={formData.clientName}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder="Masukkan nama lengkap"
           />
         </div>
@@ -137,7 +137,7 @@ export default function RequestForm({
             value={formData.clientEmail}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder="email@example.com"
           />
         </div>
@@ -157,7 +157,7 @@ export default function RequestForm({
             onChange={handleChange}
             required
             min="1"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
           />
         </div>
 
@@ -174,7 +174,7 @@ export default function RequestForm({
             value={formData.type}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
             <option value="PURCHASE_ORDER">Purchase Order</option>
             <option value="INVESTMENT">Investasi</option>
           </select>
@@ -193,18 +193,18 @@ export default function RequestForm({
             value={formData.notes}
             onChange={handleChange}
             rows={4}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
             placeholder="Tambahkan catatan atau permintaan khusus..."
           />
         </div>
 
         {/* Total */}
-        <div className="p-4 bg-blue-50 rounded-lg">
+        <div className="p-4 bg-primary/10 rounded-lg">
           <div className="flex justify-between items-center">
             <span className="text-sm font-medium text-gray-700">
               Total Estimasi:
             </span>
-            <span className="text-xl font-bold text-blue-600">
+            <span className="text-xl font-bold text-primary">
               {formatCurrency(calculateTotal())}
             </span>
           </div>
@@ -221,7 +221,7 @@ export default function RequestForm({
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+            className="flex-1 px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
             {loading ? "Mengirim..." : "Kirim Permintaan"}
           </button>
         </div>

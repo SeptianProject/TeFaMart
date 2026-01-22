@@ -24,7 +24,7 @@ export default function StoreOverview({ campus, stats }: StoreOverviewProps) {
         <div className="flex items-start gap-6">
           <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100 shrink-0">
             <Image
-              src="/assets/logo-nav-client.png"
+              src="/logo.png"
               alt={campus.name}
               width={96}
               height={96}

@@ -86,7 +86,7 @@ export function ProductTabs({ product }: ProductTabsProps) {
           <div>
             <h3 className="text-lg font-semibold mb-4">Info Penting</h3>
             <div className="space-y-4 text-gray-700">
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
                 <p className="text-sm">
                   ℹ️ Produk ini dibuat oleh siswa/mahasiswa di program Teaching
                   Factory (TEFA).
@@ -98,7 +98,7 @@ export function ProductTabs({ product }: ProductTabsProps) {
                   dibanding produk komersial.
                 </p>
               </div>
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
                 <p className="text-sm">
                   ✅ Dengan membeli produk ini, Anda mendukung pendidikan vokasi
                   Indonesia.

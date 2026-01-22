@@ -104,7 +104,7 @@ export default function RequestsPage() {
   const getStatusBadge = (status: string) => {
     const statusStyles: Record<string, string> = {
       PENDING: "bg-yellow-100 text-yellow-800",
-      APPROVED: "bg-green-100 text-green-800",
+      APPROVED: "bg-primary/10 text-primary",
       REJECTED: "bg-red-100 text-red-800",
     };
 
@@ -178,14 +178,14 @@ export default function RequestsPage() {
               placeholder="Cari client atau product..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
             />
           </div>
           <div>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
               <option value="ALL">Semua Status</option>
               <option value="PENDING">Pending</option>
               <option value="APPROVED">Disetujui</option>
@@ -196,7 +196,7 @@ export default function RequestsPage() {
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
               <option value="ALL">Semua Tipe</option>
               <option value="PURCHASE_ORDER">Purchase Order</option>
               <option value="INVESTMENT">Investasi</option>
@@ -297,7 +297,7 @@ export default function RequestsPage() {
                               onClick={() =>
                                 handleUpdateStatus(request.id, "APPROVED")
                               }
-                              className="text-green-600 hover:text-green-900 p-1 hover:bg-green-50 rounded cursor-pointer"
+                              className="text-primary hover:text-primary/80 p-1 hover:bg-primary/10 rounded cursor-pointer"
                               title="Setujui">
                               <CheckCircle size={18} />
                             </button>

@@ -28,7 +28,7 @@ export function ProductImageGallery({
             onClick={() => setSelectedImage(index)}
             className={`relative shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
               selectedImage === index
-                ? "border-blue-600 ring-2 ring-blue-200"
+                ? "border-primary ring-2 ring-primary/20"
                 : "border-gray-200 hover:border-gray-300"
             }`}>
             <OptimizedImage

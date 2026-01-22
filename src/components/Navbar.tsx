@@ -17,7 +17,7 @@ export default function Navbar() {
           href={"/"}
           className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <Image
-            src={"/assets/logo-nav-client.png"}
+            src={"/logo.png"}
             width={40}
             height={40}
             alt="Logo"

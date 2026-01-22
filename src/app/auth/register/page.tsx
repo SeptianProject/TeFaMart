@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,23 +16,50 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
-const RegisterPage = () => {
+function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const roleParam = searchParams.get("role");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    industryName: "", // Untuk role INDUSTRI
+    campusName: "", // Untuk role ADMIN
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Redirect jika tidak ada role parameter
+  useEffect(() => {
+    if (!roleParam || !["CLIENT", "INDUSTRI", "ADMIN"].includes(roleParam)) {
+      router.push("/auth");
+    }
+  }, [roleParam, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  // Helper untuk mendapatkan label role dalam bahasa Indonesia
+  const getRoleLabel = (role: string) => {
+    switch (role) {
+      case "CLIENT":
+        return "Masyarakat Umum";
+      case "INDUSTRI":
+        return "Mitra Industri";
+      case "ADMIN":
+        return "Internal Tefa";
+      default:
+        return role;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,19 +77,40 @@ const RegisterPage = () => {
       return;
     }
 
+    // Validasi tambahan untuk INDUSTRI dan ADMIN
+    if (roleParam === "INDUSTRI" && !formData.industryName.trim()) {
+      setError("Nama industri harus diisi");
+      return;
+    }
+
+    if (roleParam === "ADMIN" && !formData.campusName.trim()) {
+      setError("Nama instansi/campus harus diisi");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
+      const requestBody: any = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: roleParam,
+      };
+
+      // Tambahkan industryName atau campusName sesuai role
+      if (roleParam === "INDUSTRI") {
+        requestBody.industryName = formData.industryName;
+      } else if (roleParam === "ADMIN") {
+        requestBody.campusName = formData.campusName;
+      }
+
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       const data = await response.json();
@@ -71,7 +119,15 @@ const RegisterPage = () => {
         throw new Error(data.error || "Registrasi gagal");
       }
 
-      // Auto login setelah registrasi berhasil
+      // Untuk INDUSTRI dan ADMIN, tampilkan pesan pending approval
+      if (roleParam === "INDUSTRI" || roleParam === "ADMIN") {
+        setError("");
+        // Redirect ke halaman success atau login dengan pesan
+        router.push("/auth/login?message=pending");
+        return;
+      }
+
+      // Auto login untuk CLIENT
       const result = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
@@ -82,20 +138,7 @@ const RegisterPage = () => {
         setError("Registrasi berhasil, silakan login");
         router.push("/auth/login");
       } else {
-        // Fetch session untuk mendapatkan role
-        const response = await fetch("/api/auth/session");
-        const session = await response.json();
-
-        // Redirect berdasarkan role
-        const role = session?.user?.role;
-        const redirectPath =
-          role === "SUPER_ADMIN"
-            ? "/dashboard/super-admin"
-            : role === "ADMIN"
-              ? "/dashboard/admin"
-              : "/"; // Homepage untuk user biasa
-
-        router.push(redirectPath);
+        router.push("/");
         router.refresh();
       }
     } catch (error: any) {
@@ -118,7 +161,7 @@ const RegisterPage = () => {
 
   return (
     <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="hidden lg:flex flex-col justify-between p-10 relative overflow-hidden bg-linear-to-br from-blue-900 via-blue-800 to-orange-500 rounded-lg">
+      <div className="hidden lg:flex flex-col justify-between p-10 relative overflow-hidden bg-gradient-to-br from-primary via-secondary to-tertiary rounded-lg">
         <Image src="/logo-white.png" alt="logo white" width={80} height={80} />
         <div className="text-white space-y-4">
           <p className="text-6xl font-light">
@@ -131,6 +174,25 @@ const RegisterPage = () => {
       <div className="flex items-center justify-center">
         <Card className="w-full max-w-xl border-none shadow-none bg-gray-50 space-y-5">
           <CardHeader>
+            <div className="flex items-center gap-2 mb-2">
+              <Link
+                href="/auth"
+                className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                Kembali ke pilihan role
+              </Link>
+            </div>
             <CardTitle className="text-5xl font-bold text-left">
               Buat akun <br />
               sekarang juga
@@ -160,6 +222,49 @@ const RegisterPage = () => {
                     disabled={isLoading}
                   />
                 </div>
+
+                {/* Input tambahan untuk INDUSTRI */}
+                {roleParam === "INDUSTRI" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="industryName">Nama Industri</Label>
+                    <Input
+                      id="industryName"
+                      name="industryName"
+                      type="text"
+                      required
+                      placeholder="PT. Nama Perusahaan"
+                      value={formData.industryName}
+                      onChange={handleChange}
+                      disabled={isLoading}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Akun Anda akan diverifikasi oleh admin sebelum dapat
+                      digunakan
+                    </p>
+                  </div>
+                )}
+
+                {/* Input tambahan untuk ADMIN */}
+                {roleParam === "ADMIN" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="campusName">Nama Instansi/Campus</Label>
+                    <Input
+                      id="campusName"
+                      name="campusName"
+                      type="text"
+                      required
+                      placeholder="SMK/Universitas Nama Instansi"
+                      value={formData.campusName}
+                      onChange={handleChange}
+                      disabled={isLoading}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Akun Anda akan diverifikasi oleh super admin sebelum dapat
+                      digunakan
+                    </p>
+                  </div>
+                )}
+
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -174,6 +279,7 @@ const RegisterPage = () => {
                     disabled={isLoading}
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
                   <Input
@@ -206,10 +312,12 @@ const RegisterPage = () => {
 
               <div className="text-muted-foreground text-sm">
                 <p>
-                  Sudah punya akun?
-                  <a href="/auth/login" className="text-accent">
+                  Sudah punya akun?{" "}
+                  <Link
+                    href="/auth/login"
+                    className="text-accent hover:underline">
                     Masuk Sekarang
-                  </a>
+                  </Link>
                 </p>
               </div>
 
@@ -263,6 +371,20 @@ const RegisterPage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default RegisterPage;
+export default function RegisterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading...</p>
+          </div>
+        </div>
+      }>
+      <RegisterForm />
+    </Suspense>
+  );
+}

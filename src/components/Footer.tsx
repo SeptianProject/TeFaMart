@@ -10,11 +10,9 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
-            <Link
-              href={"/"}
-              className="flex items-center gap-2 mb-4 shrink-0">
+            <Link href={"/"} className="flex items-center gap-2 mb-4 shrink-0">
               <Image
-                src={"/assets/logo-nav-client.png"}
+                src={"/logo.png"}
                 width={40}
                 height={40}
                 alt="Logo"

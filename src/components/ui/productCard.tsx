@@ -70,7 +70,7 @@ export function ProductCard({
         <div
           className="
             absolute bottom-0 left-0 right-0
-            hidden translate-y-full bg-blue-700/70
+            hidden translate-y-full bg-primary/70
             px-3 py-2 text-sm font-semibold text-white opacity-0
             transition-all duration-300
             group-hover:translate-y-0 group-hover:opacity-100

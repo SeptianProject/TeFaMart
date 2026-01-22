@@ -74,7 +74,7 @@ export default function UsersPage() {
     const roleColors: Record<string, string> = {
       SUPER_ADMIN: "bg-red-100 text-red-800",
       ADMIN: "bg-primary/10 text-primary",
-      CLIENT: "bg-green-100 text-green-800",
+      CLIENT: "bg-primary/10 text-primary",
     };
 
     return (

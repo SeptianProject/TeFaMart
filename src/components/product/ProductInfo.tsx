@@ -66,7 +66,7 @@ export function ProductInfo({
           <span
             className={`font-medium ${
               product.isAvailable === "Tersedia"
-                ? "text-green-600"
+                ? "text-primary"
                 : "text-red-600"
             }`}>
             {product.isAvailable}

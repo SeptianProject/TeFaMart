@@ -54,7 +54,7 @@ export default function WishlistTable({ products }: WishlistTableProps) {
             <div
               className={`font-medium ${
                 product.isAvailable === "Tersedia"
-                  ? "text-green-600"
+                  ? "text-primary"
                   : "text-red-500"
               }`}>
               {product.isAvailable}
@@ -67,7 +67,7 @@ export default function WishlistTable({ products }: WishlistTableProps) {
               className={
                 product.isAvailable !== "Tersedia"
                   ? "cursor-not-allowed bg-gray-300"
-                  : "bg-blue-600 hover:bg-blue-700"
+                  : "bg-primary hover:bg-primary/90"
               }>
               Beli Sekarang
             </Button>
@@ -100,7 +100,7 @@ export default function WishlistTable({ products }: WishlistTableProps) {
                 <p
                   className={`mt-1 text-sm font-medium ${
                     product.isAvailable === "Tersedia"
-                      ? "text-green-600"
+                      ? "text-primary"
                       : "text-red-500"
                   }`}>
                   {product.isAvailable}
@@ -114,7 +114,7 @@ export default function WishlistTable({ products }: WishlistTableProps) {
               className={`mt-3 w-full ${
                 product.isAvailable !== "Tersedia"
                   ? "cursor-not-allowed bg-gray-300"
-                  : "bg-blue-600 hover:bg-blue-700"
+                  : "bg-primary hover:bg-primary/90"
               }`}>
               Beli Sekarang
             </Button>

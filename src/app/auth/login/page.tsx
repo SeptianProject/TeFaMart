@@ -20,11 +20,22 @@ import Image from "next/image";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const messageParam = searchParams.get("message");
   const { data: session, status } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Tampilkan pesan pending jika ada
+    if (messageParam === "pending") {
+      setSuccessMessage(
+        "Registrasi berhasil! Akun Anda sedang menunggu persetujuan dari admin. Anda akan menerima notifikasi setelah akun disetujui.",
+      );
+    }
+  }, [messageParam]);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
@@ -84,7 +95,7 @@ function LoginForm() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
@@ -93,7 +104,7 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="hidden lg:flex flex-col justify-between p-10 relative overflow-hidden bg-linear-to-br from-blue-900 via-blue-800 to-orange-500 rounded-lg">
+      <div className="hidden lg:flex flex-col justify-between p-10 relative overflow-hidden bg-gradient-to-br from-primary via-secondary to-tertiary rounded-lg">
         <Image src="/logo-white.png" alt="logo white" width={80} height={80} />
         <div className="text-white space-y-4">
           <p className="text-6xl font-light">
@@ -117,6 +128,11 @@ function LoginForm() {
 
           <CardContent>
             <form className="space-y-4" onSubmit={handleSubmit}>
+              {successMessage && (
+                <div className="rounded-md bg-primary/10 p-4 border border-primary/20">
+                  <div className="text-sm text-primary">{successMessage}</div>
+                </div>
+              )}
               {error && (
                 <div className="rounded-md bg-red-50 p-4">
                   <div className="text-sm text-red-800">{error}</div>
@@ -156,8 +172,8 @@ function LoginForm() {
 
               <div className="text-muted-foreground text-sm">
                 <p>
-                  Belum punya akun?
-                  <a href="/auth/register" className="text-accent">
+                  Belum punya akun?{" "}
+                  <a href="/auth" className="text-accent hover:underline">
                     Daftar Sekarang
                   </a>
                 </p>

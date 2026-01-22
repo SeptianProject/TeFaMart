@@ -114,7 +114,7 @@ export default function StoreLayoutHeader({
         rating={stats.averageRating}
         reviews={stats.totalReviews}
         sold={stats.totalProducts}
-        logo="/assets/logo-nav-client.png"
+        logo="/logo.png"
       />
 
       {/* Store Tabs */}

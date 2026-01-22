@@ -61,14 +61,21 @@ export const authOptions: NextAuthOptions = {
       // Hanya fetch dari database saat user baru login atau update
       if (user) {
         token.id = user.id;
-        // Fetch user role only on first login
+        // Fetch user role, status, campusId on first login
         const dbUser = await prisma.user.findUnique({
           where: { id: user.id as string },
-          select: { role: true, campusId: true },
+          select: {
+            role: true,
+            status: true,
+            campusId: true,
+            industryId: true,
+          },
         });
         if (dbUser) {
           token.role = dbUser.role;
+          token.status = dbUser.status;
           token.campusId = dbUser.campusId;
+          token.industryId = dbUser.industryId;
         }
       }
       return token;
@@ -77,15 +84,35 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        session.user.status = token.status as string;
         session.user.campusId = token.campusId as string | null;
+        session.user.industryId = token.industryId as string | null;
       }
       return session;
     },
     async signIn({ user, account }) {
-      // Allow sign in
+      // Check user status
+      if (user?.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id as string },
+          select: { status: true },
+        });
+
+        // Blok login jika status PENDING atau REJECTED
+        if (dbUser?.status === "PENDING") {
+          throw new Error("Akun Anda masih menunggu persetujuan dari admin");
+        }
+
+        if (dbUser?.status === "REJECTED") {
+          throw new Error(
+            "Akun Anda ditolak oleh admin. Silakan hubungi admin untuk informasi lebih lanjut",
+          );
+        }
+      }
+
       return true;
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       // Jika URL sudah spesifik (bukan baseUrl atau root), gunakan URL tersebut
       if (url.startsWith(baseUrl) && url !== baseUrl && url !== `${baseUrl}/`) {
         return url;
@@ -102,7 +129,7 @@ export const authOptions: NextAuthOptions = {
   },
 
   pages: {
-    signIn: "/auth/login",
+    signIn: "/auth", // Redirect ke halaman role selection
     error: "/auth/login",
   },
 

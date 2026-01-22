@@ -111,7 +111,7 @@ export function ProductActions({ product }: ProductActionsProps) {
             <Button
               onClick={handleBuy}
               disabled={!isAvailable}
-              className="w-full h-12 text-base font-semibold bg-green-600 hover:bg-green-700">
+              className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90">
               <ShoppingCart className="w-5 h-5 mr-2" />
               Beli Sekarang
             </Button>
