@@ -1,14 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { Search, User, Menu, X, Heart } from "lucide-react";
+import { Search, User, Menu, X, Heart, LayoutDashboard } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import SearchModal from "./ui/SearchModal";
+import Tooltip from "./ui/tooltip";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const { data: session } = useSession();
+
+  // Fungsi untuk menentukan dashboard URL berdasarkan role
+  const getDashboardUrl = () => {
+    const role = session?.user?.role;
+    if (role === "SUPER_ADMIN") return "/dashboard/super-admin";
+    if (role === "ADMIN") return "/dashboard/admin";
+    if (role === "INDUSTRI") return "/dashboard/industri";
+    return null;
+  };
+
+  const dashboardUrl = getDashboardUrl();
 
   return (
     <nav className="w-full bg-background border-b border-gray-200 sticky top-0 z-50">
@@ -40,16 +54,30 @@ export default function Navbar() {
 
         {/* Desktop Icons */}
         <div className="hidden sm:flex items-center gap-3 lg:gap-6">
-          <Link
-            href="/wishlist"
-            className="w-9 h-9 lg:w-10 lg:h-10 bg-background rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
-            <Heart className="w-5 h-5 text-[#7c7c7c] group-hover:text-background transition duration-300" />
-          </Link>
-          <Link
-            href="/profile"
-            className="w-9 h-9 lg:w-10 lg:h-10 bg-background rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
-            <User className="w-5 h-5 text-[#7c7c7c] group-hover:text-background transition duration-300" />
-          </Link>
+          {/* Dashboard Button - Only for Admin/Super Admin/Industri */}
+          {dashboardUrl && (
+            <Tooltip content="Dashboard" position="bottom">
+              <Link
+                href={dashboardUrl}
+                className="w-9 h-9 lg:w-10 lg:h-10 bg-primary rounded-full overflow-hidden border-2 border-primary p-0 flex items-center justify-center group hover:bg-background transition duration-300">
+                <LayoutDashboard className="w-5 h-5 text-background group-hover:text-primary transition duration-300" />
+              </Link>
+            </Tooltip>
+          )}
+          <Tooltip content="Wishlist" position="bottom">
+            <Link
+              href="/wishlist"
+              className="w-9 h-9 lg:w-10 lg:h-10 bg-background rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
+              <Heart className="w-5 h-5 text-[#7c7c7c] group-hover:text-background transition duration-300" />
+            </Link>
+          </Tooltip>
+          <Tooltip content="Profil" position="bottom">
+            <Link
+              href="/profile"
+              className="w-9 h-9 lg:w-10 lg:h-10 bg-background rounded-full overflow-hidden border border-gray-200 p-0 flex items-center justify-center group hover:bg-primary transition duration-300">
+              <User className="w-5 h-5 text-[#7c7c7c] group-hover:text-background transition duration-300" />
+            </Link>
+          </Tooltip>
         </div>
 
         {/* Mobile Menu Button */}
@@ -80,6 +108,17 @@ export default function Navbar() {
 
             {/* Mobile Icons */}
             <div className="flex items-center justify-between gap-3">
+              {/* Dashboard Button - Mobile */}
+              {dashboardUrl && (
+                <Link
+                  href={dashboardUrl}
+                  className="flex-1 h-10 bg-primary rounded-full border-2 border-primary flex items-center justify-center gap-2">
+                  <LayoutDashboard className="w-5 h-5 text-background" />
+                  <span className="text-sm text-background font-medium">
+                    Dashboard
+                  </span>
+                </Link>
+              )}
               <Link
                 href="/wishlist"
                 className="flex-1 h-10 bg-background rounded-full border border-gray-200 flex items-center justify-center gap-2">
