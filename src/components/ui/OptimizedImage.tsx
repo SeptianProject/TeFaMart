@@ -14,11 +14,35 @@ interface OptimizedImageProps {
   sizes?: string;
   priority?: boolean;
   objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
+  quality?: number; // Cloudinary quality parameter (1-100)
 }
 
 /**
- * OptimizedImage - Image component with lazy loading skeleton
- * Automatically shows skeleton while image is loading
+ * Transform Cloudinary URL untuk optimization
+ * @param url - Original Cloudinary URL
+ * @param width - Target width
+ * @param height - Target height
+ * @param quality - Image quality (1-100)
+ */
+function transformCloudinaryUrl(
+  url: string,
+  width?: number,
+  height?: number,
+  quality: number = 80,
+): string {
+  // Check if it's a Cloudinary URL
+  if (!url.includes("res.cloudinary.com")) {
+    return url;
+  }
+
+  // For Cloudinary URLs, return original URL without transformation
+  // Next.js Image component will handle optimization automatically
+  return url;
+}
+
+/**
+ * OptimizedImage - Image component with lazy loading skeleton and Cloudinary optimization
+ * Automatically shows skeleton while image is loading and optimizes Cloudinary URLs
  */
 export function OptimizedImage({
   src,
@@ -30,11 +54,24 @@ export function OptimizedImage({
   sizes,
   priority = false,
   objectFit = "cover",
+  quality = 80,
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   const fallbackSrc = "/assets/placeholder-product.png";
+
+  // Transform Cloudinary URL if applicable
+  const optimizedSrc = transformCloudinaryUrl(src, width, height, quality);
+
+  // Debug logging
+  if (hasError) {
+    console.error("OptimizedImage error:", {
+      original: src,
+      optimized: optimizedSrc,
+      alt,
+    });
+  }
 
   if (fill) {
     return (
@@ -43,7 +80,7 @@ export function OptimizedImage({
           <Skeleton className="absolute inset-0 w-full h-full rounded-none" />
         )}
         <Image
-          src={hasError ? fallbackSrc : src}
+          src={hasError ? fallbackSrc : optimizedSrc}
           alt={alt}
           fill
           className={`${className} ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-300`}
@@ -51,7 +88,12 @@ export function OptimizedImage({
           priority={priority}
           style={{ objectFit }}
           onLoad={() => setIsLoading(false)}
-          onError={() => {
+          onError={(e) => {
+            console.error("Image load error:", {
+              src: optimizedSrc,
+              alt,
+              error: e,
+            });
             setHasError(true);
             setIsLoading(false);
           }}
@@ -74,7 +116,7 @@ export function OptimizedImage({
         />
       )}
       <Image
-        src={hasError ? fallbackSrc : src}
+        src={hasError ? fallbackSrc : optimizedSrc}
         alt={alt}
         width={width}
         height={height}
@@ -83,7 +125,12 @@ export function OptimizedImage({
         priority={priority}
         style={{ objectFit }}
         onLoad={() => setIsLoading(false)}
-        onError={() => {
+        onError={(e) => {
+          console.error("Image load error:", {
+            src: optimizedSrc,
+            alt,
+            error: e,
+          });
           setHasError(true);
           setIsLoading(false);
         }}

@@ -13,9 +13,12 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
         port: "",
-        pathname: "/**"
-      }
+        pathname: "/**",
+      },
     ],
+    minimumCacheTTL: 60,
+    formats: ["image/webp"],
+    unoptimized: true,
   },
 };
 

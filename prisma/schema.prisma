@@ -102,12 +102,15 @@ model Category {
   id        String    @id @default(cuid())
   name      String    @unique
   slug      String    @unique
+  imageUrl  String?   // URL gambar kategori dari Cloudinary
+  isPopular Boolean   @default(false) // Flag untuk kategori populer
   products  Product[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
   @@index([slug])
   @@index([name])
+  @@index([isPopular])
 }
 
 model Tefa {

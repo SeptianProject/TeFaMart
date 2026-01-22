@@ -20,10 +20,8 @@ const PopularProduct: React.FC<PopularProductProps> = ({
   onCategoryChange,
   isLoading = false,
 }) => {
-  // Filter categories yang memiliki products
-  const categoriesWithProducts = categories.filter(
-    (category) => category._count && category._count.products > 0,
-  );
+  // Hanya tampilkan 4 kategori populer sebagai button filter
+  const displayedCategories = categories.slice(0, 4);
 
   // Limit products to 6 items
   const displayedProducts = products.slice(0, 6);
@@ -41,7 +39,7 @@ const PopularProduct: React.FC<PopularProductProps> = ({
               ))}
             </>
           ) : (
-            categoriesWithProducts.map((category) => (
+            displayedCategories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => onCategoryChange(category.id)}

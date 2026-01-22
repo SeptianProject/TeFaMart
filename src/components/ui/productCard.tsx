@@ -5,7 +5,7 @@ import { Wishlist } from "@/components/ui/wishlist";
 import { Product } from "@/types";
 import Link from "next/link";
 import { formatCurrency } from "@/helper/format-currency";
-import { OptimizedImage } from "@/components/ui/OptimizedImage";
+import Image from "next/image";
 
 type ProductCardProps = {
   product: Product;
@@ -58,12 +58,17 @@ export function ProductCard({
         )}
 
         {/* Product Image */}
-        <OptimizedImage
+        <Image
           src={product.imageUrl || "/assets/placeholder-product.png"}
           alt={product.name}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          onError={(e) => {
+            // Fallback to placeholder on error
+            const target = e.target as HTMLImageElement;
+            target.src = "/assets/placeholder-product.png";
+          }}
         />
 
         {/* Price Overlay (Desktop) */}

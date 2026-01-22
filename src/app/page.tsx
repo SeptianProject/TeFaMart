@@ -8,46 +8,37 @@ import ProductCategory from "@/components/sections/ProductCategory";
 import ProductAuction from "@/components/sections/ProductAuction";
 import VocationalEducation from "@/components/sections/VocationalEducation";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useMemo, useEffect } from "react";
-import { Product } from "@/types";
-import { fetchProducts } from "@/services/productService";
-import { fetchCategories } from "@/services/categoryService";
+import { useState, useEffect } from "react";
+import { Product, Category } from "@/types";
+import { fetchPopularProducts } from "@/services/productService";
+import { fetchPopularCategories } from "@/services/categoryService";
 
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  const { data: products = [], isLoading: isLoadingProducts } = useQuery<
+  // Fetch popular categories (maksimal 6)
+  const { data: popularCategories = [], isLoading: isLoadingCategories } =
+    useQuery<Category[]>({
+      queryKey: ["popularCategories"],
+      queryFn: () => fetchPopularCategories(),
+    });
+
+  // Fetch popular products berdasarkan selected category
+  const { data: popularProducts = [], isLoading: isLoadingProducts } = useQuery<
     Product[]
   >({
-    queryKey: ["products"],
-    queryFn: () => fetchProducts(),
+    queryKey: ["popularProducts", selectedCategory],
+    queryFn: () => fetchPopularProducts(selectedCategory || undefined),
+    enabled: !!selectedCategory, // Only fetch when category is selected
   });
 
-  const { data: categories = [], isLoading: isLoadingCategories } = useQuery({
-    queryKey: ["categories"],
-    queryFn: () => fetchCategories(),
-  });
-
-  // Auto-select first category with products on mount
+  // Auto-select first popular category on mount
   useEffect(() => {
-    if (!selectedCategory && categories.length > 0) {
-      const firstCategoryWithProducts = categories.find(
-        (cat) => cat._count && cat._count.products > 0,
-      );
-      if (firstCategoryWithProducts) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setSelectedCategory(firstCategoryWithProducts.id);
-      }
+    if (!selectedCategory && popularCategories.length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSelectedCategory(popularCategories[0].id);
     }
-  }, [categories, selectedCategory]);
-
-  // Filter products based on selected category
-  const filteredProducts = useMemo(() => {
-    if (!selectedCategory) return products;
-    return products.filter(
-      (product) => product.categoryId === selectedCategory,
-    );
-  }, [products, selectedCategory]);
+  }, [popularCategories, selectedCategory]);
 
   return (
     <>
@@ -56,18 +47,18 @@ const HomePage = () => {
         {/* hero section */}
         <HeroSection />
 
-        {/* Popular Product */}
+        {/* Popular Product - menggunakan popular categories dan products */}
         <PopularProduct
-          products={filteredProducts}
-          categories={categories}
+          products={popularProducts}
+          categories={popularCategories}
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
           isLoading={isLoadingProducts || isLoadingCategories}
         />
 
-        {/* Product Category */}
+        {/* Product Category - menggunakan semua popular categories (max 6) */}
         <ProductCategory
-          categories={categories}
+          categories={popularCategories}
           isLoading={isLoadingCategories}
         />
 

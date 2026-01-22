@@ -10,3 +10,17 @@ export const fetchCategories = async (): Promise<Category[]> => {
   const data = await response.json();
   return data.data;
 };
+
+/**
+ * Fetch popular categories (maksimal 6)
+ */
+export const fetchPopularCategories = async (): Promise<Category[]> => {
+  const response = await fetch("/api/client/categories/popular");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch popular categories");
+  }
+
+  const data = await response.json();
+  return data.data;
+};
