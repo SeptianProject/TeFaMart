@@ -104,7 +104,7 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="hidden lg:flex flex-col justify-between p-10 relative overflow-hidden bg-gradient-to-br from-primary via-secondary to-tertiary rounded-lg">
+      <div className="hidden lg:flex flex-col justify-between p-10 relative overflow-hidden bg-linear-to-br from-primary via-secondary to-tertiary rounded-lg">
         <Image src="/logo-white.png" alt="logo white" width={80} height={80} />
         <div className="text-white space-y-4">
           <p className="text-6xl font-light">
