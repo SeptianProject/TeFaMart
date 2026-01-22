@@ -47,7 +47,7 @@ const CategoryImageCarousel: React.FC<CategoryImageCarouselProps> = ({
         <Image
           key={`${image}-${index}`}
           className={`absolute inset-0 w-full h-full object-cover border transition-all duration-1000 ease-in-out group-hover:scale-105 ${
-            index === currentIndex ? "opacity-100 z-[1]" : "opacity-0 z-0"
+            index === currentIndex ? "opacity-100 z-1" : "opacity-0 z-0"
           }`}
           width={1200}
           height={400}

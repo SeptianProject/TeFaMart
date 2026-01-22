@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Handbag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
 
 interface Product {
   id: string;
@@ -84,12 +85,7 @@ const HeroSection = () => {
   const featuredProduct = heroData?.featuredProduct;
 
   if (isLoading) {
-    return (
-      <section className="flex flex-col lg:flex-row items-center gap-3 sm:gap-4 lg:gap-5 w-full h-auto lg:h-140">
-        <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-full flex items-start rounded-lg overflow-hidden bg-muted animate-pulse"></div>
-        <div className="w-full lg:w-1/2 h-64 sm:h-80 md:h-96 lg:h-full flex items-center rounded-lg overflow-hidden bg-muted animate-pulse"></div>
-      </section>
-    );
+    return <HeroSkeleton />;
   }
 
   return (
